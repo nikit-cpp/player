@@ -17,6 +17,7 @@ public class MyActivity extends Activity {
 
     ListView lvMain;
     EditText editText;
+    ArrayAdapter<String> adapter;
 
     private static final String TAG = "PLAYER_TAG";
 
@@ -33,7 +34,7 @@ public class MyActivity extends Activity {
         lvMain = (ListView) findViewById(R.id.lvMain);
 
         // создаем адаптер
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, names);
 
         // присваиваем адаптер списку
@@ -43,16 +44,18 @@ public class MyActivity extends Activity {
         editText = (EditText) findViewById(R.id.editText);
         editText.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                String inputed = editText.getText().toString();
+                /*String inputed = editText.getText().toString();
+
                 Toast toast = Toast.makeText(getApplicationContext(), "Введено:"+inputed, Toast.LENGTH_SHORT);
+                toast.show();*/
 
-                toast.show();
             }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence cs, int start, int count, int after) {
             }
 
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence cs, int start, int before, int count) {
+                MyActivity.this.adapter.getFilter().filter(cs);
             }
         });
     }
