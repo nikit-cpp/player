@@ -145,5 +145,13 @@
             android:layout_alignLeft="@+id/linearLayout3"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="40dp" />
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="artist name here"
+            android:id="@+id/artistNameTextView"
+            android:layout_below="@+id/linearLayout3"
+            android:layout_alignParentLeft="true"
+            />
 
 </RelativeLayout>

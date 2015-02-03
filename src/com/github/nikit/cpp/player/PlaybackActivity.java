@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import java.io.IOException;
 
@@ -24,6 +25,8 @@ import static android.view.View.OnTouchListener;
 
 public class PlaybackActivity extends Activity implements OnPreparedListener,
         OnCompletionListener {
+
+    public final static String EXTRA_ARTIST_NAME = "artist name";
 
     final String LOG_TAG = "myLogs";
 
@@ -41,6 +44,8 @@ public class PlaybackActivity extends Activity implements OnPreparedListener,
     AudioManager am;
     CheckBox chbLoop;
     SeekBar seekBar;
+    TextView artistName;
+
     private final Handler handler = new Handler();
 
     @Override
@@ -69,6 +74,9 @@ public class PlaybackActivity extends Activity implements OnPreparedListener,
                 return false;
             }
         });
+
+        artistName = (TextView) findViewById(R.id.artistNameTextView);
+        artistName.setText(getIntent().getStringExtra(PlaybackActivity.EXTRA_ARTIST_NAME));
     }
 
     // //

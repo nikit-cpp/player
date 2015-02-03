@@ -35,7 +35,10 @@ public class MyActivity extends Activity {
         lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "itemClick: position = " + position + ", id = "+ id);
+                String name = names[position];
                 Intent i = new Intent(MyActivity.this, PlaybackActivity.class);
+                i.putExtra(PlaybackActivity.EXTRA_ARTIST_NAME, name);
+
                 startActivity(i);
 
             }
