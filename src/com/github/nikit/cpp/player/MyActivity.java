@@ -1,14 +1,13 @@
 package com.github.nikit.cpp.player;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.*;
 
 public class MyActivity extends Activity {
     /**
@@ -32,6 +31,15 @@ public class MyActivity extends Activity {
 
         // находим список
         lvMain = (ListView) findViewById(R.id.lvMain);
+
+        lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, "itemClick: position = " + position + ", id = "+ id);
+                Intent i = new Intent(MyActivity.this, PlaybackActivity.class);
+                startActivity(i);
+
+            }
+        });
 
         // создаем адаптер
         adapter = new ArrayAdapter<String>(this,
