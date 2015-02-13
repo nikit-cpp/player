@@ -10,12 +10,12 @@ public class Song {
     String artist;
     UUID id;
 
-    public UUID getId() {
-        return id;
+    public Song(){
+        id = UUID.randomUUID();
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public UUID getId() {
+        return id;
     }
 
 

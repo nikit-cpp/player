@@ -28,7 +28,7 @@ public class SongFabric {
         for (int i = 0; i < 100; i++) {
             Song c = new Song();
             c.setName("Song title #" + i);
-            c.setArtist("Song artist #" + i % 2); // Для каждого второго объекта
+            c.setArtist("Song artist #" + i % 50); // Для каждого второго объекта
             mSongs.add(c);
         }
     }

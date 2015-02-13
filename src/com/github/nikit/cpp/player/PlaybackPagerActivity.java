@@ -29,7 +29,7 @@ public class PlaybackPagerActivity extends FragmentActivity{
         setContentView(mViewPager);
 
         mSongs = SongFabric.get(this).getSongs();
-        Log.d(TAG, "mSongs="+mSongs);
+
         FragmentManager fm = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
             @Override
