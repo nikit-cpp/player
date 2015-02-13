@@ -23,6 +23,7 @@ import java.io.IOException;
 
 import static android.view.View.OnTouchListener;
 
+@Deprecated
 public class PlaybackActivity extends Activity implements OnPreparedListener,
         OnCompletionListener {
 

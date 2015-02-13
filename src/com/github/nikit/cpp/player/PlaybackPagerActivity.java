@@ -29,13 +29,13 @@ public class PlaybackPagerActivity extends FragmentActivity{
         setContentView(mViewPager);
 
         mSongs = SongFabric.get(this).getSongs();
-
+        Log.d(TAG, "mSongs="+mSongs);
         FragmentManager fm = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
             @Override
             public Fragment getItem(int i) {
-                Song crime = mSongs.get(i);
-                return PlaybackFragment.newInstance(crime.getId());
+                Song song = mSongs.get(i);
+                return PlaybackFragment.newInstance(song.getId());
             }
 
             @Override
