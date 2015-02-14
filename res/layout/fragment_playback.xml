@@ -17,4 +17,18 @@
               android:text="Artist"
               style="?android:listSeparatorTextViewStyle"
             />
+    <Button
+            android:id="@+id/playButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/play"
+            android:layout_gravity="center_horizontal"
+            />
+    <Button
+            android:id="@+id/stopButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stop"
+            android:layout_gravity="center_horizontal"
+            />
 </LinearLayout>

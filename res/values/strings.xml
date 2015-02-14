@@ -7,6 +7,7 @@
     <string name="sd">SD</string>
     <string name="uri">Uri</string>
     <string name="raw">Raw</string>
+    <string name="play">Play</string>
     <string name="pause">Pause</string>
     <string name="resume">Resume</string>
     <string name="stop">Stop</string>
