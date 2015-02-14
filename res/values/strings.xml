@@ -15,5 +15,6 @@
     <string name="backward">Back</string>
     <string name="forward">Forw</string>
     <string name="info">Info</string>
-
+    <string name="remove">Remove</string>
+    <string name="refresh">Refresh</string>
 </resources>

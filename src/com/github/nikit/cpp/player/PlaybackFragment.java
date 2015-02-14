@@ -2,9 +2,7 @@ package com.github.nikit.cpp.player;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 
 import java.util.UUID;
@@ -42,6 +40,12 @@ public class PlaybackFragment extends Fragment {
         в неизменном виде.
         */
         setRetainInstance(true);
+
+        /**
+         * сообщите FragmentManager, что экземпляр
+         PlaybackFragment должен получать обратные вызовы командного меню.
+         */
+        setHasOptionsMenu(true);
     }
 
     /**
@@ -86,4 +90,12 @@ public class PlaybackFragment extends Fragment {
      Player, что приводит к остановке воспроизведения.
 
      */
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_playback, menu);
+    }
+
 }
