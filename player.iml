@@ -27,7 +27,16 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/mp3agic-0.8.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/tika-parsers-1.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/tika-core-1.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

@@ -2,10 +2,18 @@ package com.github.nikit.cpp.player;
 
 import android.content.Context;
 import android.util.Log;
-import com.mpatric.mp3agic.*;
-
+import org.apache.tika.exception.TikaException;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.parser.Parser;
+import org.apache.tika.parser.mp3.Mp3Parser;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -16,7 +24,7 @@ public class SongFabric {
     private ArrayList<Song> mSongs;
     private static SongFabric sSongFabric;
     private Context mAppContext;
-    private File dir = new File("/sdcard/Sounds/Digital2");
+    private File dir = new File("/sdcard/Sounds/Digital");
 
 
     /**
@@ -35,21 +43,33 @@ public class SongFabric {
             String name = "Song name";
             String artist = "Song artist";
             byte [] image = null;
+
+            InputStream input = null;
             try {
-                Mp3File mp3file = new Mp3File(f);
-                ID3v1 id3v1 = mp3file.getId3v1Tag();
-                if(id3v1 != null){
-                    name = id3v1.getTitle();
-                    artist = id3v1.getArtist();
+                input = new FileInputStream(f);
+                ContentHandler handler = new DefaultHandler();
+                Metadata metadata = new Metadata();
+                Parser parser = new Mp3Parser();
+                ParseContext parseCtx = new ParseContext();
+
+                parser.parse(input, handler, metadata, parseCtx);
+                String rawName = metadata.get("title");
+                if(rawName!=null){
+                    name = rawName;
                 }
-                ID3v2 id3v2 = mp3file.getId3v2Tag();
-                if(id3v2 != null){
-                    name = id3v2.getTitle();
-                    artist = id3v2.getArtist();
-                    image = id3v2.getAlbumImage();
+                String rawArtist = metadata.get("xmpDM:artist");
+                if(rawArtist!=null){
+                    artist = rawArtist;
                 }
-            } catch (IOException | UnsupportedTagException | InvalidDataException e) {
-                Log.e(PlaybackPagerActivity.TAG, "Error on get tag", e);
+            } catch (IOException | SAXException | TikaException e) {
+                Log.e(PlaybackPagerActivity.TAG, "Error on reading tag", e);
+            }finally {
+                if(input!=null)
+                    try {
+                        input.close();
+                    } catch (IOException e) {
+                        Log.e(PlaybackPagerActivity.TAG, "Error on close stream", e);
+                    }
             }
             Song c = new Song();
             c.setName(name);
