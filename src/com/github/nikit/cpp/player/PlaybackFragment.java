@@ -1,5 +1,7 @@
 package com.github.nikit.cpp.player;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -7,6 +9,8 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.UUID;
 
 /**
@@ -123,6 +127,13 @@ public class PlaybackFragment extends Fragment {
         });
 
         mAlbumImage = (ImageView) v.findViewById(R.id.album_image);
+
+        byte[] image = mSong.getImage();
+        if(image!=null) {
+            InputStream is = new ByteArrayInputStream(image);
+            Bitmap bmp = BitmapFactory.decodeStream(is);
+            mAlbumImage.setImageBitmap(bmp);
+        }
 
         return v;
     }

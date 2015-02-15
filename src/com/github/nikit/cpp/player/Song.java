@@ -10,6 +10,7 @@ public class Song {
     String name;
     String artist;
     UUID id;
+    byte[] image;
 
     public File getFile() {
         return file;
@@ -44,5 +45,13 @@ public class Song {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public byte[] getImage() {
+        return image;
     }
 }

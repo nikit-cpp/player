@@ -34,6 +34,7 @@ public class SongFabric {
         for (File f : dir.listFiles()) {
             String name = "Song name";
             String artist = "Song artist";
+            byte [] image = null;
             try {
                 Mp3File mp3file = new Mp3File(f);
                 ID3v1 id3v1 = mp3file.getId3v1Tag();
@@ -45,6 +46,7 @@ public class SongFabric {
                 if(id3v2 != null){
                     name = id3v2.getTitle();
                     artist = id3v2.getArtist();
+                    image = id3v2.getAlbumImage();
                 }
             } catch (IOException | UnsupportedTagException | InvalidDataException e) {
                 Log.e(PlaybackPagerActivity.TAG, "Error on get tag", e);
@@ -53,6 +55,7 @@ public class SongFabric {
             c.setName(name);
             c.setArtist(artist); // Для каждого второго объекта
             c.setFile(f);
+            c.setImage(image);
             mSongs.add(c);
         }
     }
