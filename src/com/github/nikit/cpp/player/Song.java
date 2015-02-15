@@ -54,4 +54,9 @@ public class Song {
     public byte[] getImage() {
         return image;
     }
+
+    @Override
+    public String toString(){
+        return artist + " - " + name;
+    }
 }

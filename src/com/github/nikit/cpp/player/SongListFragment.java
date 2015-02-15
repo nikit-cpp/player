@@ -1,6 +1,5 @@
 package com.github.nikit.cpp.player;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -81,44 +80,18 @@ public class SongListFragment extends ListFragment {
         startActivity(i);
     }
 
-    /*private class SongAdapter extends ArrayAdapter<Song> {
-        public SongAdapter(ArrayList<Song> songs){
-            super(getActivity(), 0, songs);
-        }
-
-        public View getView(int position, View convertView, ViewGroup parent){
-            // Если мы не получили представление, заполняем его
-            if (convertView == null) {
-                convertView = getActivity().getLayoutInflater()
-                        .inflate(R.layout.list_item_song, null);
-            }
-
-            // Настройка представления для объекта Song
-            Song c = getItem(position);
-            TextView nameTextView =
-                    (TextView)convertView.findViewById(R.id.song_list_item_nameTextView);
-            nameTextView.setText(c.getName());
-
-            TextView artistTextView =
-                    (TextView)convertView.findViewById(R.id.song_list_item_artistTextView);
-            artistTextView.setText(c.getArtist());
-
-            return convertView;
-        }
-    }*/
-
     private class SongAdapter extends ArrayAdapter<Song> {
 
         private ArrayList<Song> originalList;
-        private ArrayList<Song> countryList;
+        private ArrayList<Song> resultList;
         private CountryFilter filter;
 
-        public SongAdapter(ArrayList<Song> countryList) {
-            super(getActivity(), 0, countryList);
-            this.countryList = new ArrayList<Song>();
-            this.countryList.addAll(countryList);
+        public SongAdapter(ArrayList<Song> resultList) {
+            super(getActivity(), 0, resultList);
+            this.resultList = new ArrayList<Song>();
+            this.resultList.addAll(resultList);
             this.originalList = new ArrayList<Song>();
-            this.originalList.addAll(countryList);
+            this.originalList.addAll(resultList);
         }
 
         @Override
@@ -129,46 +102,6 @@ public class SongListFragment extends ListFragment {
             return filter;
         }
 
-
-        private class ViewHolder {
-            TextView code;
-            TextView name;
-            TextView continent;
-            TextView region;
-        }
-
-        /*@Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            ViewHolder holder = null;
-            Log.v("ConvertView", String.valueOf(position));
-            if (convertView == null) {
-
-                LayoutInflater vi = (LayoutInflater)getSystemService(
-                        Context.LAYOUT_INFLATER_SERVICE);
-                convertView = vi.inflate(R.layout.country_info, null);
-
-                holder = new ViewHolder();
-                holder.code = (TextView) convertView.findViewById(R.id.code);
-                holder.name = (TextView) convertView.findViewById(R.id.name);
-                holder.continent = (TextView) convertView.findViewById(R.id.continent);
-                holder.region = (TextView) convertView.findViewById(R.id.region);
-
-                convertView.setTag(holder);
-
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            Country country = countryList.get(position);
-            holder.code.setText(country.getCode());
-            holder.name.setText(country.getName());
-            holder.continent.setText(country.getContinent());
-            holder.region.setText(country.getRegion());
-
-            return convertView;
-
-        }*/
         public View getView(int position, View convertView, ViewGroup parent){
             // Если мы не получили представление, заполняем его
             if (convertView == null) {
@@ -190,32 +123,24 @@ public class SongListFragment extends ListFragment {
         }
 
 
-        private class CountryFilter extends Filter
-        {
-
+        private class CountryFilter extends Filter {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 Log.d(PlaybackPagerActivity.TAG, "SongListFragment...performFiltering("+constraint+")");
                 constraint = constraint.toString().toLowerCase();
                 FilterResults result = new FilterResults();
-                if(constraint != null && constraint.toString().length() > 0)
-                {
+                if(constraint != null && constraint.toString().length() > 0) {
                     ArrayList<Song> filteredItems = new ArrayList<Song>();
 
-                    for(int i = 0, l = originalList.size(); i < l; i++)
-                    {
-                        Song country = originalList.get(i);
-                        if(country.getName().toLowerCase().contains(constraint) ||
-                            country.getArtist().toLowerCase().contains(constraint))
-                            filteredItems.add(country);
+                    for(int i = 0, l = originalList.size(); i < l; i++) {
+                        Song song = originalList.get(i);
+                        if(song.toString().toLowerCase().contains(constraint))
+                            filteredItems.add(song);
                     }
                     result.count = filteredItems.size();
                     result.values = filteredItems;
-                }
-                else
-                {
-                    synchronized(this)
-                    {
+                } else {
+                    synchronized(this) {
                         result.values = originalList;
                         result.count = originalList.size();
                     }
@@ -228,11 +153,11 @@ public class SongListFragment extends ListFragment {
             protected void publishResults(CharSequence constraint,
                                           FilterResults results) {
 
-                countryList = (ArrayList<Song>) results.values;
+                resultList = (ArrayList<Song>) results.values;
                 notifyDataSetChanged();
                 clear();
-                for(int i = 0, l = countryList.size(); i < l; i++)
-                    add(countryList.get(i));
+                for(int i = 0, l = resultList.size(); i < l; i++)
+                    add(resultList.get(i));
                 notifyDataSetInvalidated();
             }
         }
