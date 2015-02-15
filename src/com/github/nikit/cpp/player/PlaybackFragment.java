@@ -94,21 +94,16 @@ public class PlaybackFragment extends Fragment {
         mStopButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mPlayer.stop();
+                stopUpdation();
             }
         });
 
         mSeekBar = (SeekBar) v.findViewById(R.id.playbackSeekBar);
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-
+            public void onStopTrackingTouch(SeekBar seekBar) { }
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
+            public void onStartTrackingTouch(SeekBar seekBar) { }
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -142,5 +137,8 @@ public class PlaybackFragment extends Fragment {
         seekHandler.postDelayed(mRunnable, 1000);
     }
 
+    private void stopUpdation() {
+        seekHandler.removeCallbacksAndMessages(null);
+    }
 
 }
