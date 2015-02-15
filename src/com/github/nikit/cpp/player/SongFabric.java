@@ -16,7 +16,7 @@ public class SongFabric {
     private ArrayList<Song> mSongs;
     private static SongFabric sSongFabric;
     private Context mAppContext;
-    private File dir = new File("/sdcard/Sounds/Digital");
+    private File dir = new File("/sdcard/Sounds/Digital2");
 
 
     /**
