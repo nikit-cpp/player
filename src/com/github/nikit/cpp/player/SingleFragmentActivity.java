@@ -14,7 +14,7 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
+        setContentView(R.layout.activity_twopane);
 
         /**
          * Может показаться странным, что FragmentManager идентифицирует CrimeFragment
@@ -23,11 +23,11 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
          работы FragmentManager.
          */
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
+        Fragment fragment = fm.findFragmentById(R.id.song_list);
         if (fragment == null) {
             fragment = createFragment();
             fm.beginTransaction()
-                    .add(R.id.fragmentContainer, fragment)
+                    .add(R.id.song_list, fragment)
                     .commit();
         }
     }
