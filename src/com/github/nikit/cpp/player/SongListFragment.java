@@ -195,7 +195,7 @@ public class SongListFragment extends ListFragment {
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                Log.d(PlaybackPagerActivity.TAG, "SongListFragment...performFiltering");
+                Log.d(PlaybackPagerActivity.TAG, "SongListFragment...performFiltering("+constraint+")");
                 constraint = constraint.toString().toLowerCase();
                 FilterResults result = new FilterResults();
                 if(constraint != null && constraint.toString().length() > 0)
@@ -205,7 +205,8 @@ public class SongListFragment extends ListFragment {
                     for(int i = 0, l = originalList.size(); i < l; i++)
                     {
                         Song country = originalList.get(i);
-                        if(country.toString().toLowerCase().contains(constraint))
+                        if(country.getName().toLowerCase().contains(constraint) ||
+                            country.getArtist().toLowerCase().contains(constraint))
                             filteredItems.add(country);
                     }
                     result.count = filteredItems.size();
@@ -227,7 +228,7 @@ public class SongListFragment extends ListFragment {
             protected void publishResults(CharSequence constraint,
                                           FilterResults results) {
 
-                countryList = (ArrayList<Song>)results.values;
+                countryList = (ArrayList<Song>) results.values;
                 notifyDataSetChanged();
                 clear();
                 for(int i = 0, l = countryList.size(); i < l; i++)
