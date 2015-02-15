@@ -55,7 +55,7 @@ public class SongListFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.list_fragment, null);
+        View v = inflater.inflate(R.layout.activity_list, null);
 
         incrementalSearch = (EditText) v.findViewById(R.id.editText);
         incrementalSearch.addTextChangedListener(new TextWatcher() {
