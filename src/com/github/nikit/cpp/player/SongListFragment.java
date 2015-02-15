@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class SongListFragment extends ListFragment {
 
-    public static final String TAG = "CRIMINAL_TAG";
+    public static final String TAG = PlaybackPagerActivity.TAG;
 
     private ArrayList<Song> mSongs;
     private SongAdapter adapter;
@@ -196,7 +196,7 @@ public class SongListFragment extends ListFragment {
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-
+                Log.d(PlaybackPagerActivity.TAG, "SongListFragment...performFiltering");
                 constraint = constraint.toString().toLowerCase();
                 FilterResults result = new FilterResults();
                 if(constraint != null && constraint.toString().length() > 0)
