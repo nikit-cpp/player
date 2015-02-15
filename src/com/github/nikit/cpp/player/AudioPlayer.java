@@ -7,7 +7,25 @@ import android.media.MediaPlayer;
  * Created by nik on 15.02.15.
  */
 public class AudioPlayer {
+
     private MediaPlayer mPlayer;
+
+    static private AudioPlayer mAudioPlayer;
+    private Context mAppContext;
+
+    private AudioPlayer(){
+    }
+
+    private AudioPlayer(Context c){
+        mAppContext = c;
+    }
+
+    public static AudioPlayer get(Context c) {
+        if (mAudioPlayer == null) {
+            mAudioPlayer = new AudioPlayer(c.getApplicationContext());
+        }
+        return mAudioPlayer;
+    }
 
     /**
      * При простом воспроизведении аудиоданных корректнее
@@ -49,5 +67,10 @@ public class AudioPlayer {
         if(mPlayer==null)
             return 0;
         return mPlayer.getCurrentPosition();
+    }
+
+    public void seekTo(int progress) {
+        if(mPlayer!=null)
+            mPlayer.seekTo(progress);
     }
 }

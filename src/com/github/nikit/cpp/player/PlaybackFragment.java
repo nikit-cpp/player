@@ -18,7 +18,7 @@ public class PlaybackFragment extends Fragment {
     private TextView mSongName;
     private TextView mSongArtist;
 
-    private AudioPlayer mPlayer = new AudioPlayer();
+    private AudioPlayer mPlayer;
     private Button mPlayButton;
     private Button mStopButton;
     private SeekBar mSeekBar;
@@ -45,6 +45,8 @@ public class PlaybackFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UUID songId = (UUID) getArguments().getSerializable(EXTRA_CRIME_ID);
+
+        mPlayer = AudioPlayer.get(this.getActivity());
 
         mSong = SongFabric.get(getActivity()).getSong(songId);
         /* Вызов setRetainInstance(true) сохраняет фрагмент,
@@ -96,6 +98,25 @@ public class PlaybackFragment extends Fragment {
         });
 
         mSeekBar = (SeekBar) v.findViewById(R.id.playbackSeekBar);
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(mPlayer != null && fromUser){
+                    mPlayer.seekTo(progress);
+                }
+            }
+        });
 
         return v;
     }
