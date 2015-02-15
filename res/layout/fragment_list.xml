@@ -6,21 +6,20 @@
         android:orientation="vertical">
     <EditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/editText"
-            android:layout_weight="1"
             />
 
     <ListView
             android:id="@id/android:list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:layout_weight="1">
+            android:layout_height="match_parent">
     </ListView>
     <TextView
             android:id="@id/android:empty"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="EMPTY" android:layout_weight="1">
+            android:text="EMPTY">
     </TextView>
 </LinearLayout>
