@@ -8,14 +8,12 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:text="Name"
-              style="?android:listSeparatorTextViewStyle"
             />
 
     <TextView android:id="@+id/song_artist"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:text="Artist"
-              style="?android:listSeparatorTextViewStyle"
             />
     <Button
             android:id="@+id/playButton"

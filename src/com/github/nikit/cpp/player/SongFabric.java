@@ -53,7 +53,7 @@ public class SongFabric {
             }
             Song c = new Song();
             c.setName(name);
-            c.setArtist(artist); // Для каждого второго объекта
+            c.setArtist(artist);
             c.setFile(f);
             c.setImage(image);
             mSongs.add(c);
