@@ -60,7 +60,7 @@ public class SongListFragment extends ListFragment {
          представление в родителя. Мы передаем false, потому что
          представление будет добавлено в коде активности.
          */
-        View v = inflater.inflate(R.layout.activity_fragment, parent, false);
+        View v = inflater.inflate(R.layout.list_fragment, parent, false);
         incrementalSearch = (EditText) v.findViewById(R.id.editText);
         incrementalSearch.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
