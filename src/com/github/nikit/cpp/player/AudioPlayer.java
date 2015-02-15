@@ -44,7 +44,7 @@ public class AudioPlayer {
         }
     }
 
-    public void play(Context c) {
+    public void play(File file) {
         /**
          * Вызов stop() в начале play(Context) предотвращает возможное создание несколь-
          ких экземпляров MediaPlayer, если пользователь щелкнет на кнопке Play повторно.
@@ -55,7 +55,7 @@ public class AudioPlayer {
         //mPlayer.start();
         mPlayer = new MediaPlayer();
         try {
-            mPlayer.setDataSource("/sdcard/Sounds/Digital/Aerosmith - Back in the Saddle.mp3");
+            mPlayer.setDataSource(file.getAbsolutePath());
             mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mPlayer.prepare();
             mPlayer.start();

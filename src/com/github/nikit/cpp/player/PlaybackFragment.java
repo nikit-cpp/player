@@ -85,7 +85,7 @@ public class PlaybackFragment extends Fragment {
         mPlayButton = (Button)v.findViewById(R.id.playButton);
         mPlayButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mPlayer.play(getActivity());
+                mPlayer.play(mSong.getFile());
                 seekUpdation();
             }
         });

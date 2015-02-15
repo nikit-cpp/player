@@ -1,5 +1,6 @@
 package com.github.nikit.cpp.player;
 
+import java.io.File;
 import java.util.UUID;
 
 /**
@@ -9,6 +10,16 @@ public class Song {
     String name;
     String artist;
     UUID id;
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
+    File file;
 
     public Song(){
         id = UUID.randomUUID();

@@ -33,6 +33,7 @@ public class SongFabric {
             Song c = new Song();
             c.setName(f.getName());
             c.setArtist("Song artist #" + i % 50); // Для каждого второго объекта
+            c.setFile(f);
             mSongs.add(c);
             ++i;
         }
