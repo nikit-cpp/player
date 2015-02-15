@@ -44,17 +44,19 @@ public class SongListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(PlaybackPagerActivity.TAG, "SongListFragment.onCreate()");
+
         getActivity().setTitle(R.string.app_name);
 
         mSongs = SongFabric.get(getActivity()) .getSongs();
         adapter = new SongAdapter(mSongs);
         setListAdapter(adapter);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
+        Log.d(PlaybackPagerActivity.TAG, "SongListFragment.onCreateView()");
         View v = inflater.inflate(R.layout.activity_list, null);
 
         incrementalSearch = (EditText) v.findViewById(R.id.editText);
