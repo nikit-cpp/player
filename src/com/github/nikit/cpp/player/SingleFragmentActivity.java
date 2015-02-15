@@ -23,11 +23,11 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
          работы FragmentManager.
          */
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(android.R.id.list);
+        Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
         if (fragment == null) {
             fragment = createFragment();
             fm.beginTransaction()
-                    .add(android.R.id.list, fragment)
+                    .add(R.id.fragmentContainer, fragment)
                     .commit();
         }
     }
