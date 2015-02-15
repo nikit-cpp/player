@@ -3,10 +3,14 @@ package com.github.nikit.cpp.player;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,9 +24,10 @@ public class SongListFragment extends ListFragment {
     public static final String TAG = "CRIMINAL_TAG";
 
     private ArrayList<Song> mSongs;
+    private SongAdapter adapter;
 
     private static final int REQUEST_CRIME = 1;
-
+    private EditText incrementalSearch;
 
     /**
      * Мы не будем переопределять onCreateView(...) или заполнять макет CrimeList-
@@ -42,9 +47,32 @@ public class SongListFragment extends ListFragment {
         getActivity().setTitle(R.string.app_name);
 
         mSongs = SongFabric.get(getActivity()) .getSongs();
-        SongAdapter adapter = new SongAdapter(mSongs);
+        adapter = new SongAdapter(mSongs);
         setListAdapter(adapter);
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent,
+                             Bundle savedInstanceState) {
+        /**
+         * Третий параметр указывает, нужно ли включать заполненное
+         представление в родителя. Мы передаем false, потому что
+         представление будет добавлено в коде активности.
+         */
+        View v = inflater.inflate(R.layout.activity_fragment, parent, false);
+        incrementalSearch = (EditText) v.findViewById(R.id.editText);
+        incrementalSearch.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+            }
+            public void beforeTextChanged(CharSequence cs, int start, int count, int after) {
+            }
+            public void onTextChanged(CharSequence cs, int start, int before, int count) {
+                SongListFragment.this.adapter
+                        .getFilter().filter(cs);
+            }
+        });
+        return v;
     }
 
     @Override
