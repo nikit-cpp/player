@@ -2,6 +2,7 @@ package com.github.nikit.cpp.player;
 
 import android.content.Context;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -12,6 +13,8 @@ public class SongFabric {
     private ArrayList<Song> mSongs;
     private static SongFabric sSongFabric;
     private Context mAppContext;
+    private File dir = new File("/sdcard/Sounds/Digital");
+
 
     /**
      * Конструктору CrimeLab передается параметр Context . В Android такая ситуация
@@ -25,11 +28,13 @@ public class SongFabric {
         mAppContext = appContext;
         mSongs = new ArrayList<Song>();
 
-        for (int i = 0; i < 100; i++) {
+        int i = 0;
+        for (File f : dir.listFiles()) {
             Song c = new Song();
-            c.setName("Song title #" + i);
+            c.setName(f.getName());
             c.setArtist("Song artist #" + i % 50); // Для каждого второго объекта
             mSongs.add(c);
+            ++i;
         }
     }
 

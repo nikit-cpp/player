@@ -1,7 +1,11 @@
 package com.github.nikit.cpp.player;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by nik on 15.02.15.
@@ -12,6 +16,7 @@ public class AudioPlayer {
 
     static private AudioPlayer mAudioPlayer;
     private Context mAppContext;
+
 
     private AudioPlayer(){
     }
@@ -46,8 +51,17 @@ public class AudioPlayer {
          */
         stop();
 
-        mPlayer = MediaPlayer.create(c, R.raw.explosion);
-        mPlayer.start();
+        //mPlayer = MediaPlayer.create(c, R.raw.explosion);
+        //mPlayer.start();
+        mPlayer = new MediaPlayer();
+        try {
+            mPlayer.setDataSource("/sdcard/Sounds/Digital/Aerosmith - Back in the Saddle.mp3");
+            mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mPlayer.prepare();
+            mPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer mp) {
