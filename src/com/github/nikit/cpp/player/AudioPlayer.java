@@ -3,6 +3,7 @@ package com.github.nikit.cpp.player;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +18,7 @@ public class AudioPlayer {
     static private AudioPlayer mAudioPlayer;
     private Context mAppContext;
 
+    boolean isPaused = false;
 
     private AudioPlayer(){
     }
@@ -44,31 +46,42 @@ public class AudioPlayer {
         }
     }
 
+    public void pause() {
+        if (mPlayer != null) {
+            mPlayer.pause();
+            isPaused = true;
+        }
+    }
+
     public void play(File file) {
         /**
          * Вызов stop() в начале play(Context) предотвращает возможное создание несколь-
          ких экземпляров MediaPlayer, если пользователь щелкнет на кнопке Play повторно.
          */
-        stop();
+        if(!isPaused) {
+            stop();
 
-        //mPlayer = MediaPlayer.create(c, R.raw.explosion);
-        //mPlayer.start();
-        mPlayer = new MediaPlayer();
-        try {
-            mPlayer.setDataSource(file.getAbsolutePath());
-            mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mPlayer.prepare();
-            mPlayer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            public void onCompletion(MediaPlayer mp) {
-                stop();
+            //mPlayer = MediaPlayer.create(c, R.raw.explosion);
+            //mPlayer.start();
+            mPlayer = new MediaPlayer();
+            try {
+                mPlayer.setDataSource(file.getAbsolutePath());
+                mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                mPlayer.prepare();
+                mPlayer.start();
+            } catch (IOException e) {
+                Log.e(PlaybackPagerActivity.TAG, "Error on play", e);
             }
-        });
 
+            mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                public void onCompletion(MediaPlayer mp) {
+                    stop();
+                }
+            });
+        }else if(mPlayer!=null) {
+            mPlayer.start();
+            isPaused = false;
+        }
     }
 
     public int getDuration() {

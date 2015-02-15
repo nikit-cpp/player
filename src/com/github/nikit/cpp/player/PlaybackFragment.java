@@ -22,9 +22,10 @@ public class PlaybackFragment extends Fragment {
     private Button mPlayButton;
     private Button mStopButton;
     private SeekBar mSeekBar;
+    private Button mPauseButton;
+    private ImageView mAlbumImage;
 
     private Handler seekHandler = new Handler();
-
     private Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
@@ -112,6 +113,16 @@ public class PlaybackFragment extends Fragment {
                 }
             }
         });
+
+        mPauseButton = (Button) v.findViewById(R.id.pauseButton);
+        mPauseButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mPlayer.pause();
+                stopUpdation();
+            }
+        });
+
+        mAlbumImage = (ImageView) v.findViewById(R.id.album_image);
 
         return v;
     }
