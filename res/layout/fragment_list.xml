@@ -4,22 +4,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText"
-            />
 
     <ListView
             android:id="@id/android:list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="fill_parent" android:layout_weight="1">
     </ListView>
     <TextView
             android:id="@id/android:empty"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:gravity="center"
             android:text="EMPTY">
     </TextView>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText"
+            android:gravity="bottom|end" android:layout_weight="1"/>
+
 </LinearLayout>
