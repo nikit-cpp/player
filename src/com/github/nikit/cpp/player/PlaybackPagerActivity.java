@@ -17,7 +17,7 @@ import java.util.UUID;
 public class PlaybackPagerActivity extends FragmentActivity{
     private ViewPager mViewPager;
     private ArrayList<Song> mSongs;
-    public final String TAG = "NIKIT_PLAYER_TAG";
+    public static final String TAG = "NIKIT_PLAYER_TAG";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

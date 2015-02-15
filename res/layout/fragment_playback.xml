@@ -31,4 +31,9 @@
             android:text="@string/stop"
             android:layout_gravity="center_horizontal"
             />
+    <SeekBar
+            android:id="@+id/playbackSeekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"/>
 </LinearLayout>

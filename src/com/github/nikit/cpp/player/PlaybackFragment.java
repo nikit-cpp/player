@@ -1,7 +1,9 @@
 package com.github.nikit.cpp.player;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
@@ -19,6 +21,16 @@ public class PlaybackFragment extends Fragment {
     private AudioPlayer mPlayer = new AudioPlayer();
     private Button mPlayButton;
     private Button mStopButton;
+    private SeekBar mSeekBar;
+
+    private Handler seekHandler = new Handler();
+
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            seekUpdation();
+        }
+    };
 
 
     public static PlaybackFragment newInstance(UUID crimeId) {
@@ -32,9 +44,9 @@ public class PlaybackFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        UUID crimeId = (UUID) getArguments().getSerializable(EXTRA_CRIME_ID);
+        UUID songId = (UUID) getArguments().getSerializable(EXTRA_CRIME_ID);
 
-        mSong = SongFabric.get(getActivity()).getSong(crimeId);
+        mSong = SongFabric.get(getActivity()).getSong(songId);
         /* Вызов setRetainInstance(true) сохраняет фрагмент,
         который не уничтожается вместе с активностью, а передается новой активности
         в неизменном виде.
@@ -72,6 +84,7 @@ public class PlaybackFragment extends Fragment {
         mPlayButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mPlayer.play(getActivity());
+                seekUpdation();
             }
         });
 
@@ -81,6 +94,8 @@ public class PlaybackFragment extends Fragment {
                 mPlayer.stop();
             }
         });
+
+        mSeekBar = (SeekBar) v.findViewById(R.id.playbackSeekBar);
 
         return v;
     }
@@ -97,5 +112,14 @@ public class PlaybackFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_playback, menu);
     }
+
+    public void seekUpdation() {
+        int position = mPlayer.getCurrentPosition();
+        mSeekBar.setMax(mPlayer.getDuration());
+        Log.d(PlaybackPagerActivity.TAG, "Seeking to " + position);
+        mSeekBar.setProgress(position);
+        seekHandler.postDelayed(mRunnable, 1000);
+    }
+
 
 }

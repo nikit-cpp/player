@@ -38,4 +38,16 @@ public class AudioPlayer {
         });
 
     }
+
+    public int getDuration() {
+        if(mPlayer==null)
+            return 0;
+        return mPlayer.getDuration();
+    }
+
+    public int getCurrentPosition() {
+        if(mPlayer==null)
+            return 0;
+        return mPlayer.getCurrentPosition();
+    }
 }
