@@ -1,8 +1,11 @@
 package com.github.nikit.cpp.player;
 
 import android.content.Context;
+import android.util.Log;
+import com.mpatric.mp3agic.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -28,14 +31,29 @@ public class SongFabric {
         mAppContext = appContext;
         mSongs = new ArrayList<Song>();
 
-        int i = 0;
         for (File f : dir.listFiles()) {
+            String name = "Song name";
+            String artist = "Song artist";
+            try {
+                Mp3File mp3file = new Mp3File(f);
+                ID3v1 id3v1 = mp3file.getId3v1Tag();
+                if(id3v1 != null){
+                    name = id3v1.getTitle();
+                    artist = id3v1.getArtist();
+                }
+                ID3v2 id3v2 = mp3file.getId3v2Tag();
+                if(id3v2 != null){
+                    name = id3v2.getTitle();
+                    artist = id3v2.getArtist();
+                }
+            } catch (IOException | UnsupportedTagException | InvalidDataException e) {
+                Log.e(PlaybackPagerActivity.TAG, "Error on get tag", e);
+            }
             Song c = new Song();
-            c.setName(f.getName());
-            c.setArtist("Song artist #" + i % 50); // Для каждого второго объекта
+            c.setName(name);
+            c.setArtist(artist); // Для каждого второго объекта
             c.setFile(f);
             mSongs.add(c);
-            ++i;
         }
     }
 
