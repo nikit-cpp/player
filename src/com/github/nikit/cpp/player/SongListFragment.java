@@ -51,11 +51,12 @@ public class SongListFragment extends ListFragment {
         setListAdapter(adapter);
 
     }
-/*
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.list_fragment, parent, false);
+        View v = super.onCreateView(inflater, parent, savedInstanceState);
+
         incrementalSearch = (EditText) v.findViewById(R.id.editText);
         incrementalSearch.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
@@ -69,7 +70,7 @@ public class SongListFragment extends ListFragment {
         });
         return v;
     }
-*/
+
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Song c = ((SongAdapter)getListAdapter()).getItem(position);
