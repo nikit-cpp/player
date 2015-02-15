@@ -47,7 +47,7 @@ public class SongListFragment extends ListFragment {
         getActivity().setTitle(R.string.app_name);
 
         mSongs = SongFabric.get(getActivity()) .getSongs();
-        adapter = new SongAdapter(getActivity().getApplicationContext(), R.layout.list_item_song, mSongs);
+        adapter = new SongAdapter(mSongs);
         setListAdapter(adapter);
     }
 
@@ -113,9 +113,8 @@ public class SongListFragment extends ListFragment {
         private ArrayList<Song> countryList;
         private CountryFilter filter;
 
-        public SongAdapter(Context context, int textViewResourceId,
-                               ArrayList<Song> countryList) {
-            super(context, textViewResourceId, countryList);
+        public SongAdapter(ArrayList<Song> countryList) {
+            super(getActivity(), 0, countryList);
             this.countryList = new ArrayList<Song>();
             this.countryList.addAll(countryList);
             this.originalList = new ArrayList<Song>();
