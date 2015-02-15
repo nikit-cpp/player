@@ -17,4 +17,5 @@
     <string name="info">Info</string>
     <string name="remove">Remove</string>
     <string name="refresh">Refresh</string>
+    <string name="empty">Empty</string>
 </resources>
