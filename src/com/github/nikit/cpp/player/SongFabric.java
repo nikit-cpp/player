@@ -67,16 +67,17 @@ public class SongFabric {
         return sSongFabric;
     }
 
-    public ArrayList<Song> getSongs() {
+    /*public ArrayList<Song> getSongs() {
         return mSongs;
-    }
+    }*/
 
-    public Song getSong(UUID id) {
-        for (Song c : mSongs) {
-            if (c.getId().equals(id))
-                return c;
+    private static PlayList currentPlaylist;
+
+    public PlayList getCurrentPlayList(){
+        if(currentPlaylist == null) {
+            currentPlaylist = new PlayList(mSongs);
         }
-        return null;
+        return currentPlaylist;
     }
 
 }

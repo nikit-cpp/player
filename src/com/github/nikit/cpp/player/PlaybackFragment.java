@@ -15,6 +15,7 @@ import java.util.UUID;
 
 /**
  * Created by nik on 06.02.15.
+ * Этот фрагмент внутри ViewPager'а
  */
 public class PlaybackFragment extends Fragment {
     public static final String EXTRA_CRIME_ID = "extra_crimeId";
@@ -53,7 +54,7 @@ public class PlaybackFragment extends Fragment {
 
         mPlayer = AudioPlayer.get(this.getActivity());
 
-        mSong = SongFabric.get(getActivity()).getSong(songId);
+        mSong = SongFabric.get(getActivity()).getCurrentPlayList().getSong(songId);
         /* Вызов setRetainInstance(true) сохраняет фрагмент,
         который не уничтожается вместе с активностью, а передается новой активности
         в неизменном виде.

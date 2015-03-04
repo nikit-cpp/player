@@ -61,8 +61,6 @@ public class AudioPlayer {
         if(!isPaused) {
             stop();
 
-            //mPlayer = MediaPlayer.create(c, R.raw.explosion);
-            //mPlayer.start();
             mPlayer = new MediaPlayer();
             try {
                 mPlayer.setDataSource(file.getAbsolutePath());
@@ -82,6 +80,14 @@ public class AudioPlayer {
             mPlayer.start();
             isPaused = false;
         }
+    }
+
+    public void next() {
+
+    }
+
+    public  void prev() {
+
     }
 
     public int getDuration() {

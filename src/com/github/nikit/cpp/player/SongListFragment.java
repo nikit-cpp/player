@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by nik on 07.02.15.
@@ -20,7 +21,7 @@ public class SongListFragment extends ListFragment {
 
     public static final String TAG = PlaybackPagerActivity.TAG;
 
-    private ArrayList<Song> mSongs;
+    private List<Song> mSongs;
     private SongAdapter adapter;
 
     private static final int REQUEST_CRIME = 1;
@@ -45,7 +46,7 @@ public class SongListFragment extends ListFragment {
 
         getActivity().setTitle(R.string.app_name);
 
-        mSongs = SongFabric.get(getActivity()) .getSongs();
+        mSongs = SongFabric.get(getActivity()).getCurrentPlayList().getSongs();
         adapter = new SongAdapter(mSongs);
         setListAdapter(adapter);
     }
@@ -82,11 +83,11 @@ public class SongListFragment extends ListFragment {
 
     private class SongAdapter extends ArrayAdapter<Song> {
 
-        private ArrayList<Song> originalList;
-        private ArrayList<Song> resultList;
+        private List<Song> originalList;
+        private List<Song> resultList;
         private CountryFilter filter;
 
-        public SongAdapter(ArrayList<Song> resultList) {
+        public SongAdapter(List<Song> resultList) {
             super(getActivity(), 0, resultList);
             this.resultList = new ArrayList<Song>();
             this.resultList.addAll(resultList);

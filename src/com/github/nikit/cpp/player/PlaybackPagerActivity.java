@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -16,7 +17,7 @@ import java.util.UUID;
  */
 public class PlaybackPagerActivity extends FragmentActivity{
     private ViewPager mViewPager;
-    private ArrayList<Song> mSongs;
+    private List<Song> mSongs;
     public static final String TAG = "NIKIT_PLAYER_TAG";
 
     @Override
@@ -28,7 +29,7 @@ public class PlaybackPagerActivity extends FragmentActivity{
         mViewPager.setId(R.id.viewPager);
         setContentView(mViewPager);
 
-        mSongs = SongFabric.get(this).getSongs();
+        mSongs = SongFabric.get(this).getCurrentPlayList().getSongs();
 
         FragmentManager fm = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
@@ -70,6 +71,7 @@ public class PlaybackPagerActivity extends FragmentActivity{
             }
         });
 
+        // Переключаем ViewPager на текущую песню
         UUID songId = (UUID) getIntent().getSerializableExtra(PlaybackFragment.EXTRA_CRIME_ID);
 
         for(int i = 0; i < mSongs.size(); ++i){
