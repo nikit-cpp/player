@@ -50,6 +50,8 @@ public class PlaybackFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(PlaybackPagerActivity.TAG, "PlaybackFragment.onCreate()" + ", address= " + toString());
+
         UUID songId = (UUID) getArguments().getSerializable(EXTRA_CRIME_ID);
 
         mPlayer = AudioPlayer.get(this.getActivity());
@@ -76,6 +78,7 @@ public class PlaybackFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
+        Log.d(PlaybackPagerActivity.TAG, "PlaybackFragment.onCreateView()" + ", address= " + toString());
         /**
          * Третий параметр указывает, нужно ли включать заполненное
          представление в родителя. Мы передаем false, потому что
@@ -155,7 +158,7 @@ public class PlaybackFragment extends Fragment {
     public void seekUpdation() {
         int position = mPlayer.getCurrentPosition();
         mSeekBar.setMax(mPlayer.getDuration());
-        Log.d(PlaybackPagerActivity.TAG, "Seeking to " + position);
+        Log.d(PlaybackPagerActivity.TAG, "Seeking to " + position + ", PlaybackFragment address= " + toString());
         mSeekBar.setProgress(position);
         seekHandler.postDelayed(mRunnable, 1000);
     }
