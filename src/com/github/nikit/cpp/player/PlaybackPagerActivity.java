@@ -34,7 +34,8 @@ public class PlaybackPagerActivity extends FragmentActivity{
         mSongs = SongFabric.get(this).getCurrentPlayList().getSongs();
 
         FragmentManager fm = getSupportFragmentManager();
-        mViewPager.setAdapter(new MyPagerAdapter(fm, mSongs));
+        final MyPagerAdapter pagerAdapter = new MyPagerAdapter(fm, mSongs);
+        mViewPager.setAdapter(pagerAdapter);
 
         /**
          * Метод onPageChangeListener используется для обнаружения изменений в странице,
@@ -54,6 +55,7 @@ public class PlaybackPagerActivity extends FragmentActivity{
                 if(song.getName() != null){
                     setTitle(song.getArtist() + " - " + song.getName());
                 }
+                ((PlaybackFragment)pagerAdapter.getRegisteredFragment(pos)).stopUpdation();
             }
 
             @Override
