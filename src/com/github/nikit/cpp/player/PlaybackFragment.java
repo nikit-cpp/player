@@ -30,13 +30,8 @@ public class PlaybackFragment extends Fragment {
     private Button mPauseButton;
     private ImageView mAlbumImage;
 
-    private Handler seekHandler = new Handler();
-    private Runnable mRunnable = new Runnable() {
-        @Override
-        public void run() {
-            seekUpdation();
-        }
-    };
+    private Handler seekHandler;
+    private Runnable mRunnable;
 
 
     public static PlaybackFragment newInstance(UUID crimeId) {
@@ -50,6 +45,7 @@ public class PlaybackFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(PlaybackPagerActivity.TAG, "PlaybackFragment.onCreate()");
         UUID songId = (UUID) getArguments().getSerializable(EXTRA_CRIME_ID);
 
         mPlayer = AudioPlayer.get(this.getActivity());
@@ -76,6 +72,7 @@ public class PlaybackFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
+        Log.d(PlaybackPagerActivity.TAG, "PlaybackFragment.onCreateView()");
         /**
          * Третий параметр указывает, нужно ли включать заполненное
          представление в родителя. Мы передаем false, потому что
@@ -119,6 +116,15 @@ public class PlaybackFragment extends Fragment {
             }
         });
 
+        seekHandler = new Handler();
+        mRunnable = new Runnable() {
+            @Override
+            public void run() {
+                seekUpdation();
+            }
+        };
+
+
         mPauseButton = (Button) v.findViewById(R.id.pauseButton);
         mPauseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -154,13 +160,15 @@ public class PlaybackFragment extends Fragment {
 
     public void seekUpdation() {
         int position = mPlayer.getCurrentPosition();
-        mSeekBar.setMax(mPlayer.getDuration());
+        int duration = mPlayer.getDuration();
+        Log.d(PlaybackPagerActivity.TAG, "Setting max " + duration);
+        mSeekBar.setMax(duration);
         Log.d(PlaybackPagerActivity.TAG, "Seeking to " + position);
         mSeekBar.setProgress(position);
         seekHandler.postDelayed(mRunnable, 1000);
     }
 
-    private void stopUpdation() {
+    public void stopUpdation() {
         seekHandler.removeCallbacksAndMessages(null);
     }
 
