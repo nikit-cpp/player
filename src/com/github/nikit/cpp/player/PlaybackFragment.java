@@ -159,8 +159,10 @@ public class PlaybackFragment extends Fragment {
 
     public void seekUpdation() {
         int position = mPlayer.getCurrentPosition();
-        mSeekBar.setMax(mPlayer.getDuration());
-        Log.d(PlaybackPagerActivity.TAG, "Seeking to " + position + ", PlaybackFragment address= " + toString());
+        int duration = mPlayer.getDuration();
+        Log.d(PlaybackPagerActivity.TAG, "Setting max " + duration);
+        mSeekBar.setMax(duration);
+        Log.d(PlaybackPagerActivity.TAG, "Seeking to " + position);
         mSeekBar.setProgress(position);
         seekHandler.postDelayed(mRunnable, 1000);
     }

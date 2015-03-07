@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.util.SparseArray;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,18 +34,8 @@ public class PlaybackPagerActivity extends FragmentActivity{
         mSongs = SongFabric.get(this).getCurrentPlayList().getSongs();
 
         FragmentManager fm = getSupportFragmentManager();
-        mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
-            @Override
-            public Fragment getItem(int i) {
-                Song song = mSongs.get(i);
-                return PlaybackFragment.newInstance(song.getId());
-            }
-
-            @Override
-            public int getCount() {
-                return mSongs.size();
-            }
-        });
+        final MyPagerAdapter pagerAdapter = new MyPagerAdapter(fm, mSongs);
+        mViewPager.setAdapter(pagerAdapter);
 
         /**
          * Метод onPageChangeListener используется для обнаружения изменений в странице,
@@ -63,6 +55,7 @@ public class PlaybackPagerActivity extends FragmentActivity{
                 if(song.getName() != null){
                     setTitle(song.getArtist() + " - " + song.getName());
                 }
+                ((PlaybackFragment)pagerAdapter.getRegisteredFragment(pos)).stopUpdation();
             }
 
             @Override
@@ -80,5 +73,45 @@ public class PlaybackPagerActivity extends FragmentActivity{
                 break;
             }
         }
+    }
+}
+
+class MyPagerAdapter extends FragmentStatePagerAdapter {
+    SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
+    List<Song> songs;
+    public MyPagerAdapter(FragmentManager fm, List<Song> songs) {
+        super(fm);
+        this.songs = songs;
+    }
+
+    @Override
+    public Fragment getItem(int i) {
+        Song song = songs.get(i);
+        Fragment gettedFragment = registeredFragments.get(i);
+        if(gettedFragment==null)
+            gettedFragment = PlaybackFragment.newInstance(song.getId());
+        return gettedFragment;
+    }
+
+    @Override
+    public int getCount() {
+        return songs.size();
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        registeredFragments.put(position, fragment);
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        registeredFragments.remove(position);
+        super.destroyItem(container, position, object);
+    }
+
+    public Fragment getRegisteredFragment(int position) {
+        return registeredFragments.get(position);
     }
 }

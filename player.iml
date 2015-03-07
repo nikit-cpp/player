@@ -21,7 +21,9 @@
           <root url="jar:///opt/android-sdk-linux/extras/android/support/v4/android-support-v4.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="file:///opt/android-sdk-linux/extras/android/support/v4/src/api20" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
