@@ -108,6 +108,8 @@ public class PlaybackFragment extends Fragment {
         });
 
         mSeekBar = (SeekBar) v.findViewById(R.id.playbackSeekBar);
+        seekUpdation();
+
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) { }
