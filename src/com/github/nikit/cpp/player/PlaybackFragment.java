@@ -167,7 +167,7 @@ public class PlaybackFragment extends Fragment {
         seekHandler.postDelayed(mRunnable, 1000);
     }
 
-    private void stopUpdation() {
+    public void stopUpdation() {
         seekHandler.removeCallbacksAndMessages(null);
     }
 
