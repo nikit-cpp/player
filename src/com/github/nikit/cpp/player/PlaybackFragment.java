@@ -162,7 +162,7 @@ public class PlaybackFragment extends Fragment {
         int duration = mPlayer.getDuration();
         Log.d(PlaybackPagerActivity.TAG, "Setting max " + duration);
         mSeekBar.setMax(duration);
-        Log.d(PlaybackPagerActivity.TAG, "Seeking to " + position);
+        Log.d(PlaybackPagerActivity.TAG, "Seeking to " + position + ", PlaybackFragment address= " + toString());
         mSeekBar.setProgress(position);
         seekHandler.postDelayed(mRunnable, 1000);
     }
