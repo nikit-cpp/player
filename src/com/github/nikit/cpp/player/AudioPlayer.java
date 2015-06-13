@@ -68,7 +68,7 @@ public class AudioPlayer {
                 mPlayer.prepare();
                 mPlayer.start();
             } catch (IOException e) {
-                Log.e(PlaybackPagerActivity.TAG, "Error on play", e);
+                Log.e(PlaybackActivity.TAG, "Error on play", e);
             }
 
             mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {

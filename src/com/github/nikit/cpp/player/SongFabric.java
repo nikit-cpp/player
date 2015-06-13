@@ -7,7 +7,6 @@ import com.mpatric.mp3agic.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  * Created by nik on 13.02.15.
@@ -49,7 +48,7 @@ public class SongFabric {
                     image = id3v2.getAlbumImage();
                 }
             } catch (IOException | UnsupportedTagException | InvalidDataException e) {
-                Log.e(PlaybackPagerActivity.TAG, "Error on get tag", e);
+                Log.e(PlaybackActivity.TAG, "Error on get tag", e);
             }
             Song c = new Song();
             c.setName(name);

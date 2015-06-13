@@ -10,14 +10,13 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 /**
  * Created by nik on 11.02.15.
  */
-public class PlaybackPagerActivity extends FragmentActivity{
+public class PlaybackActivity extends FragmentActivity{
     private ViewPager mViewPager;
     private List<Song> mSongs;
     public static final String TAG = "NIKIT_PLAYER_TAG";
@@ -27,9 +26,13 @@ public class PlaybackPagerActivity extends FragmentActivity{
         Log.d(TAG, "CrimePagerActivity.onCreate()");
         super.onCreate(savedInstanceState);
 
-        mViewPager = new ViewPager(this);
-        mViewPager.setId(R.id.viewPager);
-        setContentView(mViewPager);
+        //mViewPager = new ViewPager(this);
+        //mViewPager.setId(R.id.viewPager);
+        //setContentView(mViewPager);
+        setContentView(R.layout.activity_playback);
+        mViewPager = (ViewPager) findViewById(R.id.pager00);
+
+
 
         mSongs = SongFabric.get(this).getCurrentPlayList().getSongs();
 
@@ -55,7 +58,7 @@ public class PlaybackPagerActivity extends FragmentActivity{
                 if(song.getName() != null){
                     setTitle(song.getArtist() + " - " + song.getName());
                 }
-                ((PlaybackFragment)pagerAdapter.getRegisteredFragment(pos)).stopUpdation();
+                //((PlaybackViewPagerFragment)pagerAdapter.getRegisteredFragment(pos)).stopUpdation();
             }
 
             @Override
@@ -64,8 +67,23 @@ public class PlaybackPagerActivity extends FragmentActivity{
             }
         });
 
+        /**
+         * Может показаться странным, что FragmentManager идентифицирует CrimeFragment
+         по идентификатору ресурса FrameLayout. Однако идентификация UI-фрагмента по
+         идентификатору ресурса его контейнерного представления встроена в механизм
+         работы FragmentManager.
+         */
+        Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
+        if (fragment == null) {
+            fragment = createFragment();
+            fm.beginTransaction()
+                    .add(R.id.fragmentContainer, fragment)
+                    .commit();
+        }
+
+
         // Переключаем ViewPager на текущую песню
-        UUID songId = (UUID) getIntent().getSerializableExtra(PlaybackFragment.EXTRA_CRIME_ID);
+        UUID songId = (UUID) getIntent().getSerializableExtra(PlaybackViewPagerFragment.EXTRA_CRIME_ID);
 
         for(int i = 0; i < mSongs.size(); ++i){
             if(mSongs.get(i).getId().equals(songId)){
@@ -73,6 +91,11 @@ public class PlaybackPagerActivity extends FragmentActivity{
                 break;
             }
         }
+    }
+
+
+    protected Fragment createFragment() {
+        return new PlaybackButtonsFragment();
     }
 }
 
@@ -91,7 +114,7 @@ class MyPagerAdapter extends FragmentStatePagerAdapter {
         if(gettedFragment==null)
             gettedFragment = PlaybackFragment.newInstance(song.getId());
         return gettedFragment;*/
-        return PlaybackFragment.newInstance(song.getId());
+        return PlaybackViewPagerFragment.newInstance(song.getId());
     }
 
     @Override

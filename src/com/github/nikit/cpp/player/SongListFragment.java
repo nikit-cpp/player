@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class SongListFragment extends ListFragment {
 
-    public static final String TAG = PlaybackPagerActivity.TAG;
+    public static final String TAG = PlaybackActivity.TAG;
 
     private List<Song> mSongs;
     private SongAdapter adapter;
@@ -42,7 +42,7 @@ public class SongListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(PlaybackPagerActivity.TAG, "SongListFragment.onCreate()");
+        Log.d(PlaybackActivity.TAG, "SongListFragment.onCreate()");
 
         getActivity().setTitle(R.string.app_name);
 
@@ -54,7 +54,7 @@ public class SongListFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        Log.d(PlaybackPagerActivity.TAG, "SongListFragment.onCreateView()");
+        Log.d(PlaybackActivity.TAG, "SongListFragment.onCreateView()");
         View v = inflater.inflate(R.layout.fragment_list, null);
 
         incrementalSearch = (EditText) v.findViewById(R.id.editText);
@@ -76,8 +76,8 @@ public class SongListFragment extends ListFragment {
         Song c = ((SongAdapter)getListAdapter()).getItem(position);
         Log.d(TAG, c.getName() + " was clicked");
         // Запуск CrimePagerActivity
-        Intent i = new Intent(getActivity(), PlaybackPagerActivity.class);
-        i.putExtra(PlaybackFragment.EXTRA_CRIME_ID, c.getId());
+        Intent i = new Intent(getActivity(), PlaybackActivity.class);
+        i.putExtra(PlaybackButtonsFragment.EXTRA_CRIME_ID, c.getId());
         startActivity(i);
     }
 
@@ -127,7 +127,7 @@ public class SongListFragment extends ListFragment {
         private class CountryFilter extends Filter {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                Log.d(PlaybackPagerActivity.TAG, "SongListFragment...performFiltering("+constraint+")");
+                Log.d(PlaybackActivity.TAG, "SongListFragment...performFiltering("+constraint+")");
                 constraint = constraint.toString().toLowerCase();
                 FilterResults result = new FilterResults();
                 if(constraint != null && constraint.toString().length() > 0) {
