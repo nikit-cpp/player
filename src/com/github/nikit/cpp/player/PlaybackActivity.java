@@ -21,10 +21,22 @@ public class PlaybackActivity extends FragmentActivity{
     private List<Song> mSongs;
     public static final String TAG = "NIKIT_PLAYER_TAG";
 
+    Fragment buttonsFragment = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "CrimePagerActivity.onCreate()");
         super.onCreate(savedInstanceState);
+
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        buttonsFragment = fragmentManager.findFragmentById(R.id.buttonsFragmentContainer);
+        if (null == buttonsFragment) {
+            buttonsFragment = new PlaybackButtonsFragment();
+
+            fragmentManager.beginTransaction().add(R.id.buttonsFragmentContainer, buttonsFragment).commit();
+        }
+        buttonsFragment.setArguments(getIntent().getExtras());
 
         //mViewPager = new ViewPager(this);
         //mViewPager.setId(R.id.viewPager);
@@ -73,13 +85,12 @@ public class PlaybackActivity extends FragmentActivity{
          идентификатору ресурса его контейнерного представления встроена в механизм
          работы FragmentManager.
          */
-        Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
-        if (fragment == null) {
+        /*if (fragment == null) {
             fragment = createFragment();
             fm.beginTransaction()
                     .add(R.id.fragmentContainer, fragment)
                     .commit();
-        }
+        }*/
 
 
         // Переключаем ViewPager на текущую песню
@@ -94,9 +105,9 @@ public class PlaybackActivity extends FragmentActivity{
     }
 
 
-    protected Fragment createFragment() {
-        return new PlaybackButtonsFragment();
-    }
+    //protected Fragment createFragment() {
+    //    return new PlaybackButtonsFragment();
+    //}
 }
 
 class MyPagerAdapter extends FragmentStatePagerAdapter {

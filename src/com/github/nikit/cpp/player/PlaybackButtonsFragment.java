@@ -52,7 +52,8 @@ public class PlaybackButtonsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Log.d(PlaybackActivity.TAG, "PlaybackFragment.onCreate()" + ", address= " + toString());
 
-        UUID songId = (UUID) getArguments().getSerializable(EXTRA_CRIME_ID);
+        Bundle arguments = getArguments();
+        UUID songId = (UUID)arguments.getSerializable(EXTRA_CRIME_ID);
 
         mPlayer = AudioPlayer.get(this.getActivity());
 
