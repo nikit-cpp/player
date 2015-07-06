@@ -121,11 +121,11 @@ class MyPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int i) {
         Song song = songs.get(i);
-        /*Fragment gettedFragment = registeredFragments.get(i);
+        Fragment gettedFragment = registeredFragments.get(i);
         if(gettedFragment==null)
-            gettedFragment = PlaybackFragment.newInstance(song.getId());
-        return gettedFragment;*/
-        return PlaybackViewPagerFragment.newInstance(song.getId());
+            gettedFragment = PlaybackViewPagerFragment.newInstance(song.getId());
+        return gettedFragment;
+        //return PlaybackViewPagerFragment.newInstance(song.getId());
     }
 
     @Override
