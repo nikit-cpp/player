@@ -21,30 +21,16 @@ import java.util.UUID;
  * Этот фрагмент внутри ViewPager'а
  */
 public class PlaybackViewPagerFragment extends Fragment {
-    public static final String EXTRA_CRIME_ID = "extra_crimeId";
     private Song mSong;
     private TextView mSongName;
     private TextView mSongArtist;
 
-//    private AudioPlayer mPlayer;
-//    private Button mPlayButton;
-//    private Button mStopButton;
-//    private SeekBar mSeekBar;
-//    private Button mPauseButton;
     private ImageView mAlbumImage;
-
-//    private Handler seekHandler = new Handler();
-//    private Runnable mRunnable = new Runnable() {
-//        @Override
-//        public void run() {
-//            seekUpdation();
-//        }
-//    };
 
 
     public static PlaybackViewPagerFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
-        args.putSerializable(EXTRA_CRIME_ID, crimeId);
+        args.putSerializable(SongListFragment.SONG_ID, crimeId);
         PlaybackViewPagerFragment fragment = new PlaybackViewPagerFragment();
         fragment.setArguments(args);
         return fragment;
@@ -55,9 +41,7 @@ public class PlaybackViewPagerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Log.d(PlaybackActivity.TAG, "PlaybackFragment.onCreate()" + ", address= " + toString());
 
-        UUID songId = (UUID) getArguments().getSerializable(EXTRA_CRIME_ID);
-
-//        mPlayer = AudioPlayer.get(this.getActivity());
+        UUID songId = (UUID) getArguments().getSerializable(SongListFragment.SONG_ID);
 
         mSong = SongFabric.get(getActivity()).getCurrentPlayList().getSong(songId);
         /* Вызов setRetainInstance(true) сохраняет фрагмент,
@@ -94,46 +78,6 @@ public class PlaybackViewPagerFragment extends Fragment {
         mSongName.setText(mSong.getName());
         mSongArtist.setText(mSong.getArtist());
 
-//        mPlayButton = (Button)v.findViewById(R.id.playButton);
-//        mPlayButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                mPlayer.play(mSong.getFile());
-//                seekUpdation();
-//            }
-//        });
-//
-//        mStopButton = (Button)v.findViewById(R.id.stopButton);
-//        mStopButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                mPlayer.stop();
-//                stopUpdation();
-//            }
-//        });
-
-//        mSeekBar = (SeekBar) v.findViewById(R.id.playbackSeekBar);
-//        seekUpdation();
-//
-//        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) { }
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) { }
-//
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                if(mPlayer != null && fromUser){
-//                    mPlayer.seekTo(progress);
-//                }
-//            }
-//        });
-//
-//        mPauseButton = (Button) v.findViewById(R.id.pauseButton);
-//        mPauseButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                mPlayer.pause();
-//                stopUpdation();
-//            }
-//        });
 
         mAlbumImage = (ImageView) v.findViewById(R.id.album_image);
 
@@ -146,32 +90,4 @@ public class PlaybackViewPagerFragment extends Fragment {
 
         return v;
     }
-
-    /**
-     * В PlaybackFragment.onDestroy() освобождается экземпляр Media-
-     Player, что приводит к остановке воспроизведения.
-
-     */
-
-
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.fragment_playbuttons, menu);
-//    }
-//
-//    public void seekUpdation() {
-//        int position = mPlayer.getCurrentPosition();
-//        int duration = mPlayer.getDuration();
-//        Log.d(PlaybackActivity.TAG, "Setting max " + duration);
-//        mSeekBar.setMax(duration);
-//        Log.d(PlaybackActivity.TAG, "Seeking to " + position + ", PlaybackFragment address= " + toString());
-//        mSeekBar.setProgress(position);
-//        seekHandler.postDelayed(mRunnable, 1000);
-//    }
-//
-//    public void stopUpdation() {
-//        seekHandler.removeCallbacksAndMessages(null);
-//    }
-
 }

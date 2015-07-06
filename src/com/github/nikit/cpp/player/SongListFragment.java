@@ -20,6 +20,7 @@ import java.util.List;
 public class SongListFragment extends ListFragment {
 
     public static final String TAG = PlaybackActivity.TAG;
+    public static final String SONG_ID = "song_id";
 
     private List<Song> mSongs;
     private SongAdapter adapter;
@@ -77,7 +78,7 @@ public class SongListFragment extends ListFragment {
         Log.d(TAG, c.getName() + " was clicked");
         // Запуск CrimePagerActivity
         Intent i = new Intent(getActivity(), PlaybackActivity.class);
-        i.putExtra(PlaybackButtonsFragment.EXTRA_CRIME_ID, c.getId());
+        i.putExtra(SONG_ID, c.getId());
         startActivity(i);
     }
 

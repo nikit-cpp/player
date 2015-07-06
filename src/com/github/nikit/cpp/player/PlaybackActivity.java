@@ -38,9 +38,6 @@ public class PlaybackActivity extends FragmentActivity{
         }
         buttonsFragment.setArguments(getIntent().getExtras());
 
-        //mViewPager = new ViewPager(this);
-        //mViewPager.setId(R.id.viewPager);
-        //setContentView(mViewPager);
         setContentView(R.layout.activity_playback);
         mViewPager = (ViewPager) findViewById(R.id.pager00);
 
@@ -79,22 +76,8 @@ public class PlaybackActivity extends FragmentActivity{
             }
         });
 
-        /**
-         * Может показаться странным, что FragmentManager идентифицирует CrimeFragment
-         по идентификатору ресурса FrameLayout. Однако идентификация UI-фрагмента по
-         идентификатору ресурса его контейнерного представления встроена в механизм
-         работы FragmentManager.
-         */
-        /*if (fragment == null) {
-            fragment = createFragment();
-            fm.beginTransaction()
-                    .add(R.id.fragmentContainer, fragment)
-                    .commit();
-        }*/
-
-
         // Переключаем ViewPager на текущую песню
-        UUID songId = (UUID) getIntent().getSerializableExtra(PlaybackViewPagerFragment.EXTRA_CRIME_ID);
+        UUID songId = (UUID) getIntent().getSerializableExtra(SongListFragment.SONG_ID);
 
         for(int i = 0; i < mSongs.size(); ++i){
             if(mSongs.get(i).getId().equals(songId)){
@@ -103,11 +86,6 @@ public class PlaybackActivity extends FragmentActivity{
             }
         }
     }
-
-
-    //protected Fragment createFragment() {
-    //    return new PlaybackButtonsFragment();
-    //}
 }
 
 class MyPagerAdapter extends FragmentStatePagerAdapter {

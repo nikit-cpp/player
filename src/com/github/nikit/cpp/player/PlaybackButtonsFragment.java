@@ -14,17 +14,13 @@ import java.util.UUID;
  * Этот фрагмент внутри ViewPager'а
  */
 public class PlaybackButtonsFragment extends Fragment {
-    public static final String EXTRA_CRIME_ID = "extra_crimeId";
     private Song mSong;
-//    private TextView mSongName;
-//    private TextView mSongArtist;
 
     private AudioPlayer mPlayer;
     private Button mPlayButton;
     private Button mStopButton;
     private SeekBar mSeekBar;
     private Button mPauseButton;
-//    private ImageView mAlbumImage;
 
     private Handler seekHandler = new Handler();
     private Runnable mRunnable = new Runnable() {
@@ -34,22 +30,13 @@ public class PlaybackButtonsFragment extends Fragment {
         }
     };
 
-
-    public static PlaybackButtonsFragment newInstance(UUID crimeId) {
-        Bundle args = new Bundle();
-        args.putSerializable(EXTRA_CRIME_ID, crimeId);
-        PlaybackButtonsFragment fragment = new PlaybackButtonsFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(PlaybackActivity.TAG, "PlaybackFragment.onCreate()" + ", address= " + toString());
 
         Bundle arguments = getArguments();
-        UUID songId = (UUID)arguments.getSerializable(EXTRA_CRIME_ID);
+        UUID songId = (UUID)arguments.getSerializable(SongListFragment.SONG_ID);
 
         mPlayer = AudioPlayer.get(this.getActivity());
 
@@ -82,11 +69,6 @@ public class PlaybackButtonsFragment extends Fragment {
          представление будет добавлено в коде активности.
          */
         View v = inflater.inflate(R.layout.fragment_playbuttons, parent, false);
-//        mSongName   = (TextView) v.findViewById(R.id.song_name);
-//        mSongArtist = (TextView) v.findViewById(R.id.song_artist);
-//
-//        mSongName.setText(mSong.getName());
-//        mSongArtist.setText(mSong.getArtist());
 
         mPlayButton = (Button)v.findViewById(R.id.playButton);
         mPlayButton.setOnClickListener(new View.OnClickListener() {
@@ -128,15 +110,6 @@ public class PlaybackButtonsFragment extends Fragment {
                 stopUpdation();
             }
         });
-
-//        mAlbumImage = (ImageView) v.findViewById(R.id.album_image);
-//
-//        byte[] image = mSong.getImage();
-//        if(image!=null) {
-//            InputStream is = new ByteArrayInputStream(image);
-//            Bitmap bmp = BitmapFactory.decodeStream(is);
-//            mAlbumImage.setImageBitmap(bmp);
-//        }
 
         return v;
     }
