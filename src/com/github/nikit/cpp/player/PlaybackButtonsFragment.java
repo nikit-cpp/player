@@ -1,7 +1,5 @@
 package com.github.nikit.cpp.player;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -9,8 +7,6 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.UUID;
 
 /**
@@ -85,7 +81,7 @@ public class PlaybackButtonsFragment extends Fragment {
          представление в родителя. Мы передаем false, потому что
          представление будет добавлено в коде активности.
          */
-        View v = inflater.inflate(R.layout.fragment_playback, parent, false);
+        View v = inflater.inflate(R.layout.fragment_playbuttons, parent, false);
 //        mSongName   = (TextView) v.findViewById(R.id.song_name);
 //        mSongArtist = (TextView) v.findViewById(R.id.song_artist);
 //
