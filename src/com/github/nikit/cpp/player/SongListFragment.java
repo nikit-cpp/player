@@ -86,10 +86,10 @@ public class SongListFragment extends ListFragment {
 
         private List<Song> originalList;
         private List<Song> resultList;
-        private CountryFilter filter;
+        private SongFilter filter;
 
         public SongAdapter(List<Song> resultList) {
-            super(getActivity(), 0, resultList);
+            super(getActivity(), 0, new ArrayList<Song>(resultList));
             this.resultList = new ArrayList<Song>();
             this.resultList.addAll(resultList);
             this.originalList = new ArrayList<Song>();
@@ -99,7 +99,7 @@ public class SongListFragment extends ListFragment {
         @Override
         public Filter getFilter() {
             if (filter == null){
-                filter  = new CountryFilter();
+                filter  = new SongFilter();
             }
             return filter;
         }
@@ -125,7 +125,7 @@ public class SongListFragment extends ListFragment {
         }
 
 
-        private class CountryFilter extends Filter {
+        private class SongFilter extends Filter {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 Log.d(PlaybackActivity.TAG, "SongListFragment...performFiltering("+constraint+")");
@@ -136,7 +136,7 @@ public class SongListFragment extends ListFragment {
 
                     for(int i = 0, l = originalList.size(); i < l; i++) {
                         Song song = originalList.get(i);
-                        if(song.toString().toLowerCase().contains(constraint))
+                        if(song.toString().toLowerCase().contains(constraint.toString().toLowerCase()))
                             filteredItems.add(song);
                     }
                     result.count = filteredItems.size();

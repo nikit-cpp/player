@@ -67,6 +67,8 @@ public class PlaybackActivity extends FragmentActivity{
                 if(song.getName() != null){
                     setTitle(song.getArtist() + " - " + song.getName());
                 }
+                AudioPlayer audioPlayer = AudioPlayer.get(getApplicationContext());
+                audioPlayer.stop();
                 //((PlaybackViewPagerFragment)pagerAdapter.getRegisteredFragment(pos)).stopUpdation();
             }
 
