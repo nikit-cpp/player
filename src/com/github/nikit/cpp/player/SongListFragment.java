@@ -88,12 +88,11 @@ public class SongListFragment extends ListFragment {
         private List<Song> resultList;
         private SongFilter filter;
 
-        public SongAdapter(List<Song> resultList) {
-            super(getActivity(), 0, new ArrayList<Song>(resultList));
+        public SongAdapter(List<Song> originalList) {
+            super(getActivity(), 0, new ArrayList<Song>(originalList));
             this.resultList = new ArrayList<Song>();
-            this.resultList.addAll(resultList);
-            this.originalList = new ArrayList<Song>();
-            this.originalList.addAll(resultList);
+            this.resultList.addAll(originalList);
+            this.originalList = originalList;
         }
 
         @Override
