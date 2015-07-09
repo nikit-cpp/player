@@ -1,5 +1,6 @@
 package com.github.nikit.cpp.player;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -73,6 +74,9 @@ public class PlaybackButtonsFragment extends Fragment {
         mPlayButton = (Button)v.findViewById(R.id.playButton);
         mPlayButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Intent i = new Intent(getActivity(), PollService.class);
+                getActivity().startService(i);
+
                 mPlayer.play(mSong.getFile());
                 seekUpdation();
             }
@@ -130,9 +134,9 @@ public class PlaybackButtonsFragment extends Fragment {
     public void seekUpdation() {
         int position = mPlayer.getCurrentPosition();
         int duration = mPlayer.getDuration();
-        Log.d(PlaybackActivity.TAG, "Setting max " + duration);
+        //Log.d(PlaybackActivity.TAG, "Setting max " + duration);
         mSeekBar.setMax(duration);
-        Log.d(PlaybackActivity.TAG, "Seeking to " + position + ", PlaybackFragment address= " + toString());
+        //Log.d(PlaybackActivity.TAG, "Seeking to " + position + ", PlaybackFragment address= " + toString());
         mSeekBar.setProgress(position);
         seekHandler.postDelayed(mRunnable, 1000);
     }
