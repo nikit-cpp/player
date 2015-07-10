@@ -48,7 +48,7 @@ public class SongFabric {
                     image = id3v2.getAlbumImage();
                 }
             } catch (IOException | UnsupportedTagException | InvalidDataException e) {
-                Log.e(PlaybackActivity.TAG, "Error on get tag", e);
+                Log.e(Tags.LOG_TAG, "Error on get tag", e);
             }
             Song c = new Song();
             c.setName(name);

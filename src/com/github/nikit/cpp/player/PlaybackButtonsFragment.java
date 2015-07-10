@@ -34,10 +34,10 @@ public class PlaybackButtonsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(PlaybackActivity.TAG, "PlaybackFragment.onCreate()" + ", address= " + toString());
+        Log.d(Tags.LOG_TAG, "PlaybackFragment.onCreate()" + ", address= " + toString());
 
         Bundle arguments = getArguments();
-        UUID songId = (UUID)arguments.getSerializable(SongListFragment.SONG_ID);
+        UUID songId = (UUID)arguments.getSerializable(Tags.SONG_ID);
 
         mPlayer = AudioPlayer.get(this.getActivity());
 
@@ -63,7 +63,7 @@ public class PlaybackButtonsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        Log.d(PlaybackActivity.TAG, "PlaybackFragment.onCreateView()" + ", address= " + toString());
+        Log.d(Tags.LOG_TAG, "PlaybackFragment.onCreateView()" + ", address= " + toString());
         /**
          * Третий параметр указывает, нужно ли включать заполненное
          представление в родителя. Мы передаем false, потому что
@@ -74,7 +74,8 @@ public class PlaybackButtonsFragment extends Fragment {
         mPlayButton = (Button)v.findViewById(R.id.playButton);
         mPlayButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), PollService.class);
+                Intent i = new Intent(getActivity(), PlayerService.class);
+                i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.PLAY);
                 getActivity().startService(i);
 
                 mPlayer.play(mSong.getFile());
@@ -110,6 +111,11 @@ public class PlaybackButtonsFragment extends Fragment {
         mPauseButton = (Button) v.findViewById(R.id.pauseButton);
         mPauseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Intent i = new Intent(getActivity(), PlayerService.class);
+                i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.PAUSE);
+                getActivity().startService(i);
+
+
                 mPlayer.pause();
                 stopUpdation();
             }

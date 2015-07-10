@@ -19,13 +19,12 @@ import java.util.UUID;
 public class PlaybackActivity extends FragmentActivity{
     private ViewPager mViewPager;
     private List<Song> mSongs;
-    public static final String TAG = "NIKIT_PLAYER_TAG";
 
     Fragment buttonsFragment = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "CrimePagerActivity.onCreate()");
+        Log.d(Tags.LOG_TAG, "CrimePagerActivity.onCreate()");
         super.onCreate(savedInstanceState);
 
 
@@ -79,7 +78,7 @@ public class PlaybackActivity extends FragmentActivity{
         });
 
         // Переключаем ViewPager на текущую песню
-        UUID songId = (UUID) getIntent().getSerializableExtra(SongListFragment.SONG_ID);
+        UUID songId = (UUID) getIntent().getSerializableExtra(Tags.SONG_ID);
 
         for(int i = 0; i < mSongs.size(); ++i){
             if(mSongs.get(i).getId().equals(songId)){

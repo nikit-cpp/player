@@ -3,13 +3,10 @@ package com.github.nikit.cpp.player;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.*;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.io.ByteArrayInputStream;
@@ -30,7 +27,7 @@ public class PlaybackViewPagerFragment extends Fragment {
 
     public static PlaybackViewPagerFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
-        args.putSerializable(SongListFragment.SONG_ID, crimeId);
+        args.putSerializable(Tags.SONG_ID, crimeId);
         PlaybackViewPagerFragment fragment = new PlaybackViewPagerFragment();
         fragment.setArguments(args);
         return fragment;
@@ -39,9 +36,9 @@ public class PlaybackViewPagerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(PlaybackActivity.TAG, "PlaybackFragment.onCreate()" + ", address= " + toString());
+        Log.d(Tags.LOG_TAG, "PlaybackFragment.onCreate()" + ", address= " + toString());
 
-        UUID songId = (UUID) getArguments().getSerializable(SongListFragment.SONG_ID);
+        UUID songId = (UUID) getArguments().getSerializable(Tags.SONG_ID);
 
         mSong = SongFabric.get(getActivity()).getCurrentPlayList().getSong(songId);
         /* Вызов setRetainInstance(true) сохраняет фрагмент,
@@ -65,7 +62,7 @@ public class PlaybackViewPagerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        Log.d(PlaybackActivity.TAG, "PlaybackFragment.onCreateView()" + ", address= " + toString());
+        Log.d(Tags.LOG_TAG, "PlaybackFragment.onCreateView()" + ", address= " + toString());
         /**
          * Третий параметр указывает, нужно ли включать заполненное
          представление в родителя. Мы передаем false, потому что

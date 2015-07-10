@@ -19,13 +19,9 @@ import java.util.List;
  */
 public class SongListFragment extends ListFragment {
 
-    public static final String TAG = PlaybackActivity.TAG;
-    public static final String SONG_ID = "song_id";
-
     private List<Song> mSongs;
     private SongAdapter adapter;
 
-    private static final int REQUEST_CRIME = 1;
     private EditText incrementalSearch;
 
     /**
@@ -43,7 +39,7 @@ public class SongListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(PlaybackActivity.TAG, "SongListFragment.onCreate()");
+        Log.d(Tags.LOG_TAG, "SongListFragment.onCreate()");
 
         getActivity().setTitle(R.string.app_name);
 
@@ -55,7 +51,7 @@ public class SongListFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        Log.d(PlaybackActivity.TAG, "SongListFragment.onCreateView()");
+        Log.d(Tags.LOG_TAG, "SongListFragment.onCreateView()");
         View v = inflater.inflate(R.layout.fragment_list, null);
 
         incrementalSearch = (EditText) v.findViewById(R.id.editText);
@@ -75,10 +71,10 @@ public class SongListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Song c = ((SongAdapter)getListAdapter()).getItem(position);
-        Log.d(TAG, c.getName() + " was clicked");
+        Log.d(Tags.LOG_TAG, c.getName() + " was clicked");
         // Запуск CrimePagerActivity
         Intent i = new Intent(getActivity(), PlaybackActivity.class);
-        i.putExtra(SONG_ID, c.getId());
+        i.putExtra(Tags.SONG_ID, c.getId());
         startActivity(i);
     }
 
@@ -127,7 +123,7 @@ public class SongListFragment extends ListFragment {
         private class SongFilter extends Filter {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                Log.d(PlaybackActivity.TAG, "SongListFragment...performFiltering("+constraint+")");
+                Log.d(Tags.LOG_TAG, "SongListFragment...performFiltering("+constraint+")");
                 constraint = constraint.toString().toLowerCase();
                 FilterResults result = new FilterResults();
                 if(constraint != null && constraint.toString().length() > 0) {
@@ -177,8 +173,8 @@ public class SongListFragment extends ListFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult() requestCode="+requestCode + ", resultCode=" + resultCode);
-        if (requestCode == REQUEST_CRIME) {
+        Log.d(Tags.LOG_TAG, "onActivityResult() requestCode="+requestCode + ", resultCode=" + resultCode);
+        if (requestCode == Tags.REQUEST_SONG_LIST) {
         // Обработка результата
         }
     }
