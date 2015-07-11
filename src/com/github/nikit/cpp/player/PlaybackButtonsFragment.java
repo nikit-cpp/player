@@ -34,6 +34,12 @@ public class PlaybackButtonsFragment extends Fragment {
 
     private UUID songId;
 
+    public PlaybackButtonsFragment() {
+        super();
+        // Just to be an empty Bundle. You can use this later with getArguments().set...
+        setArguments(new Bundle());
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

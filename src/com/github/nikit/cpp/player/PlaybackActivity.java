@@ -1,5 +1,6 @@
 package com.github.nikit.cpp.player;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -37,7 +38,8 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
 
             fragmentManager.beginTransaction().add(R.id.buttonsFragmentContainer, buttonsFragment).commit();
         }
-        buttonsFragment.setArguments(getIntent().getExtras());
+        Intent start = getIntent();
+        buttonsFragment.getArguments().putSerializable(Tags.SONG_ID, start.getSerializableExtra(Tags.SONG_ID));
 
         setContentView(R.layout.activity_playback);
         mViewPager = (ViewPager) findViewById(R.id.pager00);
