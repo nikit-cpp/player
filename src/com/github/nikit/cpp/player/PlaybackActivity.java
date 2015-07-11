@@ -116,7 +116,7 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
                 setDuration(data.getInt(Tags.SONG_DURATION_KEY));
                 break;
         }
-        Log.d(Tags.LOG_TAG, "received " + resultCode);
+        //Log.d(Tags.LOG_TAG, "received " + resultCode);
     }
 
     public void setCurrentPosition(int currentPosition) {
@@ -147,7 +147,7 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
             intent.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.GET_CURRENT_INFO);
             intent.putExtra(Tags.SEEK_RECEIVER, resultReceiver);
             startService(intent);
-            Log.d(Tags.LOG_TAG, "Seek update intent sent");
+            //Log.d(Tags.LOG_TAG, "Seek update intent sent");
         }
     }
 

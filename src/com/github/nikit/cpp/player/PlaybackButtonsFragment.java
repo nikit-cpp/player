@@ -15,16 +15,15 @@ import java.util.UUID;
  * Этот фрагмент внутри ViewPager'а
  */
 public class PlaybackButtonsFragment extends Fragment {
-//    private Song mSong;
 
-    //private AudioPlayer mPlayer;
     private Button mPlayButton;
     private Button mStopButton;
     private SeekBar mSeekBar;
     private Button mPauseButton;
     private UUID songId;
 
-    private Handler seekHandler = new Handler();
+    public static final int MILISECONDS_UPDATE_INTERVAL = 200;
+    private static Handler seekHandler = new Handler();
     private Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
@@ -87,8 +86,6 @@ public class PlaybackButtonsFragment extends Fragment {
                 i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.PLAY);
                 i.putExtra(Tags.SONG_ID, songId);
                 getActivity().startService(i);
-
-                seekUpdation();
             }
         });
 
@@ -98,7 +95,7 @@ public class PlaybackButtonsFragment extends Fragment {
                 Intent i = new Intent(getActivity(), PlayerService.class);
                 i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.STOP);
                 getActivity().startService(i);
-                stopUpdation();
+                //stopUpdation();
             }
         });
 
@@ -113,10 +110,12 @@ public class PlaybackButtonsFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if( fromUser){
+                    stopUpdation();
                     Intent i = new Intent(getActivity(), PlayerService.class);
                     i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.SEEK);
                     i.putExtra(Tags.SONG_SEEK_TO_POSITION, progress);
                     getActivity().startService(i);
+                    seekUpdation();
                 }
             }
         });
@@ -127,13 +126,24 @@ public class PlaybackButtonsFragment extends Fragment {
                 Intent i = new Intent(getActivity(), PlayerService.class);
                 i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.PAUSE);
                 getActivity().startService(i);
-                stopUpdation();
+                //stopUpdation();
             }
         });
 
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        seekUpdation();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopUpdation();
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -143,16 +153,14 @@ public class PlaybackButtonsFragment extends Fragment {
 
     public void seekUpdation() {
         PlaybackActivity playbackActivity = (PlaybackActivity) getActivity();
-
-        if(null!=playbackActivity) {
+        if (null!=playbackActivity) {
             playbackActivity.updateSeek();
             int position = playbackActivity.getCurrentPosition();
             int duration = playbackActivity.getDuration();
-            //Log.d(PlaybackActivity.TAG, "Setting max " + duration);
             mSeekBar.setMax(duration);
-            Log.d(Tags.LOG_TAG, "Seeking to " + position +"/"+ duration + ", PlaybackFragment address= " + toString());
+            Log.d(Tags.LOG_TAG, "Seeking to " + position + "/" + duration + ", PlaybackFragment address= " + toString());
             mSeekBar.setProgress(position);
-            seekHandler.postDelayed(mRunnable, 1000);
+            seekHandler.postDelayed(mRunnable, MILISECONDS_UPDATE_INTERVAL);
         }
     }
 

@@ -45,8 +45,6 @@ public class PlayerService extends IntentService {
             case STOP:
                 stop();
                 break;
-            case SEEK:
-                break;
             case SET_SONG:
                 break;
             case GET_CURRENT_INFO:
@@ -56,19 +54,23 @@ public class PlayerService extends IntentService {
                 bundle.putInt(Tags.SONG_DURATION_KEY, getDuration());
                 receiver.send(Tags.SONG_CURRENT_INFO_CODE, bundle);
                 break;
+            case SEEK:
+                seekTo(intent.getIntExtra(Tags.SONG_SEEK_TO_POSITION, 0));
+            default:
+                Log.e(Tags.LOG_TAG, "Forgotten action " + action);
         }
 
         Log.i(Tags.LOG_TAG, "Received an intent: " + action);
     }
 
     private int getCurrentPosition() {
-        if(state == State.NOT_INITIALIZED)
+        if(state == State.NOT_INITIALIZED || state == State.STOPPED)
             return Tags.SONG_NOT_INITIALIZED;
         return mPlayer.getCurrentPosition();
     }
 
     private int getDuration() {
-        if(state == State.NOT_INITIALIZED)
+        if(state == State.NOT_INITIALIZED || state == State.STOPPED)
             return Tags.SONG_NOT_INITIALIZED;
         return mPlayer.getDuration();
     }
@@ -82,7 +84,6 @@ public class PlayerService extends IntentService {
         SEEK,
         SET_SONG,
         GET_CURRENT_INFO,
-        GET_DURATION
     }
 
     public static enum State {
@@ -141,8 +142,11 @@ public class PlayerService extends IntentService {
     }
 
     public void seekTo(int progress) {
-        if (mPlayer != null)
-            mPlayer.seekTo(progress);
+        switch (state){
+            case PLAYING:
+            case PAUSED:
+                mPlayer.seekTo(progress);
+        }
     }
 
     public void next() {
