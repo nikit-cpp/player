@@ -21,11 +21,10 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
     private ViewPager mViewPager;
     private List<Song> mSongs;
 
-    Fragment buttonsFragment = null;
+    private Fragment buttonsFragment = null;
     private int currentPosition;
     private int duration;
     private SeekReceiver resultReceiver = null;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,9 +71,6 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
                 if(song.getName() != null){
                     setTitle(song.getArtist() + " - " + song.getName());
                 }
-                //AudioPlayer audioPlayer = AudioPlayer.get(getApplicationContext());
-                //audioPlayer.stop();
-                //((PlaybackViewPagerFragment)pagerAdapter.getRegisteredFragment(pos)).stopUpdation();
             }
 
             @Override

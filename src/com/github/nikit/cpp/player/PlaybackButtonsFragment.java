@@ -46,10 +46,6 @@ public class PlaybackButtonsFragment extends Fragment {
         Bundle arguments = getArguments();
         songId = (UUID)arguments.getSerializable(Tags.SONG_ID);
 
-        //mPlayer = AudioPlayer.get(this.getActivity());
-
-        //mSong = SongFabric.get(getActivity()).getCurrentPlayList().getSong(songId);
-
         /* Вызов setRetainInstance(true) сохраняет фрагмент,
         который не уничтожается вместе с активностью, а передается новой активности
         в неизменном виде.
@@ -95,7 +91,6 @@ public class PlaybackButtonsFragment extends Fragment {
                 Intent i = new Intent(getActivity(), PlayerService.class);
                 i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.STOP);
                 getActivity().startService(i);
-                //stopUpdation();
             }
         });
 
@@ -126,7 +121,6 @@ public class PlaybackButtonsFragment extends Fragment {
                 Intent i = new Intent(getActivity(), PlayerService.class);
                 i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.PAUSE);
                 getActivity().startService(i);
-                //stopUpdation();
             }
         });
 
