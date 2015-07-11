@@ -148,16 +148,22 @@ public class PlaybackButtonsFragment extends Fragment {
     public void seekUpdation() {
         PlaybackActivity playbackActivity = (PlaybackActivity) getActivity();
 
-        Intent intent = new Intent();
-        intent.putExtra(Tags.SEEK_RECEIVER, playbackActivity.getReceiver());
+        if (null != playbackActivity) {
+            SeekReceiver seekReceiver = playbackActivity.getReceiver();
+            if (null != seekReceiver) {
+                Intent intent = new Intent();
 
-        int position = playbackActivity.getCurrentPosition();
-        int duration = playbackActivity.getDuration();
-        //Log.d(PlaybackActivity.TAG, "Setting max " + duration);
-        mSeekBar.setMax(duration);
-        Log.d(Tags.LOG_TAG, "Seeking to " + position + ", PlaybackFragment address= " + toString());
-        mSeekBar.setProgress(position);
-        seekHandler.postDelayed(mRunnable, 1000);
+                intent.putExtra(Tags.SEEK_RECEIVER, seekReceiver);
+
+                int position = playbackActivity.getCurrentPosition();
+                int duration = playbackActivity.getDuration();
+                //Log.d(PlaybackActivity.TAG, "Setting max " + duration);
+                mSeekBar.setMax(duration);
+                Log.d(Tags.LOG_TAG, "Seeking to " + position + ", PlaybackFragment address= " + toString());
+                mSeekBar.setProgress(position);
+                seekHandler.postDelayed(mRunnable, 1000);
+            }
+        }
     }
 
     ResultReceiver resultReceiver = null;
