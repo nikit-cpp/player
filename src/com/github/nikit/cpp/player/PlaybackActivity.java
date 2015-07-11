@@ -1,6 +1,7 @@
 package com.github.nikit.cpp.player;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -9,18 +10,19 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.ViewGroup;
-
 import java.util.List;
 import java.util.UUID;
 
 /**
  * Created by nik on 11.02.15.
  */
-public class PlaybackActivity extends FragmentActivity{
+public class PlaybackActivity extends FragmentActivity implements SeekReceiver.Receiver{
     private ViewPager mViewPager;
     private List<Song> mSongs;
 
     Fragment buttonsFragment = null;
+    private int currentPosition;
+    private int duration;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,8 +68,8 @@ public class PlaybackActivity extends FragmentActivity{
                 if(song.getName() != null){
                     setTitle(song.getArtist() + " - " + song.getName());
                 }
-                AudioPlayer audioPlayer = AudioPlayer.get(getApplicationContext());
-                audioPlayer.stop();
+                //AudioPlayer audioPlayer = AudioPlayer.get(getApplicationContext());
+                //audioPlayer.stop();
                 //((PlaybackViewPagerFragment)pagerAdapter.getRegisteredFragment(pos)).stopUpdation();
             }
 
@@ -86,6 +88,53 @@ public class PlaybackActivity extends FragmentActivity{
                 break;
             }
         }
+    }
+
+    SeekReceiver resultReceiver = null;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        resultReceiver.setReceiver(null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        resultReceiver = new SeekReceiver(new Handler());
+        resultReceiver.setReceiver(this);
+    }
+
+    @Override
+    public void onReceiveResult(int resultCode, Bundle data) {
+        switch (resultCode) {
+            case Tags.SONG_CURRENT_POSITION:
+                setCurrentPosition(data.getInt(Tags.SONG_CURRENT_POSITION_KEY));
+                break;
+            case Tags.SONG_DURATION:
+                setDuration(data.getInt(Tags.SONG_DURATION_KEY));
+                break;
+        }
+    }
+
+    public void setCurrentPosition(int currentPosition) {
+        this.currentPosition = currentPosition;
+    }
+
+    public int getCurrentPosition() {
+        return currentPosition;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public SeekReceiver getReceiver() {
+        return resultReceiver;
     }
 }
 

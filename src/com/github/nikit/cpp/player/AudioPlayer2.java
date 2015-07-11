@@ -11,25 +11,25 @@ import java.io.IOException;
 /**
  * Created by nik on 15.02.15.
  */
-public class AudioPlayer {
+public class AudioPlayer2 {
 
     private MediaPlayer mPlayer;
 
-    static private AudioPlayer mAudioPlayer;
+    static private AudioPlayer2 mAudioPlayer;
     private Context mAppContext;
 
     boolean isPaused = false;
 
-    private AudioPlayer(){
+    private AudioPlayer2(){
     }
 
-    private AudioPlayer(Context c){
+    private AudioPlayer2(Context c){
         mAppContext = c;
     }
 
-    public static AudioPlayer get(Context c) {
+    public static AudioPlayer2 get(Context c) {
         if (mAudioPlayer == null) {
-            mAudioPlayer = new AudioPlayer(c.getApplicationContext());
+            mAudioPlayer = new AudioPlayer2(c.getApplicationContext());
         }
         return mAudioPlayer;
     }

@@ -3,6 +3,7 @@ package com.github.nikit.cpp.player;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.ResultReceiver;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.*;
@@ -15,9 +16,9 @@ import java.util.UUID;
  * Этот фрагмент внутри ViewPager'а
  */
 public class PlaybackButtonsFragment extends Fragment {
-    private Song mSong;
+//    private Song mSong;
 
-    private AudioPlayer mPlayer;
+    //private AudioPlayer mPlayer;
     private Button mPlayButton;
     private Button mStopButton;
     private SeekBar mSeekBar;
@@ -31,17 +32,20 @@ public class PlaybackButtonsFragment extends Fragment {
         }
     };
 
+    private UUID songId;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(Tags.LOG_TAG, "PlaybackFragment.onCreate()" + ", address= " + toString());
 
         Bundle arguments = getArguments();
-        UUID songId = (UUID)arguments.getSerializable(Tags.SONG_ID);
+        songId = (UUID)arguments.getSerializable(Tags.SONG_ID);
 
-        mPlayer = AudioPlayer.get(this.getActivity());
+        //mPlayer = AudioPlayer.get(this.getActivity());
 
-        mSong = SongFabric.get(getActivity()).getCurrentPlayList().getSong(songId);
+        //mSong = SongFabric.get(getActivity()).getCurrentPlayList().getSong(songId);
+
         /* Вызов setRetainInstance(true) сохраняет фрагмент,
         который не уничтожается вместе с активностью, а передается новой активности
         в неизменном виде.
@@ -76,9 +80,10 @@ public class PlaybackButtonsFragment extends Fragment {
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), PlayerService.class);
                 i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.PLAY);
+                i.putExtra(Tags.SONG_ID, songId);
                 getActivity().startService(i);
 
-                mPlayer.play(mSong.getFile());
+                //mPlayer.play(mSong.getFile());
                 seekUpdation();
             }
         });
@@ -86,13 +91,17 @@ public class PlaybackButtonsFragment extends Fragment {
         mStopButton = (Button)v.findViewById(R.id.stopButton);
         mStopButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mPlayer.stop();
+                //mPlayer.stop();
+                Intent i = new Intent(getActivity(), PlayerService.class);
+                i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.STOP);
+                getActivity().startService(i);
+
                 stopUpdation();
             }
         });
 
         mSeekBar = (SeekBar) v.findViewById(R.id.playbackSeekBar);
-        seekUpdation();
+             //seekUpdation(); // НАХУЯ ??
 
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -102,8 +111,13 @@ public class PlaybackButtonsFragment extends Fragment {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(mPlayer != null && fromUser){
-                    mPlayer.seekTo(progress);
+                if( fromUser){
+                    //mPlayer.seekTo(progress);
+                    Intent i = new Intent(getActivity(), PlayerService.class);
+                    i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.SEEK);
+                    i.putExtra(Tags.SONG_SEEK_TO_POSITION, progress);
+                    getActivity().startService(i);
+
                 }
             }
         });
@@ -115,20 +129,13 @@ public class PlaybackButtonsFragment extends Fragment {
                 i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.PAUSE);
                 getActivity().startService(i);
 
-
-                mPlayer.pause();
+                //mPlayer.pause();
                 stopUpdation();
             }
         });
 
         return v;
     }
-
-    /**
-     * В PlaybackFragment.onDestroy() освобождается экземпляр Media-
-     Player, что приводит к остановке воспроизведения.
-
-     */
 
 
     @Override
@@ -137,15 +144,25 @@ public class PlaybackButtonsFragment extends Fragment {
         inflater.inflate(R.menu.fragment_playback, menu);
     }
 
+
     public void seekUpdation() {
-        int position = mPlayer.getCurrentPosition();
-        int duration = mPlayer.getDuration();
+        PlaybackActivity playbackActivity = (PlaybackActivity) getActivity();
+
+        Intent intent = new Intent();
+        intent.putExtra(Tags.SEEK_RECEIVER, playbackActivity.getReceiver());
+
+        int position = playbackActivity.getCurrentPosition();
+        int duration = playbackActivity.getDuration();
         //Log.d(PlaybackActivity.TAG, "Setting max " + duration);
         mSeekBar.setMax(duration);
-        //Log.d(PlaybackActivity.TAG, "Seeking to " + position + ", PlaybackFragment address= " + toString());
+        Log.d(Tags.LOG_TAG, "Seeking to " + position + ", PlaybackFragment address= " + toString());
         mSeekBar.setProgress(position);
         seekHandler.postDelayed(mRunnable, 1000);
     }
+
+    ResultReceiver resultReceiver = null;
+
+
 
     public void stopUpdation() {
         seekHandler.removeCallbacksAndMessages(null);
