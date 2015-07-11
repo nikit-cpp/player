@@ -24,6 +24,8 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
     Fragment buttonsFragment = null;
     private int currentPosition;
     private int duration;
+    private SeekReceiver resultReceiver = null;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,7 +94,6 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
         }
     }
 
-    SeekReceiver resultReceiver = null;
 
     @Override
     protected void onPause() {
@@ -110,13 +111,12 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
     @Override
     public void onReceiveResult(int resultCode, Bundle data) {
         switch (resultCode) {
-            case Tags.SONG_CURRENT_POSITION:
+            case Tags.SONG_CURRENT_INFO_CODE:
                 setCurrentPosition(data.getInt(Tags.SONG_CURRENT_POSITION_KEY));
-                break;
-            case Tags.SONG_DURATION:
                 setDuration(data.getInt(Tags.SONG_DURATION_KEY));
                 break;
         }
+        Log.d(Tags.LOG_TAG, "received " + resultCode);
     }
 
     public void setCurrentPosition(int currentPosition) {
@@ -138,6 +138,19 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
     public SeekReceiver getReceiver() {
         return resultReceiver;
     }
+
+    public void updateSeek() {
+
+        if (null != resultReceiver) {
+            Intent intent = new Intent(this, PlayerService.class);
+
+            intent.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.GET_CURRENT_INFO);
+            intent.putExtra(Tags.SEEK_RECEIVER, resultReceiver);
+            startService(intent);
+            Log.d(Tags.LOG_TAG, "Seek update intent sent");
+        }
+    }
+
 }
 
 class MyPagerAdapter extends FragmentStatePagerAdapter {

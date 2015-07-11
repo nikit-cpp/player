@@ -3,7 +3,6 @@ package com.github.nikit.cpp.player;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.ResultReceiver;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.*;
@@ -23,6 +22,7 @@ public class PlaybackButtonsFragment extends Fragment {
     private Button mStopButton;
     private SeekBar mSeekBar;
     private Button mPauseButton;
+    private UUID songId;
 
     private Handler seekHandler = new Handler();
     private Runnable mRunnable = new Runnable() {
@@ -32,7 +32,6 @@ public class PlaybackButtonsFragment extends Fragment {
         }
     };
 
-    private UUID songId;
 
     public PlaybackButtonsFragment() {
         super();
@@ -89,7 +88,6 @@ public class PlaybackButtonsFragment extends Fragment {
                 i.putExtra(Tags.SONG_ID, songId);
                 getActivity().startService(i);
 
-                //mPlayer.play(mSong.getFile());
                 seekUpdation();
             }
         });
@@ -97,17 +95,14 @@ public class PlaybackButtonsFragment extends Fragment {
         mStopButton = (Button)v.findViewById(R.id.stopButton);
         mStopButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //mPlayer.stop();
                 Intent i = new Intent(getActivity(), PlayerService.class);
                 i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.STOP);
                 getActivity().startService(i);
-
                 stopUpdation();
             }
         });
 
         mSeekBar = (SeekBar) v.findViewById(R.id.playbackSeekBar);
-             //seekUpdation(); // НАХУЯ ??
 
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -118,12 +113,10 @@ public class PlaybackButtonsFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if( fromUser){
-                    //mPlayer.seekTo(progress);
                     Intent i = new Intent(getActivity(), PlayerService.class);
                     i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.SEEK);
                     i.putExtra(Tags.SONG_SEEK_TO_POSITION, progress);
                     getActivity().startService(i);
-
                 }
             }
         });
@@ -134,8 +127,6 @@ public class PlaybackButtonsFragment extends Fragment {
                 Intent i = new Intent(getActivity(), PlayerService.class);
                 i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.PAUSE);
                 getActivity().startService(i);
-
-                //mPlayer.pause();
                 stopUpdation();
             }
         });
@@ -150,31 +141,20 @@ public class PlaybackButtonsFragment extends Fragment {
         inflater.inflate(R.menu.fragment_playback, menu);
     }
 
-
     public void seekUpdation() {
         PlaybackActivity playbackActivity = (PlaybackActivity) getActivity();
 
-        if (null != playbackActivity) {
-            SeekReceiver seekReceiver = playbackActivity.getReceiver();
-            if (null != seekReceiver) {
-                Intent intent = new Intent();
-
-                intent.putExtra(Tags.SEEK_RECEIVER, seekReceiver);
-
-                int position = playbackActivity.getCurrentPosition();
-                int duration = playbackActivity.getDuration();
-                //Log.d(PlaybackActivity.TAG, "Setting max " + duration);
-                mSeekBar.setMax(duration);
-                Log.d(Tags.LOG_TAG, "Seeking to " + position + ", PlaybackFragment address= " + toString());
-                mSeekBar.setProgress(position);
-                seekHandler.postDelayed(mRunnable, 1000);
-            }
+        if(null!=playbackActivity) {
+            playbackActivity.updateSeek();
+            int position = playbackActivity.getCurrentPosition();
+            int duration = playbackActivity.getDuration();
+            //Log.d(PlaybackActivity.TAG, "Setting max " + duration);
+            mSeekBar.setMax(duration);
+            Log.d(Tags.LOG_TAG, "Seeking to " + position +"/"+ duration + ", PlaybackFragment address= " + toString());
+            mSeekBar.setProgress(position);
+            seekHandler.postDelayed(mRunnable, 1000);
         }
     }
-
-    ResultReceiver resultReceiver = null;
-
-
 
     public void stopUpdation() {
         seekHandler.removeCallbacksAndMessages(null);

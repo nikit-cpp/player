@@ -49,17 +49,12 @@ public class PlayerService extends IntentService {
                 break;
             case SET_SONG:
                 break;
-            case GET_CURRENT_POSITION:
+            case GET_CURRENT_INFO:
                 ResultReceiver receiver = intent.getParcelableExtra(Tags.SEEK_RECEIVER);
                 Bundle bundle = new Bundle();
                 bundle.putInt(Tags.SONG_CURRENT_POSITION_KEY, getCurrentPosition());
-                receiver.send(Tags.SONG_CURRENT_POSITION, bundle);
-                break;
-            case GET_DURATION:
-                ResultReceiver receiver2 = intent.getParcelableExtra(Tags.SEEK_RECEIVER);
-                Bundle bundle2 = new Bundle();
-                bundle2.putInt(Tags.SONG_DURATION_KEY, getDuration());
-                receiver2.send(Tags.SONG_DURATION, bundle2);
+                bundle.putInt(Tags.SONG_DURATION_KEY, getDuration());
+                receiver.send(Tags.SONG_CURRENT_INFO_CODE, bundle);
                 break;
         }
 
@@ -86,7 +81,7 @@ public class PlayerService extends IntentService {
         STOP,
         SEEK,
         SET_SONG,
-        GET_CURRENT_POSITION,
+        GET_CURRENT_INFO,
         GET_DURATION
     }
 
