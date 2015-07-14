@@ -16,4 +16,5 @@ public class Tags {
     public static final String SONG_CURRENT_POSITION_KEY = "curentPos";
     public static final String SONG_DURATION_KEY = "duration";
     public static final int SONG_NOT_INITIALIZED = -1;
+    public static final String SET_PLAYLIST = "setPlaylist";
 }

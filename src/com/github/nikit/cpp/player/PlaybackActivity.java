@@ -36,7 +36,6 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
         buttonsFragment = fragmentManager.findFragmentById(R.id.buttonsFragmentContainer);
         if (null == buttonsFragment) {
             buttonsFragment = new PlaybackButtonsFragment();
-
             fragmentManager.beginTransaction().add(R.id.buttonsFragmentContainer, buttonsFragment).commit();
         }
         Intent start = getIntent();
@@ -45,9 +44,8 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
         setContentView(R.layout.activity_playback);
         mViewPager = (ViewPager) findViewById(R.id.pager00);
 
-
-
-        mSongs = SongFabric.get(this).getCurrentPlayList().getSongs();
+        // TODO должны быть инициализированы перез этим вызовом
+        mSongs = PlayerService.getCurrentPlaylist();
 
         FragmentManager fm = getSupportFragmentManager();
         final MyPagerAdapter pagerAdapter = new MyPagerAdapter(fm, mSongs);

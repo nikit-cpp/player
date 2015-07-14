@@ -24,18 +24,6 @@ public class SongListFragment extends ListFragment {
 
     private EditText incrementalSearch;
 
-    /**
-     * Мы не будем переопределять onCreateView(...) или заполнять макет CrimeList-
-     Fragment.
-
-     Реализация ListFragment по умолчанию заполняет макет, определяю-
-     щий полноэкранный виджет ListView; пока мы будем использовать этот макет.
-
-     В следующих главах мы переопределим CrimeListFragment.onCreateView(...) для
-     расширения функциональности приложения.
-
-     * @param savedInstanceState
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,14 +31,13 @@ public class SongListFragment extends ListFragment {
 
         getActivity().setTitle(R.string.app_name);
 
-        mSongs = SongFabric.get(getActivity()).getCurrentPlayList().getSongs();
+        mSongs = PlayerService.getCurrentPlaylist();
         adapter = new SongAdapter(mSongs);
         setListAdapter(adapter);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         Log.d(Tags.LOG_TAG, "SongListFragment.onCreateView()");
         View v = inflater.inflate(R.layout.fragment_list, null);
 
@@ -108,12 +95,10 @@ public class SongListFragment extends ListFragment {
 
             // Настройка представления для объекта Song
             Song c = getItem(position);
-            TextView nameTextView =
-                    (TextView)convertView.findViewById(R.id.song_list_item_nameTextView);
+            TextView nameTextView = (TextView)convertView.findViewById(R.id.song_list_item_nameTextView);
             nameTextView.setText(c.getName());
 
-            TextView artistTextView =
-                    (TextView)convertView.findViewById(R.id.song_list_item_artistTextView);
+            TextView artistTextView = (TextView)convertView.findViewById(R.id.song_list_item_artistTextView);
             artistTextView.setText(c.getArtist());
 
             return convertView;

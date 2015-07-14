@@ -9,6 +9,7 @@ import android.os.ResultReceiver;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -22,8 +23,7 @@ public class PlayerService extends IntentService {
     private static State state = State.NOT_INITIALIZED;
 
     private static MediaPlayer mPlayer;
-    private static Song mSong;
-
+    private static List<Song> currentPlaylist;
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -45,8 +45,6 @@ public class PlayerService extends IntentService {
             case STOP:
                 stop();
                 break;
-            case SET_SONG:
-                break;
             case GET_CURRENT_INFO:
                 ResultReceiver receiver = intent.getParcelableExtra(Tags.SEEK_RECEIVER);
                 Bundle bundle = new Bundle();
@@ -56,6 +54,13 @@ public class PlayerService extends IntentService {
                 break;
             case SEEK:
                 seekTo(intent.getIntExtra(Tags.SONG_SEEK_TO_POSITION, 0));
+                break;
+            case SET_PLAYLIST:
+                stop();
+                currentPlaylist = (List<Song>) intent.getSerializableExtra(Tags.SET_PLAYLIST);
+                break;
+            case SET_SONG: // пока не нужно ибо есть play(UUID songUuid)
+                break;
             default:
                 Log.e(Tags.LOG_TAG, "Forgotten action " + action);
         }
@@ -75,6 +80,7 @@ public class PlayerService extends IntentService {
         return mPlayer.getDuration();
     }
 
+
     public static enum Action {
         PLAY,
         PAUSE,
@@ -84,6 +90,7 @@ public class PlayerService extends IntentService {
         SEEK,
         SET_SONG,
         GET_CURRENT_INFO,
+        SET_PLAYLIST
     }
 
     public static enum State {
@@ -123,7 +130,8 @@ public class PlayerService extends IntentService {
                         }
                     });
                 case STOPPED:
-                    mPlayer.setDataSource(SongFabric.get(null).getCurrentPlayList().getSong(songUuid).getFile().getAbsolutePath());// TODO FIXME
+                    Song song = getSong(songUuid);
+                    mPlayer.setDataSource(song.getFile().getAbsolutePath());
                     mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                     mPlayer.prepare();
                     mPlayer.start();
@@ -155,4 +163,24 @@ public class PlayerService extends IntentService {
 
     public void prev() {
     }
+
+    public static  List<Song> getCurrentPlaylist() {
+        return currentPlaylist;
+    }
+
+    public static Song getSong(UUID songUuid) {
+        Song song = null;
+        for (Song s: currentPlaylist) {
+            if (s.id.equals(songUuid)) {
+                song = s;
+                break;
+            }
+        }
+        if (null == song) {
+            Log.e(Tags.LOG_TAG, "Song not found with uuid " + songUuid);
+        }
+
+        return song;
+    }
+
 }
