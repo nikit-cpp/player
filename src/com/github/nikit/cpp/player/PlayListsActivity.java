@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
+ * Активность, содпржащая список плейлистов
  * Created by nik on 14.07.15.
  */
 public class PlayListsActivity extends Activity {
