@@ -11,6 +11,6 @@ public class PlayListsActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activiry_playlists);
+        setContentView(R.layout.activity_playlists);
     }
 }

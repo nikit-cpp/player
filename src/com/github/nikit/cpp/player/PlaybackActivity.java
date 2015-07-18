@@ -48,7 +48,7 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
         mSongs = PlayerService.getCurrentPlaylist();
 
         FragmentManager fm = getSupportFragmentManager();
-        final MyPagerAdapter pagerAdapter = new MyPagerAdapter(fm, mSongs);
+        final PlaybackPagerAdapter pagerAdapter = new PlaybackPagerAdapter(fm, mSongs);
         mViewPager.setAdapter(pagerAdapter);
 
         /**
@@ -147,10 +147,10 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
 
 }
 
-class MyPagerAdapter extends FragmentStatePagerAdapter {
+class PlaybackPagerAdapter extends FragmentStatePagerAdapter {
     SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
     List<Song> songs;
-    public MyPagerAdapter(FragmentManager fm, List<Song> songs) {
+    public PlaybackPagerAdapter(FragmentManager fm, List<Song> songs) {
         super(fm);
         this.songs = songs;
     }

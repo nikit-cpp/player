@@ -11,13 +11,13 @@ import java.util.List;
  * Генерирует плейлист из чего-либо
  * Created by nik on 13.02.15.
  */
-public class PlayListFabric {
+public class PlayListFabrics {
     /**
      * Генерирует плейлист из папки.
      * Будет вызываться менеджером плейлистов
      * @return
      */
-    public static List<Song> getPlaylistFromDirectory(File dir){
+    public static PlayList getPlaylistFromDirectory(File dir){
         ArrayList<Song> mSongs = new ArrayList<Song>();
 
         for (File f : dir.listFiles()) {
@@ -47,6 +47,8 @@ public class PlayListFabric {
             c.setImage(image);
             mSongs.add(c);
         }
-        return mSongs;
+        PlayList playList = new PlayList(mSongs);
+        playList.setName(dir.getAbsolutePath());
+        return playList;
     }
 }

@@ -5,9 +5,11 @@ package com.github.nikit.cpp.player;
  */
 public class Tags {
     public static final String LOG_TAG = "NIKIT_PLAYER_TAG";
-
+    public static final String PLAYLIST_ID = "playlist_id";
     public static final String SONG_ID = "song_id";
     public static final String PLAYER_SERVICE_NAME = "PlayerService";
+    public static final int PLAY_LIST_NOT_EXIST = -1;
+    public static final int REQUEST_PLAY_LIST = 1;
     public static final int REQUEST_SONG_LIST = 2;
     public static final String PLAYER_SERVICE_ACTION = "playerServiceAction";
     public static final String SONG_SEEK_TO_POSITION = "songSeekToPos";

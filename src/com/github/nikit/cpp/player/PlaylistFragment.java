@@ -10,42 +10,37 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.EditText;
+import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by nik on 07.02.15.
  */
-public class SongListFragment extends ListFragment {
+public class PlaylistFragment extends ListFragment {
 
-    private List<Song> mSongs;
-    private SongAdapter adapter;
-    private PlayList mPlayList;
+    private List<PlayList> mPlaylists;
+    private PlaylistAdapter adapter;
 
     private EditText incrementalSearch;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(Tags.LOG_TAG, "SongListFragment.onCreate()");
+        Log.d(Tags.LOG_TAG, "PlaylistFragment.onCreate()");
 
         Activity activity = getActivity();
-        activity.setTitle(R.string.app_name);
-        int plailistId = getActivity().getIntent().getIntExtra(Tags.PLAYLIST_ID, Tags.PLAY_LIST_NOT_EXIST);
+        activity.setTitle("playlists");
 
-        if(plailistId != Tags.PLAY_LIST_NOT_EXIST) {
-            mPlayList = PlayListManager.getPlaylists().get(plailistId);
-            mSongs = mPlayList.getSongs();
-            adapter = new SongAdapter(activity, mSongs);
-            setListAdapter(adapter);
-        }
+        mPlaylists = PlayListManager.getPlaylists();
+        adapter = new PlaylistAdapter(activity, mPlaylists);
+        setListAdapter(adapter);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        Log.d(Tags.LOG_TAG, "SongListFragment.onCreateView()");
+        Log.d(Tags.LOG_TAG, "PlaylistFragment.onCreateView()");
         View v = inflater.inflate(R.layout.fragment_list, null);
 
         incrementalSearch = (EditText) v.findViewById(R.id.editText);
@@ -55,7 +50,7 @@ public class SongListFragment extends ListFragment {
             public void beforeTextChanged(CharSequence cs, int start, int count, int after) {
             }
             public void onTextChanged(CharSequence cs, int start, int before, int count) {
-                SongListFragment.this.adapter
+                PlaylistFragment.this.adapter
                         .getFilter().filter(cs);
             }
         });
@@ -64,11 +59,12 @@ public class SongListFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Song c = ((SongAdapter)getListAdapter()).getItem(position);
-        Log.d(Tags.LOG_TAG, c.getName() + " was clicked");
+        PlayList c = ((PlaylistAdapter)getListAdapter()).getItem(position);
+        Log.d("PlayList " + Tags.LOG_TAG, c.getName() + " was clicked");
         // Запуск Activity
-        Intent i = new Intent(getActivity(), PlaybackActivity.class);
-        i.putExtra(Tags.SONG_ID, c.getId());
+        Intent i = new Intent(getActivity(), SongListActivity.class);
+
+        i.putExtra(Tags.PLAYLIST_ID, position); // передаём номер плейлиста
         startActivity(i);
     }
 
@@ -78,14 +74,14 @@ public class SongListFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((SongAdapter)getListAdapter()).notifyDataSetChanged();
+        ((PlaylistAdapter)getListAdapter()).notifyDataSetChanged();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(Tags.LOG_TAG, "onActivityResult() requestCode="+requestCode + ", resultCode=" + resultCode);
-        if (requestCode == Tags.REQUEST_SONG_LIST) {
-        // Обработка результата
+        if (requestCode == Tags.REQUEST_PLAY_LIST) {
+        // Обработка результата, который может вернуть запускаемая активити
         }
     }
 

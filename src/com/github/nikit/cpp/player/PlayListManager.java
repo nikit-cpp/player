@@ -5,18 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Владеет списком плейлистов
+ * Всегда владеет списком плейлистов
  * для начала будет возвращать встроенные плейлисты
  * 1 из папки и 1 из вконтача
  * Created by nik on 14.07.15.
  */
 public class PlayListManager {
-    public static List<List<Song>> getPlaylists() {
-        List<List<Song>> output = new ArrayList<>();
+    public static List<PlayList> getPlaylists() {
+        List<PlayList> output = new ArrayList<>();
 
         // добавляем первый дефолтный плейлист
-        output.add(PlayListFabric.getPlaylistFromDirectory(new File("/sdcard/Sounds/Digital2")));
+        output.add(PlayListFabrics.getPlaylistFromDirectory(new File("/sdcard/Sounds/Digital2")));
 
-        return  output;
+        return output;
     }
 }
