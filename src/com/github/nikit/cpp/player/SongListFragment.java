@@ -1,5 +1,6 @@
 package com.github.nikit.cpp.player;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -29,10 +30,11 @@ public class SongListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         Log.d(Tags.LOG_TAG, "SongListFragment.onCreate()");
 
-        getActivity().setTitle(R.string.app_name);
+        Activity activity = getActivity();
+        activity.setTitle(R.string.app_name);
 
         mSongs = PlayerService.getCurrentPlaylist();
-        adapter = new SongAdapter(getActivity(), mSongs);
+        adapter = new SongAdapter(activity, mSongs);
         setListAdapter(adapter);
     }
 

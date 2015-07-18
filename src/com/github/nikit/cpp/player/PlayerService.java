@@ -9,6 +9,7 @@ import android.os.ResultReceiver;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class PlayerService extends IntentService {
     private static State state = State.NOT_INITIALIZED;
 
     private static MediaPlayer mPlayer;
-    private static List<Song> currentPlaylist;
+    private static List<Song> currentPlaylist = new ArrayList<>();
 
     @Override
     protected void onHandleIntent(Intent intent) {
