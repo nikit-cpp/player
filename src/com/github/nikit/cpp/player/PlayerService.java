@@ -168,7 +168,7 @@ public class PlayerService extends IntentService {
     public void prev() {
     }
 
-    public static  List<Song> getCurrentPlaylist() {
+    public static List<Song> getCurrentPlaylist() {
         return currentPlaylist;
     }
 

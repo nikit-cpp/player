@@ -43,7 +43,7 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
 
         setContentView(R.layout.activity_playback);
         mViewPager = (ViewPager) findViewById(R.id.pager00);
-
+// TODO сервис ещё не стартанул
         mSongs = PlayerService.getCurrentPlaylist();
 
         FragmentManager fm = getSupportFragmentManager();
