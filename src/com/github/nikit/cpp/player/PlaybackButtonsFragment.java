@@ -41,10 +41,10 @@ public class PlaybackButtonsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(Tags.LOG_TAG, "PlaybackFragment.onCreate()" + ", address= " + toString());
+        Log.d(Constants.LOG_TAG, "PlaybackFragment.onCreate()" + ", address= " + toString());
 
         Bundle arguments = getArguments();
-        songId = (UUID)arguments.getSerializable(Tags.SONG_ID);
+        songId = (UUID)arguments.getSerializable(Constants.SONG_ID);
 
         /* Вызов setRetainInstance(true) сохраняет фрагмент,
         который не уничтожается вместе с активностью, а передается новой активности
@@ -67,7 +67,7 @@ public class PlaybackButtonsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        Log.d(Tags.LOG_TAG, "PlaybackFragment.onCreateView()" + ", address= " + toString());
+        Log.d(Constants.LOG_TAG, "PlaybackFragment.onCreateView()" + ", address= " + toString());
         /**
          * Третий параметр указывает, нужно ли включать заполненное
          представление в родителя. Мы передаем false, потому что
@@ -79,8 +79,8 @@ public class PlaybackButtonsFragment extends Fragment {
         mPlayButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), PlayerService.class);
-                i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.PLAY);
-                i.putExtra(Tags.SONG_ID, songId);
+                i.putExtra(Constants.PLAYER_SERVICE_ACTION, PlayerService.Action.PLAY);
+                i.putExtra(Constants.SONG_ID, songId);
                 getActivity().startService(i);
             }
         });
@@ -89,7 +89,7 @@ public class PlaybackButtonsFragment extends Fragment {
         mStopButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), PlayerService.class);
-                i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.STOP);
+                i.putExtra(Constants.PLAYER_SERVICE_ACTION, PlayerService.Action.STOP);
                 getActivity().startService(i);
             }
         });
@@ -107,8 +107,8 @@ public class PlaybackButtonsFragment extends Fragment {
                 if( fromUser){
                     stopUpdation();
                     Intent i = new Intent(getActivity(), PlayerService.class);
-                    i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.SEEK);
-                    i.putExtra(Tags.SONG_SEEK_TO_POSITION, progress);
+                    i.putExtra(Constants.PLAYER_SERVICE_ACTION, PlayerService.Action.SEEK);
+                    i.putExtra(Constants.SONG_SEEK_TO_POSITION, progress);
                     getActivity().startService(i);
                     seekUpdation();
                 }
@@ -119,7 +119,7 @@ public class PlaybackButtonsFragment extends Fragment {
         mPauseButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), PlayerService.class);
-                i.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.PAUSE);
+                i.putExtra(Constants.PLAYER_SERVICE_ACTION, PlayerService.Action.PAUSE);
                 getActivity().startService(i);
             }
         });
@@ -152,7 +152,7 @@ public class PlaybackButtonsFragment extends Fragment {
             int position = playbackActivity.getCurrentPosition();
             int duration = playbackActivity.getDuration();
             mSeekBar.setMax(duration);
-            Log.d(Tags.LOG_TAG, "Seeking to " + position + "/" + duration + ", PlaybackFragment address= " + toString());
+            Log.d(Constants.LOG_TAG, "Seeking to " + position + "/" + duration + ", PlaybackFragment address= " + toString());
             mSeekBar.setProgress(position);
             seekHandler.postDelayed(mRunnable, MILISECONDS_UPDATE_INTERVAL);
         }

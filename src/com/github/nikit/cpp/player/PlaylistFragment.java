@@ -28,7 +28,7 @@ public class PlaylistFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(Tags.LOG_TAG, "PlaylistFragment.onCreate()");
+        Log.d(Constants.LOG_TAG, "PlaylistFragment.onCreate()");
 
         Activity activity = getActivity();
         activity.setTitle("playlists");
@@ -40,7 +40,7 @@ public class PlaylistFragment extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        Log.d(Tags.LOG_TAG, "PlaylistFragment.onCreateView()");
+        Log.d(Constants.LOG_TAG, "PlaylistFragment.onCreateView()");
         View v = inflater.inflate(R.layout.fragment_list, null);
 
         incrementalSearch = (EditText) v.findViewById(R.id.editText);
@@ -60,11 +60,11 @@ public class PlaylistFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         PlayList c = ((PlaylistAdapter)getListAdapter()).getItem(position);
-        Log.d("PlayList " + Tags.LOG_TAG, c.getName() + " was clicked");
+        Log.d("PlayList " + Constants.LOG_TAG, c.getName() + " was clicked");
         // Запуск Activity
         Intent i = new Intent(getActivity(), SongListActivity.class);
 
-        i.putExtra(Tags.PLAYLIST_ID, position); // передаём номер плейлиста
+        i.putExtra(Constants.PLAYLIST_ID, position); // передаём номер плейлиста
         startActivity(i);
     }
 
@@ -79,8 +79,8 @@ public class PlaylistFragment extends ListFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(Tags.LOG_TAG, "onActivityResult() requestCode="+requestCode + ", resultCode=" + resultCode);
-        if (requestCode == Tags.REQUEST_PLAY_LIST) {
+        Log.d(Constants.LOG_TAG, "onActivityResult() requestCode="+requestCode + ", resultCode=" + resultCode);
+        if (requestCode == Constants.REQUEST_PLAY_LIST) {
         // Обработка результата, который может вернуть запускаемая активити
         }
     }

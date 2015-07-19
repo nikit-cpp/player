@@ -5,7 +5,6 @@ import com.mpatric.mp3agic.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Генерирует плейлист из чего-либо
@@ -38,7 +37,7 @@ public class PlayListFabrics {
                     image = id3v2.getAlbumImage();
                 }
             } catch (IOException | UnsupportedTagException | InvalidDataException e) {
-                Log.e(Tags.LOG_TAG, "Error on get tag", e);
+                Log.e(Constants.LOG_TAG, "Error on get tag", e);
             }
             Song c = new Song();
             c.setName(name);

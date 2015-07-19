@@ -27,7 +27,7 @@ public class PlaybackViewPagerFragment extends Fragment {
 
     public static PlaybackViewPagerFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
-        args.putSerializable(Tags.SONG_ID, crimeId);
+        args.putSerializable(Constants.SONG_ID, crimeId);
         PlaybackViewPagerFragment fragment = new PlaybackViewPagerFragment();
         fragment.setArguments(args);
         return fragment;
@@ -36,9 +36,9 @@ public class PlaybackViewPagerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(Tags.LOG_TAG, "PlaybackFragment.onCreate()" + ", address= " + toString());
+        Log.d(Constants.LOG_TAG, "PlaybackFragment.onCreate()" + ", address= " + toString());
 
-        UUID songId = (UUID) getArguments().getSerializable(Tags.SONG_ID);
+        UUID songId = (UUID) getArguments().getSerializable(Constants.SONG_ID);
 
         mSong = PlayerService.getSong(songId);
         /* Вызов setRetainInstance(true) сохраняет фрагмент,
@@ -62,7 +62,7 @@ public class PlaybackViewPagerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        Log.d(Tags.LOG_TAG, "PlaybackFragment.onCreateView()" + ", address= " + toString());
+        Log.d(Constants.LOG_TAG, "PlaybackFragment.onCreateView()" + ", address= " + toString());
         /**
          * Третий параметр указывает, нужно ли включать заполненное
          представление в родителя. Мы передаем false, потому что

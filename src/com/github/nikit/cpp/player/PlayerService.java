@@ -18,7 +18,7 @@ import java.util.UUID;
  */
 public class PlayerService extends IntentService {
     public PlayerService() {
-        super(Tags.PLAYER_SERVICE_NAME);
+        super(Constants.PLAYER_SERVICE_NAME);
     }
 
     private static State state = State.NOT_INITIALIZED;
@@ -28,11 +28,11 @@ public class PlayerService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Action action = (Action) intent.getExtras().get(Tags.PLAYER_SERVICE_ACTION);
+        Action action = (Action) intent.getExtras().get(Constants.PLAYER_SERVICE_ACTION);
 
         switch(action) {
             case PLAY:
-                play((UUID) intent.getExtras().get(Tags.SONG_ID));
+                play((UUID) intent.getExtras().get(Constants.SONG_ID));
                 break;
             case PAUSE:
                 pause();
@@ -47,37 +47,40 @@ public class PlayerService extends IntentService {
                 stop();
                 break;
             case GET_CURRENT_INFO:
-                ResultReceiver receiver = intent.getParcelableExtra(Tags.SEEK_RECEIVER);
+                ResultReceiver receiver = intent.getParcelableExtra(Constants.SEEK_RECEIVER);
                 Bundle bundle = new Bundle();
-                bundle.putInt(Tags.SONG_CURRENT_POSITION_KEY, getCurrentPosition());
-                bundle.putInt(Tags.SONG_DURATION_KEY, getDuration());
-                receiver.send(Tags.SONG_CURRENT_INFO_CODE, bundle);
+                bundle.putInt(Constants.SONG_CURRENT_POSITION_KEY, getCurrentPosition());
+                bundle.putInt(Constants.SONG_DURATION_KEY, getDuration());
+                receiver.send(Constants.SONG_CURRENT_INFO_CODE, bundle);
                 break;
             case SEEK:
-                seekTo(intent.getIntExtra(Tags.SONG_SEEK_TO_POSITION, 0));
+                seekTo(intent.getIntExtra(Constants.SONG_SEEK_TO_POSITION, 0));
                 break;
             case SET_PLAYLIST:
                 stop();
-                currentPlaylist = (List<Song>) intent.getSerializableExtra(Tags.SET_PLAYLIST);
+                int playlistId = intent.getIntExtra(Constants.PLAYLIST_ID, Constants.PLAY_LIST_NOT_EXIST);
+                if (playlistId != Constants.PLAY_LIST_NOT_EXIST) {
+                    currentPlaylist = PlayListManager.getPlaylists().get(playlistId).getSongs();
+                }
                 break;
             case SET_SONG: // пока не нужно ибо есть play(UUID songUuid)
                 break;
             default:
-                Log.e(Tags.LOG_TAG, "Forgotten action " + action);
+                Log.e(Constants.LOG_TAG, "Forgotten action " + action);
         }
 
-        Log.i(Tags.LOG_TAG, "Received an intent: " + action);
+        Log.i(Constants.LOG_TAG, "Received an intent: " + action);
     }
 
     private int getCurrentPosition() {
         if(state == State.NOT_INITIALIZED || state == State.STOPPED)
-            return Tags.SONG_NOT_INITIALIZED;
+            return Constants.SONG_NOT_INITIALIZED;
         return mPlayer.getCurrentPosition();
     }
 
     private int getDuration() {
         if(state == State.NOT_INITIALIZED || state == State.STOPPED)
-            return Tags.SONG_NOT_INITIALIZED;
+            return Constants.SONG_NOT_INITIALIZED;
         return mPlayer.getDuration();
     }
 
@@ -138,7 +141,7 @@ public class PlayerService extends IntentService {
                     mPlayer.start();
                     break;
                 case PLAYING:
-                    Log.d(Tags.LOG_TAG, "Already playing");
+                    Log.d(Constants.LOG_TAG, "Already playing");
                     break;
                 case PAUSED:
                     mPlayer.start();
@@ -146,7 +149,7 @@ public class PlayerService extends IntentService {
             }
             state = State.PLAYING;
         } catch (IOException e) {
-            Log.e(Tags.LOG_TAG,"Error in play()", e);
+            Log.e(Constants.LOG_TAG,"Error in play()", e);
         }
     }
 
@@ -178,7 +181,7 @@ public class PlayerService extends IntentService {
             }
         }
         if (null == song) {
-            Log.e(Tags.LOG_TAG, "Song not found with uuid " + songUuid);
+            Log.e(Constants.LOG_TAG, "Song not found with uuid " + songUuid);
         }
 
         return song;

@@ -3,7 +3,7 @@ package com.github.nikit.cpp.player;
 /**
  * Created by nik on 11.07.15.
  */
-public class Tags {
+public class Constants {
     public static final String LOG_TAG = "NIKIT_PLAYER_TAG";
     public static final String PLAYLIST_ID = "playlist_id";
     public static final String SONG_ID = "song_id";

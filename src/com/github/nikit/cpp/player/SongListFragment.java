@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,16 +25,18 @@ public class SongListFragment extends ListFragment {
 
     private EditText incrementalSearch;
 
+    int plailistId = Constants.PLAY_LIST_NOT_EXIST;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(Tags.LOG_TAG, "SongListFragment.onCreate()");
+        Log.d(Constants.LOG_TAG, "SongListFragment.onCreate()");
 
         Activity activity = getActivity();
         activity.setTitle(R.string.app_name);
-        int plailistId = getActivity().getIntent().getIntExtra(Tags.PLAYLIST_ID, Tags.PLAY_LIST_NOT_EXIST);
+        plailistId = getActivity().getIntent().getIntExtra(Constants.PLAYLIST_ID, Constants.PLAY_LIST_NOT_EXIST);
 
-        if(plailistId != Tags.PLAY_LIST_NOT_EXIST) {
+        if(plailistId != Constants.PLAY_LIST_NOT_EXIST) {
             mPlayList = PlayListManager.getPlaylists().get(plailistId);
             mSongs = mPlayList.getSongs();
             adapter = new SongAdapter(activity, mSongs);
@@ -45,7 +46,7 @@ public class SongListFragment extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        Log.d(Tags.LOG_TAG, "SongListFragment.onCreateView()");
+        Log.d(Constants.LOG_TAG, "SongListFragment.onCreateView()");
         View v = inflater.inflate(R.layout.fragment_list, null);
 
         incrementalSearch = (EditText) v.findViewById(R.id.editText);
@@ -65,10 +66,16 @@ public class SongListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Song c = ((SongAdapter)getListAdapter()).getItem(position);
-        Log.d(Tags.LOG_TAG, c.getName() + " was clicked");
+        Log.d(Constants.LOG_TAG, c.getName() + " was clicked");
+
+        Intent intent = new Intent(getActivity(), PlayerService.class);
+        intent.putExtra(Constants.PLAYER_SERVICE_ACTION, PlayerService.Action.SET_PLAYLIST);
+        intent.putExtra(Constants.PLAYLIST_ID, plailistId);
+        getActivity().startService(intent);
+
         // Запуск Activity
         Intent i = new Intent(getActivity(), PlaybackActivity.class);
-        i.putExtra(Tags.SONG_ID, c.getId());
+        i.putExtra(Constants.SONG_ID, c.getId());
         startActivity(i);
     }
 
@@ -83,8 +90,8 @@ public class SongListFragment extends ListFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(Tags.LOG_TAG, "onActivityResult() requestCode="+requestCode + ", resultCode=" + resultCode);
-        if (requestCode == Tags.REQUEST_SONG_LIST) {
+        Log.d(Constants.LOG_TAG, "onActivityResult() requestCode="+requestCode + ", resultCode=" + resultCode);
+        if (requestCode == Constants.REQUEST_SONG_LIST) {
         // Обработка результата
         }
     }

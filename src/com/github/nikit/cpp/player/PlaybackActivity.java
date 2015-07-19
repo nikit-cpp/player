@@ -28,7 +28,7 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(Tags.LOG_TAG, "CrimePagerActivity.onCreate()");
+        Log.d(Constants.LOG_TAG, "CrimePagerActivity.onCreate()");
         super.onCreate(savedInstanceState);
 
 
@@ -39,12 +39,11 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
             fragmentManager.beginTransaction().add(R.id.buttonsFragmentContainer, buttonsFragment).commit();
         }
         Intent start = getIntent();
-        buttonsFragment.getArguments().putSerializable(Tags.SONG_ID, start.getSerializableExtra(Tags.SONG_ID));
+        buttonsFragment.getArguments().putSerializable(Constants.SONG_ID, start.getSerializableExtra(Constants.SONG_ID));
 
         setContentView(R.layout.activity_playback);
         mViewPager = (ViewPager) findViewById(R.id.pager00);
 
-        // TODO должны быть инициализированы перез этим вызовом
         mSongs = PlayerService.getCurrentPlaylist();
 
         FragmentManager fm = getSupportFragmentManager();
@@ -78,7 +77,7 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
         });
 
         // Переключаем ViewPager на текущую песню
-        UUID songId = (UUID) getIntent().getSerializableExtra(Tags.SONG_ID);
+        UUID songId = (UUID) getIntent().getSerializableExtra(Constants.SONG_ID);
 
         for(int i = 0; i < mSongs.size(); ++i){
             if(mSongs.get(i).getId().equals(songId)){
@@ -105,9 +104,9 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
     @Override
     public void onReceiveResult(int resultCode, Bundle data) {
         switch (resultCode) {
-            case Tags.SONG_CURRENT_INFO_CODE:
-                setCurrentPosition(data.getInt(Tags.SONG_CURRENT_POSITION_KEY));
-                setDuration(data.getInt(Tags.SONG_DURATION_KEY));
+            case Constants.SONG_CURRENT_INFO_CODE:
+                setCurrentPosition(data.getInt(Constants.SONG_CURRENT_POSITION_KEY));
+                setDuration(data.getInt(Constants.SONG_DURATION_KEY));
                 break;
         }
         //Log.d(Tags.LOG_TAG, "received " + resultCode);
@@ -138,8 +137,8 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
         if (null != resultReceiver) {
             Intent intent = new Intent(this, PlayerService.class);
 
-            intent.putExtra(Tags.PLAYER_SERVICE_ACTION, PlayerService.Action.GET_CURRENT_INFO);
-            intent.putExtra(Tags.SEEK_RECEIVER, resultReceiver);
+            intent.putExtra(Constants.PLAYER_SERVICE_ACTION, PlayerService.Action.GET_CURRENT_INFO);
+            intent.putExtra(Constants.SEEK_RECEIVER, resultReceiver);
             startService(intent);
             //Log.d(Tags.LOG_TAG, "Seek update intent sent");
         }

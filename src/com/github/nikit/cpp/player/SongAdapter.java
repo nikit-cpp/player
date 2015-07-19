@@ -57,7 +57,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
     private class SongFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            Log.d(Tags.LOG_TAG, "SongListFragment...performFiltering(" + constraint + ")");
+            Log.d(Constants.LOG_TAG, "SongListFragment...performFiltering(" + constraint + ")");
             constraint = constraint.toString().toLowerCase();
             FilterResults result = new FilterResults();
             if(constraint != null && constraint.toString().length() > 0) {
