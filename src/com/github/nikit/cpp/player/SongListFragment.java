@@ -73,6 +73,11 @@ public class SongListFragment extends ListFragment {
         intent.putExtra(Constants.PLAYLIST_ID, plailistId);
         getActivity().startService(intent);
 
+        Intent i2 = new Intent(getActivity(), PlayerService.class);
+        i2.putExtra(Constants.PLAYER_SERVICE_ACTION, PlayerService.Action.PLAY);
+        i2.putExtra(Constants.SONG_ID, PlayListManager.getPlaylists().get(plailistId).getSongs().get(position).getId());
+        getActivity().startService(i2);
+
         // Запуск Activity
         Intent i = new Intent(getActivity(), PlaybackActivity.class);
         i.putExtra(Constants.SONG_ID, c.getId());
