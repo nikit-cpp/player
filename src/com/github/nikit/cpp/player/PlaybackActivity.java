@@ -1,5 +1,6 @@
 package com.github.nikit.cpp.player;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,7 +47,7 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
         setContentView(R.layout.activity_playback);
         mViewPager = (ViewPager) findViewById(R.id.pager00);
 
-        int playlistId = start.getIntExtra(Constants.PLAYLIST_ID, Constants.PLAY_LIST_NOT_EXIST);
+        final int playlistId = start.getIntExtra(Constants.PLAYLIST_ID, Constants.PLAY_LIST_NOT_EXIST);
         if(playlistId != Constants.PLAY_LIST_NOT_EXIST) {
             mSongs = PlayListManager.getPlaylists().get(playlistId).getSongs();
         }
@@ -55,6 +56,7 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
         final PlaybackPagerAdapter pagerAdapter = new PlaybackPagerAdapter(fm, mSongs);
         mViewPager.setAdapter(pagerAdapter);
 
+        final Activity playbackActivity = this;
         /**
          * Метод onPageChangeListener используется для обнаружения изменений в странице,
          которая в настоящий момент отображается экземпляром ViewPager. При изменении
@@ -73,6 +75,16 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
                 if(song.getName() != null){
                     setTitle(song.getArtist() + " - " + song.getName());
                 }
+
+                Intent i2 = new Intent(playbackActivity, PlayerService.class);
+                i2.putExtra(Constants.PLAYER_SERVICE_ACTION, PlayerService.Action.STOP);
+                playbackActivity.startService(i2);
+
+                Intent i = new Intent(playbackActivity, PlayerService.class);
+                i.putExtra(Constants.PLAYER_SERVICE_ACTION, PlayerService.Action.PLAY);
+                i.putExtra(Constants.SONG_ID, PlayListManager.getPlaylists().get(playlistId).getSongs().get(pos).getId());
+                playbackActivity.startService(i);
+
             }
 
             @Override
