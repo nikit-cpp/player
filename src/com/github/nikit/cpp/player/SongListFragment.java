@@ -76,6 +76,7 @@ public class SongListFragment extends ListFragment {
         // Запуск Activity
         Intent i = new Intent(getActivity(), PlaybackActivity.class);
         i.putExtra(Constants.SONG_ID, c.getId());
+        i.putExtra(Constants.PLAYLIST_ID, plailistId);
         startActivity(i);
     }
 

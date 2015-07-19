@@ -11,6 +11,8 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +21,7 @@ import java.util.UUID;
  */
 public class PlaybackActivity extends FragmentActivity implements SeekReceiver.Receiver{
     private ViewPager mViewPager;
-    private List<Song> mSongs;
+    private List<Song> mSongs = new ArrayList<>();
 
     private Fragment buttonsFragment = null;
     private int currentPosition;
@@ -43,8 +45,11 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
 
         setContentView(R.layout.activity_playback);
         mViewPager = (ViewPager) findViewById(R.id.pager00);
-// TODO сервис ещё не стартанул
-        mSongs = PlayerService.getCurrentPlaylist();
+
+        int playlistId = start.getIntExtra(Constants.PLAYLIST_ID, Constants.PLAY_LIST_NOT_EXIST);
+        if(playlistId != Constants.PLAY_LIST_NOT_EXIST) {
+            mSongs = PlayListManager.getPlaylists().get(playlistId).getSongs();
+        }
 
         FragmentManager fm = getSupportFragmentManager();
         final PlaybackPagerAdapter pagerAdapter = new PlaybackPagerAdapter(fm, mSongs);

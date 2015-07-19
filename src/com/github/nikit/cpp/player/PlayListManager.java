@@ -11,12 +11,13 @@ import java.util.List;
  * Created by nik on 14.07.15.
  */
 public class PlayListManager {
-    public static List<PlayList> getPlaylists() {
-        List<PlayList> output = new ArrayList<>();
-
-        // добавляем первый дефолтный плейлист
+    static List<PlayList> output;
+    static {
+        output = new ArrayList<>();
         output.add(PlayListFabrics.getPlaylistFromDirectory(new File("/sdcard/Sounds/Digital2")));
+    }
 
+    public static List<PlayList> getPlaylists() {
         return output;
     }
 }

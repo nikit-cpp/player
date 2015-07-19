@@ -39,8 +39,9 @@ public class PlaybackViewPagerFragment extends Fragment {
         Log.d(Constants.LOG_TAG, "PlaybackFragment.onCreate()" + ", address= " + toString());
 
         UUID songId = (UUID) getArguments().getSerializable(Constants.SONG_ID);
-
-        mSong = PlayerService.getSong(songId);
+        int playListId = getArguments().getInt(Constants.PLAYLIST_ID);
+        Log.d(Constants.LOG_TAG, "In PlaybackViewPagerFragment: songUuid=" + songId);
+        mSong = PlayListManager.getPlaylists().get(playListId).getSong(songId);
         /* Вызов setRetainInstance(true) сохраняет фрагмент,
         который не уничтожается вместе с активностью, а передается новой активности
         в неизменном виде.
