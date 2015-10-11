@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.github.nikit.cpp.player.*;
 import com.github.nikit.cpp.player.adapters.SongAdapter;
+import com.github.nikit.cpp.player.dao.PlayListDao;
 import com.github.nikit.cpp.player.model.PlayList;
 import com.github.nikit.cpp.player.model.Song;
 import com.github.nikit.cpp.player.services.PlayerService;
@@ -42,7 +43,7 @@ public class SongListFragment extends ListFragment {
         plailistId = getActivity().getIntent().getIntExtra(Constants.PLAYLIST_ID, Constants.PLAY_LIST_NOT_EXIST);
 
         if(plailistId != Constants.PLAY_LIST_NOT_EXIST) {
-            mPlayList = PlayListManager.getPlaylists().get(plailistId);
+            mPlayList = PlayListDao.getPlaylists().get(plailistId);
             mSongs = mPlayList.getSongs();
             adapter = new SongAdapter(activity, mSongs);
             setListAdapter(adapter);
@@ -80,7 +81,7 @@ public class SongListFragment extends ListFragment {
 
         Intent i2 = new Intent(getActivity(), PlayerService.class);
         i2.putExtra(Constants.PLAYER_SERVICE_ACTION, PlayerService.Action.PLAY);
-        i2.putExtra(Constants.SONG_ID, PlayListManager.getPlaylists().get(plailistId).getSongs().get(position).getId());
+        i2.putExtra(Constants.SONG_ID, PlayListDao.getPlaylists().get(plailistId).getSongs().get(position).getId());
         getActivity().startService(i2);
 
         // Запуск Activity

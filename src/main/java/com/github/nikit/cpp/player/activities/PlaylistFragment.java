@@ -13,10 +13,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
 import com.github.nikit.cpp.player.Constants;
-import com.github.nikit.cpp.player.PlayListManager;
+import com.github.nikit.cpp.player.dao.PlayListDao;
 import com.github.nikit.cpp.player.adapters.PlaylistAdapter;
 import com.github.nikit.cpp.player.R;
 import com.github.nikit.cpp.player.model.PlayList;
+import com.raizlabs.android.dbflow.config.FlowManager;
 
 import java.util.List;
 
@@ -38,7 +39,9 @@ public class PlaylistFragment extends ListFragment {
         Activity activity = getActivity();
         activity.setTitle("playlists");
 
-        mPlaylists = PlayListManager.getPlaylists();
+        FlowManager.init(getContext());
+
+        mPlaylists = PlayListDao.getPlaylists();
         adapter = new PlaylistAdapter(activity, mPlaylists);
         setListAdapter(adapter);
     }

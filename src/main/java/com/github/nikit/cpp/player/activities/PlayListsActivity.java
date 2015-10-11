@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import com.github.nikit.cpp.player.R;
+import com.raizlabs.android.dbflow.config.FlowManager;
 
 /**
  * Активность, содпржащая список плейлистов

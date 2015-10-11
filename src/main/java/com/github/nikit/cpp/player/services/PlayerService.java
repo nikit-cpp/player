@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
 import com.github.nikit.cpp.player.Constants;
-import com.github.nikit.cpp.player.PlayListManager;
+import com.github.nikit.cpp.player.dao.PlayListDao;
 import com.github.nikit.cpp.player.model.Song;
 
 import java.io.IOException;
@@ -63,7 +63,7 @@ public class PlayerService extends IntentService {
                 stop();
                 int playlistId = intent.getIntExtra(Constants.PLAYLIST_ID, Constants.PLAY_LIST_NOT_EXIST);
                 if (playlistId != Constants.PLAY_LIST_NOT_EXIST) {
-                    currentPlaylist = PlayListManager.getPlaylists().get(playlistId).getSongs();
+                    currentPlaylist = PlayListDao.getPlaylists().get(playlistId).getSongs();
                 }
                 break;
             case SET_SONG: // пока не нужно ибо есть play(UUID songUuid)
