@@ -18,6 +18,11 @@ import com.github.nikit.cpp.player.adapters.PlaylistAdapter;
 import com.github.nikit.cpp.player.R;
 import com.github.nikit.cpp.player.model.PlayList;
 import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.runtime.TransactionManager;
+import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
+import com.raizlabs.android.dbflow.runtime.transaction.SelectListTransaction;
+import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
+import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.List;
 
@@ -41,7 +46,29 @@ public class PlaylistFragment extends ListFragment {
 
         FlowManager.init(getContext());
 
-        mPlaylists = PlayListDao.getPlaylists();
+        //mPlaylists = PlayListDao.getPlaylists();
+        TransactionListener<List<PlayList>> transactionListener = null;
+        TransactionManager.getInstance().addTransaction(
+                new SelectListTransaction<>(
+                        new Select().from(PlayList.class),
+                        new TransactionListener<List<PlayList>>( ) {
+                            @Override
+                            public void onResultReceived(List<PlayList> playLists) {
+                                mPlaylists = playLists;
+                            }
+
+                            @Override
+                            public boolean onReady(BaseTransaction<List<PlayList>> baseTransaction) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean hasResult(BaseTransaction<List<PlayList>> baseTransaction, List<PlayList> playLists) {
+                                return false;
+                            }
+                        }
+                )
+        );
         adapter = new PlaylistAdapter(activity, mPlaylists);
         setListAdapter(adapter);
     }
