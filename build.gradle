@@ -61,7 +61,7 @@ android {
 
 dependencies {
     //compile 'com.android.support:appcompat-v7:19.0.1'
-    compile 'com.android.support:support-v13:21.0.3'
+    compile 'com.android.support:support-v4:21.0.3'
     compile 'com.mpatric:mp3agic:0.8.3'
     //compile fileTree(dir: 'libs', include: ['*.jar'])
 }
