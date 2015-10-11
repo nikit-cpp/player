@@ -30,16 +30,21 @@ android {
         abortOnError false
     }
 
-    /*buildTypes {
+    signingConfigs {
         release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }*/
-    buildTypes {
-        release {
+            storeFile file("lulz_player-release-key.keystore")
+            storePassword "qwerty"
+            keyAlias "lulz_player_alias"
+            keyPassword "qwerty"
         }
     }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+
     sourceSets {
         main {
             manifest.srcFile 'src/main/AndroidManifest.xml'
