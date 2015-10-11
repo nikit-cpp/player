@@ -99,7 +99,7 @@ public class PlaylistFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         PlayList c = ((PlaylistAdapter)getListAdapter()).getItem(position);
-        Log.d("PlayList " + Constants.LOG_TAG, c.getName() + " was clicked");
+        Log.d(Constants.LOG_TAG, "PlayList " + c.getName() + " was clicked");
         // Запуск Activity
         Intent i = new Intent(getActivity(), SongListActivity.class);
 
