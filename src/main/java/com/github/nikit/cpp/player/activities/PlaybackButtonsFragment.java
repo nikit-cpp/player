@@ -1,4 +1,4 @@
-package com.github.nikit.cpp.player;
+package com.github.nikit.cpp.player.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.github.nikit.cpp.player.Constants;
+import com.github.nikit.cpp.player.services.PlayerService;
+import com.github.nikit.cpp.player.R;
 
 import java.util.UUID;
 

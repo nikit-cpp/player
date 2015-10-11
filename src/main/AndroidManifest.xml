@@ -2,16 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.github.nikit.cpp.player">
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
-        <activity android:name=".SongListActivity"
+        <activity android:name=".activities.SongListActivity"
                   android:label="@string/app_name">
         </activity>
-        <activity android:name=".PlaybackActivity" android:label="@string/app_name" />
-        <activity android:name=".PlayListsActivity" android:label="List of PlayList">
+        <activity android:name=".activities.PlaybackActivity" android:label="@string/app_name" />
+        <activity android:name=".activities.PlayListsActivity" android:label="List of PlayList">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <service android:name=".PlayerService" />
+        <service android:name=".services.PlayerService" />
     </application>
 </manifest>

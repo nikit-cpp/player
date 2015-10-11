@@ -1,4 +1,4 @@
-package com.github.nikit.cpp.player;
+package com.github.nikit.cpp.player.model;
 
 import java.io.File;
 import java.util.UUID;

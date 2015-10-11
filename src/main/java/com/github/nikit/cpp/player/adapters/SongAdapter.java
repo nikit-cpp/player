@@ -1,4 +1,4 @@
-package com.github.nikit.cpp.player;
+package com.github.nikit.cpp.player.adapters;
 
 import android.app.Activity;
 import android.util.Log;
@@ -7,24 +7,26 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
+import com.github.nikit.cpp.player.Constants;
+import com.github.nikit.cpp.player.R;
+import com.github.nikit.cpp.player.model.Song;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Адаптирует плейлисты в список плейлистов
  * Created by nik on 18.07.15.
  */
-public class PlaylistAdapter extends ArrayAdapter<PlayList> {
+public class SongAdapter extends ArrayAdapter<Song> {
 
-    private List<PlayList> originalList;
-    private List<PlayList> resultList;
-    private PlaylistFilter filter;
+    private List<Song> originalList;
+    private List<Song> resultList;
+    private SongFilter filter;
     private Activity parentActivity;
 
-    public PlaylistAdapter(Activity parentActivity, List<PlayList> originalList) {
-        super(parentActivity, 0, new ArrayList<PlayList>(originalList));
-        this.resultList = new ArrayList<PlayList>();
+    public SongAdapter(Activity parentActivity, List<Song> originalList) {
+        super(parentActivity, 0, new ArrayList<Song>(originalList));
+        this.resultList = new ArrayList<Song>();
         this.resultList.addAll(originalList);
         this.originalList = originalList;
         this.parentActivity = parentActivity;
@@ -33,7 +35,7 @@ public class PlaylistAdapter extends ArrayAdapter<PlayList> {
     @Override
     public Filter getFilter() {
         if (filter == null){
-            filter  = new PlaylistFilter();
+            filter  = new SongFilter();
         }
         return filter;
     }
@@ -41,34 +43,34 @@ public class PlaylistAdapter extends ArrayAdapter<PlayList> {
     public View getView(int position, View convertView, ViewGroup parent){
         // Если мы не получили представление, заполняем его
         if (convertView == null) {
-            convertView = parentActivity.getLayoutInflater().inflate(R.layout.list_item_playlist, null);
+            convertView = parentActivity.getLayoutInflater().inflate(R.layout.list_item_song, null);
         }
 
-        // Настройка представления для объекта Playlist
-        PlayList c = getItem(position);
-        TextView nameTextView = (TextView)convertView.findViewById(R.id.play_list_item_nameTextView);
+        // Настройка представления для объекта Song
+        Song c = getItem(position);
+        TextView nameTextView = (TextView)convertView.findViewById(R.id.song_list_item_nameTextView);
         nameTextView.setText(c.getName());
 
-        TextView artistTextView = (TextView)convertView.findViewById(R.id.play_list_item_sourceView);
-        artistTextView.setText(c.getSource());
+        TextView artistTextView = (TextView)convertView.findViewById(R.id.song_list_item_artistTextView);
+        artistTextView.setText(c.getArtist());
 
         return convertView;
     }
 
 
-    private class PlaylistFilter extends Filter {
+    private class SongFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            Log.d(Constants.LOG_TAG, "PlaylistFragment...performFiltering(" + constraint + ")");
+            Log.d(Constants.LOG_TAG, "SongListFragment...performFiltering(" + constraint + ")");
             constraint = constraint.toString().toLowerCase();
             FilterResults result = new FilterResults();
             if(constraint != null && constraint.toString().length() > 0) {
-                ArrayList<PlayList> filteredItems = new ArrayList<>();
+                ArrayList<Song> filteredItems = new ArrayList<Song>();
 
                 for(int i = 0, l = originalList.size(); i < l; i++) {
-                    PlayList pl = originalList.get(i);
-                    if (pl.toString().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                        filteredItems.add(pl);
+                    Song song = originalList.get(i);
+                    if (song.toString().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        filteredItems.add(song);
                     }
                 }
                 result.count = filteredItems.size();
@@ -86,7 +88,7 @@ public class PlaylistAdapter extends ArrayAdapter<PlayList> {
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
 
-            resultList = (ArrayList<PlayList>) results.values;
+            resultList = (ArrayList<Song>) results.values;
             notifyDataSetChanged();
             clear();
             for(int i = 0, l = resultList.size(); i < l; i++)

@@ -1,5 +1,7 @@
 package com.github.nikit.cpp.player;
 
+import com.github.nikit.cpp.player.model.PlayList;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

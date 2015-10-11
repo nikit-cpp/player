@@ -1,4 +1,4 @@
-package com.github.nikit.cpp.player;
+package com.github.nikit.cpp.player.model;
 
 import java.util.ArrayList;
 import java.util.List;

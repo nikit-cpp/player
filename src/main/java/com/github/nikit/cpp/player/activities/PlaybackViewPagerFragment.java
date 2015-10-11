@@ -1,4 +1,4 @@
-package com.github.nikit.cpp.player;
+package com.github.nikit.cpp.player.activities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +8,10 @@ import android.util.Log;
 import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.github.nikit.cpp.player.Constants;
+import com.github.nikit.cpp.player.PlayListManager;
+import com.github.nikit.cpp.player.R;
+import com.github.nikit.cpp.player.model.Song;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

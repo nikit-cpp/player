@@ -5,7 +5,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
     <fragment
-            android:name="com.github.nikit.cpp.player.SongListFragment"
+            android:name="com.github.nikit.cpp.player.activities.SongListFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
     </fragment>

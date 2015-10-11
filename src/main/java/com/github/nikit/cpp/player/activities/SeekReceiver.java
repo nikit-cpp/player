@@ -1,4 +1,4 @@
-package com.github.nikit.cpp.player;
+package com.github.nikit.cpp.player.activities;
 
 import android.os.Bundle;
 import android.os.Handler;

@@ -1,4 +1,4 @@
-package com.github.nikit.cpp.player;
+package com.github.nikit.cpp.player.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,6 +12,9 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.ViewGroup;
+import com.github.nikit.cpp.player.*;
+import com.github.nikit.cpp.player.model.Song;
+import com.github.nikit.cpp.player.services.PlayerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +23,7 @@ import java.util.UUID;
 /**
  * Created by nik on 11.02.15.
  */
-public class PlaybackActivity extends FragmentActivity implements SeekReceiver.Receiver{
+public class PlaybackActivity extends FragmentActivity implements SeekReceiver.Receiver {
     private ViewPager mViewPager;
     private List<Song> mSongs = new ArrayList<>();
 

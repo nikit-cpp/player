@@ -1,6 +1,8 @@
 package com.github.nikit.cpp.player;
 
 import android.util.Log;
+import com.github.nikit.cpp.player.model.PlayList;
+import com.github.nikit.cpp.player.model.Song;
 import com.mpatric.mp3agic.*;
 import java.io.File;
 import java.io.IOException;

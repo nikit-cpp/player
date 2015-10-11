@@ -1,4 +1,4 @@
-package com.github.nikit.cpp.player;
+package com.github.nikit.cpp.player.services;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -7,6 +7,9 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
+import com.github.nikit.cpp.player.Constants;
+import com.github.nikit.cpp.player.PlayListManager;
+import com.github.nikit.cpp.player.model.Song;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -175,7 +178,7 @@ public class PlayerService extends IntentService {
     public static Song getSong(UUID songUuid) {
         Song song = null;
         for (Song s: currentPlaylist) {
-            if (s.id.equals(songUuid)) {
+            if (s.getId().equals(songUuid)) {
                 song = s;
                 break;
             }

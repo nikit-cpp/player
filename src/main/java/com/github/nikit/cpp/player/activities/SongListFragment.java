@@ -1,4 +1,4 @@
-package com.github.nikit.cpp.player;
+package com.github.nikit.cpp.player.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.github.nikit.cpp.player.*;
+import com.github.nikit.cpp.player.adapters.SongAdapter;
+import com.github.nikit.cpp.player.model.PlayList;
+import com.github.nikit.cpp.player.model.Song;
+import com.github.nikit.cpp.player.services.PlayerService;
 
 import java.util.List;
 
