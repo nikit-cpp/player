@@ -24,6 +24,7 @@ import com.raizlabs.android.dbflow.runtime.transaction.SelectListTransaction;
 import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,15 +47,17 @@ public class PlaylistFragment extends ListFragment {
 
         FlowManager.init(getContext());
 
-        //mPlaylists = PlayListDao.getPlaylists();
-        TransactionListener<List<PlayList>> transactionListener = null;
+        mPlaylists = new ArrayList<>();
+
+
         TransactionManager.getInstance().addTransaction(
                 new SelectListTransaction<>(
                         new Select().from(PlayList.class),
                         new TransactionListener<List<PlayList>>( ) {
                             @Override
                             public void onResultReceived(List<PlayList> playLists) {
-                                mPlaylists = playLists;
+                                mPlaylists.clear();
+                                mPlaylists.addAll(playLists);
                             }
 
                             @Override
