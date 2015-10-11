@@ -49,7 +49,7 @@ public class PlaylistFragment extends ListFragment {
 
         mPlaylists = new ArrayList<>();
 
-
+        Log.d(Constants.LOG_TAG, "ololo");
         TransactionManager.getInstance().addTransaction(
                 new SelectListTransaction<>(
                         new Select().from(PlayList.class),
@@ -58,6 +58,7 @@ public class PlaylistFragment extends ListFragment {
                             public void onResultReceived(List<PlayList> playLists) {
                                 mPlaylists.clear();
                                 mPlaylists.addAll(playLists);
+                                Log.d(Constants.LOG_TAG, "getted " + playLists.size() + " playlists");
                             }
 
                             @Override
