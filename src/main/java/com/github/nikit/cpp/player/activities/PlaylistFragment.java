@@ -51,55 +51,22 @@ public class PlaylistFragment extends ListFragment {
 
         FlowManager.init(getContext());
 
-        Log.d(Constants.LOG_TAG, "0thread " + Thread.currentThread());
-
         adapter = new PlaylistAdapter(activity, mPlaylists);
         setListAdapter(adapter);
 
         TransactionManager.getInstance().addTransaction(
                 new SelectListTransaction<>(
                         new Select().from(PlayList.class),
-                        new TransactionListener<List<PlayList>>( ) {
+                        new TransactionListenerAdapter<List<PlayList>>( ) {
                             @Override
                             public void onResultReceived(List<PlayList> playLists) {
                                 Log.d(Constants.LOG_TAG, "1thread " + Thread.currentThread());
                                 Log.d(Constants.LOG_TAG, "getted " + playLists.size() + " playlists");
                                 adapter.updateList(playLists);
                             }
-
-                            @Override
-                            public boolean onReady(BaseTransaction<List<PlayList>> baseTransaction) {
-                                return true;
-                            }
-
-                            @Override
-                            public boolean hasResult(BaseTransaction<List<PlayList>> baseTransaction, List<PlayList> playLists) {
-                                return true;
-                            }
                         }
                 )
         );
-
-
-        // Transact a query on the DBTransactionQueue
-        /*TransactionManager.getInstance().addTransaction(
-                new SelectListTransaction<>(new Select().from(PlayList.class),
-                        new TransactionListenerAdapter<List<PlayList>>() {
-                            @Override
-                            public void onResultReceived(List<PlayList> someObjectList) {
-                                // retrieved here
-                                Log.d(Constants.LOG_TAG, "getted " + someObjectList.size() + " playlists");
-
-                                Log.d(Constants.LOG_TAG, "1thread " + Thread.currentThread() + " someObjectList.size() " + someObjectList.size());
-
-                                adapter.updateList(someObjectList);
-                            }
-
-                        }));
-
-
-*/
-
     }
 
     @Override
