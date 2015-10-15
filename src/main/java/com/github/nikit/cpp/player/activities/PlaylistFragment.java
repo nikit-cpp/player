@@ -101,10 +101,8 @@ public class PlaylistFragment extends ListFragment {
                             public void onResultReceived(List<PlayList> someObjectList) {
                                 // retrieved here
                                 Log.d(Constants.LOG_TAG, "getted " + someObjectList.size() + " playlists");
-                                mPlaylists.clear();
-                                mPlaylists.addAll(someObjectList);
 
-                                Log.d(Constants.LOG_TAG, "1thread " + Thread.currentThread() + " mPlaylists.size() " + mPlaylists.size());
+                                Log.d(Constants.LOG_TAG, "1thread " + Thread.currentThread() + " someObjectList.size() " + someObjectList.size());
 
                                 adapter.updateList(someObjectList);
                             }
