@@ -53,48 +53,36 @@ public class PlaylistFragment extends ListFragment {
 
         Log.d(Constants.LOG_TAG, "0thread " + Thread.currentThread());
 
+        adapter = new PlaylistAdapter(activity, mPlaylists);
+        setListAdapter(adapter);
 
-        /*TransactionManager.getInstance().addTransaction(
+        TransactionManager.getInstance().addTransaction(
                 new SelectListTransaction<>(
                         new Select().from(PlayList.class),
                         new TransactionListener<List<PlayList>>( ) {
                             @Override
                             public void onResultReceived(List<PlayList> playLists) {
-                                mPlaylists.clear();
-                                mPlaylists.addAll(playLists);
                                 Log.d(Constants.LOG_TAG, "1thread " + Thread.currentThread());
                                 Log.d(Constants.LOG_TAG, "getted " + playLists.size() + " playlists");
+                                adapter.updateList(playLists);
                             }
 
                             @Override
                             public boolean onReady(BaseTransaction<List<PlayList>> baseTransaction) {
-                                return false;
+                                return true;
                             }
 
                             @Override
                             public boolean hasResult(BaseTransaction<List<PlayList>> baseTransaction, List<PlayList> playLists) {
-                                return false;
+                                return true;
                             }
                         }
                 )
         );
 
-        TransactionManager.getInstance().processOnRequestHandler(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(Constants.LOG_TAG, "2thread " + Thread.currentThread());
-            }
-        });*/
-
-        /*TransactionManager.getInstance().transactQuery(DBTransactionInfo.createFetch(), new Select().from(PlayList.class), new TransactionListenerAdapter<Cursor>() {
-            @Override
-            public void onResultReceived(Cursor resultClass) {
-                Log.d(Constants.LOG_TAG, "1thread " + Thread.currentThread());
-            }
-        });*/
 
         // Transact a query on the DBTransactionQueue
-        TransactionManager.getInstance().addTransaction(
+        /*TransactionManager.getInstance().addTransaction(
                 new SelectListTransaction<>(new Select().from(PlayList.class),
                         new TransactionListenerAdapter<List<PlayList>>() {
                             @Override
@@ -110,32 +98,8 @@ public class PlaylistFragment extends ListFragment {
                         }));
 
 
+*/
 
-
-
-
-        /*AsyncQuery asyncQuery = new AsyncQuery(new Select().from(PlayList.class), TransactionManager.getInstance());
-        asyncQuery.queryList(new TransactionListener<List>() {
-            @Override
-            public void onResultReceived(List result) {
-                Log.d(Constants.LOG_TAG, "0thread " + Thread.currentThread());
-                Log.d(Constants.LOG_TAG, "getted " + result.size() + " playlists");
-            }
-
-            @Override
-            public boolean onReady(BaseTransaction<List> transaction) {
-                return false;
-            }
-
-            @Override
-            public boolean hasResult(BaseTransaction<List> transaction, List result) {
-                return false;
-            }
-        });
-        asyncQuery.execute();*/
-
-        adapter = new PlaylistAdapter(activity, mPlaylists);
-        setListAdapter(adapter);
     }
 
     @Override
