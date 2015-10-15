@@ -2,6 +2,7 @@ package com.github.nikit.cpp.player.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.Editable;
@@ -18,11 +19,14 @@ import com.github.nikit.cpp.player.adapters.PlaylistAdapter;
 import com.github.nikit.cpp.player.R;
 import com.github.nikit.cpp.player.model.PlayList;
 import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.runtime.DBTransactionInfo;
 import com.raizlabs.android.dbflow.runtime.TransactionManager;
 import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
 import com.raizlabs.android.dbflow.runtime.transaction.SelectListTransaction;
 import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
+import com.raizlabs.android.dbflow.runtime.transaction.TransactionListenerAdapter;
 import com.raizlabs.android.dbflow.sql.language.Select;
+import com.raizlabs.android.dbflow.sql.queriable.AsyncQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +36,7 @@ import java.util.List;
  */
 public class PlaylistFragment extends ListFragment {
 
-    private List<PlayList> mPlaylists;
+    private List<PlayList> mPlaylists = new ArrayList<>();
     private PlaylistAdapter adapter;
 
     private EditText incrementalSearch;
@@ -47,10 +51,10 @@ public class PlaylistFragment extends ListFragment {
 
         FlowManager.init(getContext());
 
-        mPlaylists = new ArrayList<>();
+        Log.d(Constants.LOG_TAG, "0thread " + Thread.currentThread());
 
-        Log.d(Constants.LOG_TAG, "ololo");
-        TransactionManager.getInstance().addTransaction(
+
+        /*TransactionManager.getInstance().addTransaction(
                 new SelectListTransaction<>(
                         new Select().from(PlayList.class),
                         new TransactionListener<List<PlayList>>( ) {
@@ -58,6 +62,7 @@ public class PlaylistFragment extends ListFragment {
                             public void onResultReceived(List<PlayList> playLists) {
                                 mPlaylists.clear();
                                 mPlaylists.addAll(playLists);
+                                Log.d(Constants.LOG_TAG, "1thread " + Thread.currentThread());
                                 Log.d(Constants.LOG_TAG, "getted " + playLists.size() + " playlists");
                             }
 
@@ -73,6 +78,64 @@ public class PlaylistFragment extends ListFragment {
                         }
                 )
         );
+
+        TransactionManager.getInstance().processOnRequestHandler(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(Constants.LOG_TAG, "2thread " + Thread.currentThread());
+            }
+        });*/
+
+        /*TransactionManager.getInstance().transactQuery(DBTransactionInfo.createFetch(), new Select().from(PlayList.class), new TransactionListenerAdapter<Cursor>() {
+            @Override
+            public void onResultReceived(Cursor resultClass) {
+                Log.d(Constants.LOG_TAG, "1thread " + Thread.currentThread());
+            }
+        });*/
+
+        // Transact a query on the DBTransactionQueue
+        TransactionManager.getInstance().addTransaction(
+                new SelectListTransaction<>(new Select().from(PlayList.class),
+                        new TransactionListenerAdapter<List<PlayList>>() {
+                            @Override
+                            public void onResultReceived(List<PlayList> someObjectList) {
+                                // retrieved here
+                                Log.d(Constants.LOG_TAG, "getted " + someObjectList.size() + " playlists");
+                                mPlaylists.clear();
+                                mPlaylists.addAll(someObjectList);
+
+                                Log.d(Constants.LOG_TAG, "1thread " + Thread.currentThread() + " mPlaylists.size() " + mPlaylists.size());
+
+                                adapter.updateList(someObjectList);
+                            }
+
+                        }));
+
+
+
+
+
+
+        /*AsyncQuery asyncQuery = new AsyncQuery(new Select().from(PlayList.class), TransactionManager.getInstance());
+        asyncQuery.queryList(new TransactionListener<List>() {
+            @Override
+            public void onResultReceived(List result) {
+                Log.d(Constants.LOG_TAG, "0thread " + Thread.currentThread());
+                Log.d(Constants.LOG_TAG, "getted " + result.size() + " playlists");
+            }
+
+            @Override
+            public boolean onReady(BaseTransaction<List> transaction) {
+                return false;
+            }
+
+            @Override
+            public boolean hasResult(BaseTransaction<List> transaction, List result) {
+                return false;
+            }
+        });
+        asyncQuery.execute();*/
+
         adapter = new PlaylistAdapter(activity, mPlaylists);
         setListAdapter(adapter);
     }

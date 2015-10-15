@@ -33,6 +33,19 @@ public class PlaylistAdapter extends ArrayAdapter<PlayList> {
         this.parentActivity = parentActivity;
     }
 
+    public void updateList(List<PlayList> newlist) {
+        this.resultList.clear();
+        this.resultList.addAll(newlist);
+        this.originalList.clear();
+        this.originalList.addAll(newlist);
+
+        notifyDataSetChanged();
+        clear();
+        for(int i = 0, l = resultList.size(); i < l; i++)
+            add(resultList.get(i));
+        notifyDataSetInvalidated();
+    }
+
     @Override
     public Filter getFilter() {
         if (filter == null){
