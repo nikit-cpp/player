@@ -39,6 +39,10 @@ public class PlaylistAdapter extends ArrayAdapter<PlayList> {
         this.originalList.clear();
         this.originalList.addAll(newlist);
 
+        completelyUpdate();
+    }
+
+    private void completelyUpdate() {
         notifyDataSetChanged();
         clear();
         for(int i = 0, l = resultList.size(); i < l; i++)
@@ -101,13 +105,8 @@ public class PlaylistAdapter extends ArrayAdapter<PlayList> {
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-
             resultList = (ArrayList<PlayList>) results.values;
-            notifyDataSetChanged();
-            clear();
-            for(int i = 0, l = resultList.size(); i < l; i++)
-                add(resultList.get(i));
-            notifyDataSetInvalidated();
+            completelyUpdate();
         }
     }
 
