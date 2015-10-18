@@ -2,31 +2,24 @@ package com.github.nikit.cpp.player.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.EditText;
 import android.widget.ListView;
 import com.github.nikit.cpp.player.Constants;
-import com.github.nikit.cpp.player.dao.PlayListDao;
 import com.github.nikit.cpp.player.adapters.PlaylistAdapter;
 import com.github.nikit.cpp.player.R;
 import com.github.nikit.cpp.player.model.PlayList;
 import com.raizlabs.android.dbflow.config.FlowManager;
-import com.raizlabs.android.dbflow.runtime.DBTransactionInfo;
 import com.raizlabs.android.dbflow.runtime.TransactionManager;
-import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
 import com.raizlabs.android.dbflow.runtime.transaction.SelectListTransaction;
-import com.raizlabs.android.dbflow.runtime.transaction.TransactionListener;
 import com.raizlabs.android.dbflow.runtime.transaction.TransactionListenerAdapter;
 import com.raizlabs.android.dbflow.sql.language.Select;
-import com.raizlabs.android.dbflow.sql.queriable.AsyncQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +39,8 @@ public class PlaylistFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         Log.d(Constants.LOG_TAG, "PlaylistFragment.onCreate()");
 
+        setHasOptionsMenu(true);
+
         Activity activity = getActivity();
         activity.setTitle("playlists");
 
@@ -54,13 +49,16 @@ public class PlaylistFragment extends ListFragment {
         adapter = new PlaylistAdapter(activity, mPlaylists);
         setListAdapter(adapter);
 
+        updatePlaylists();
+    }
+
+    private void updatePlaylists() {
         TransactionManager.getInstance().addTransaction(
                 new SelectListTransaction<>(
                         new Select().from(PlayList.class),
                         new TransactionListenerAdapter<List<PlayList>>( ) {
                             @Override
                             public void onResultReceived(List<PlayList> playLists) {
-                                Log.d(Constants.LOG_TAG, "1thread " + Thread.currentThread());
                                 Log.d(Constants.LOG_TAG, "getted " + playLists.size() + " playlists");
                                 adapter.updateList(playLists);
                             }
@@ -111,10 +109,35 @@ public class PlaylistFragment extends ListFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(Constants.LOG_TAG, "onActivityResult() requestCode="+requestCode + ", resultCode=" + resultCode);
+        if (resultCode != Activity.RESULT_OK) return;
         if (requestCode == Constants.REQUEST_PLAY_LIST) {
-        // Обработка результата, который может вернуть запускаемая активити
+            // Обновить список плейлистов
+            Log.d(Constants.LOG_TAG, "Refreshing list of playlists");
+            updatePlaylists();
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        super.onCreateOptionsMenu(menu, menuInflater);
+        menuInflater.inflate(R.menu.fragment_playlists, menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu_item_new_playlist) {
+            Log.d(Constants.LOG_TAG, "Add pressed");
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            AddPlaylistDialogFragment dialog = new AddPlaylistDialogFragment();
+            dialog.setTargetFragment(PlaylistFragment.this, Constants.ADDING_PLAYLIST_CODE);
+
+            dialog.show(fm, Constants.ADDING_PLAYLIST_TAG);
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

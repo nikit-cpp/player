@@ -18,4 +18,8 @@
     <string name="remove">Remove</string>
     <string name="refresh">Refresh</string>
     <string name="empty">Empty</string>
+    <string name="add_playlist">Add playlist</string>
+    <string name="adding_playlist_title">Adding playlist</string>
+    <string name="enter_playlist_name">Enter playlist name</string>
+    <string name="playlist_source">/sdcard/music</string>
 </resources>

@@ -19,4 +19,7 @@ public class Constants {
     public static final String SONG_DURATION_KEY = "duration";
     public static final int SONG_NOT_INITIALIZED = -1;
     public static final String SET_PLAYLIST = "setPlaylist";
+    public static final String ADDING_PLAYLIST_TAG = "adding_playlist_tag";
+    public static final int ADDING_PLAYLIST_CODE = 0;
+    public static final String EXTRA_PLAYLIST = "extra_playlist";
 }
