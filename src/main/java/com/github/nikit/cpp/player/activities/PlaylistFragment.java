@@ -9,8 +9,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.*;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 import com.github.nikit.cpp.player.Constants;
 import com.github.nikit.cpp.player.adapters.PlaylistAdapter;
 import com.github.nikit.cpp.player.R;
@@ -35,6 +37,12 @@ public class PlaylistFragment extends ListFragment {
     private EditText incrementalSearch;
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        registerForContextMenu(getListView());
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(Constants.LOG_TAG, "PlaylistFragment.onCreate()");
@@ -51,6 +59,8 @@ public class PlaylistFragment extends ListFragment {
 
         updatePlaylists();
     }
+
+
 
     private void updatePlaylists() {
         TransactionManager.getInstance().addTransaction(
@@ -139,5 +149,21 @@ public class PlaylistFragment extends ListFragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        Log.d(Constants.LOG_TAG, "onCreateContextMenu() " + menu + " " + v+ " " + menuInfo);
+        getActivity().getMenuInflater().inflate(R.menu.playlists_item_context, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int pos = info.position;
+
+        Toast.makeText(this.getContext(), item.getTitle() + " for " + pos, Toast.LENGTH_SHORT).show();
+
+        return super.onContextItemSelected(item);
     }
 }

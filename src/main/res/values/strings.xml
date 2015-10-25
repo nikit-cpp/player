@@ -22,4 +22,5 @@
     <string name="adding_playlist_title">Adding playlist</string>
     <string name="enter_playlist_name">Enter playlist name</string>
     <string name="playlist_source">/sdcard/music</string>
+    <string name="delete_playlist">Delete playlist</string>
 </resources>
