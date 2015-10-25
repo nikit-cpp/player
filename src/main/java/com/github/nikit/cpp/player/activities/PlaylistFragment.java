@@ -162,7 +162,7 @@ public class PlaylistFragment extends ListFragment {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int pos = info.position;
 
-        Toast.makeText(this.getContext(), item.getTitle() + " for " + pos, Toast.LENGTH_SHORT).show();
+        Log.d(Constants.LOG_TAG, item.getTitle() + " for " + pos);
 
         return super.onContextItemSelected(item);
     }
