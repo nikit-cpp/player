@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import com.github.nikit.cpp.player.Constants;
 import com.github.nikit.cpp.player.R;
+import com.github.nikit.cpp.player.dao.PlayListDao;
 import com.github.nikit.cpp.player.model.PlayList;
 import com.raizlabs.android.dbflow.sql.language.Insert;
 
@@ -65,10 +66,7 @@ public class AddPlaylistDialogFragment extends DialogFragment {
                 .setView(v)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        PlayList playList = new PlayList();
-                        playList.setName(playlistName);
-                        playList.setSource(playlistSource);
-                        playList.insert();
+                        PlayListDao.createNewPlaylist(playlistName, playlistSource);
                         sendResult(Activity.RESULT_OK);
                     }
                 })

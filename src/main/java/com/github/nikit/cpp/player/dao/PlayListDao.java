@@ -30,4 +30,11 @@ public class PlayListDao {
         List<PlayList> playlists = new Select().from(PlayList.class).queryList();
         return playlists;
     }
+
+    public static void createNewPlaylist(String name, String source) {
+        PlayList playList = new PlayList();
+        playList.setName(name);
+        playList.setSource(source);
+        playList.insert();
+    }
 }
