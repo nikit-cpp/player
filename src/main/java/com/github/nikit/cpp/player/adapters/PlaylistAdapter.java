@@ -69,8 +69,8 @@ public class PlaylistAdapter extends ArrayAdapter<PlayList> {
         TextView nameTextView = (TextView)convertView.findViewById(R.id.play_list_item_nameTextView);
         nameTextView.setText(c.getName());
 
-        TextView artistTextView = (TextView)convertView.findViewById(R.id.play_list_item_sourceView);
-        artistTextView.setText(c.getSource());
+        TextView sourceTextView = (TextView)convertView.findViewById(R.id.play_list_item_sourceView);
+        sourceTextView.setText(c.getSource());
 
         return convertView;
     }
