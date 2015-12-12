@@ -143,9 +143,13 @@ public class PlaylistsFragment extends ListFragment {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        int pos = info.position;
 
-        Log.d(Constants.LOG_TAG, item.getTitle() + " for " + pos);
+        PlayList playlist = adapter.getItem(info.position);
+
+        Log.d(Constants.LOG_TAG, item.getTitle() + " for " + playlist);
+
+        PlayListDAO.remove(playlist);
+        updatePlaylists();
 
         return super.onContextItemSelected(item);
     }

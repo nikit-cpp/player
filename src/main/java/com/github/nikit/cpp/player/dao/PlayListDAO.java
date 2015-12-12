@@ -5,10 +5,12 @@ import com.github.nikit.cpp.player.Constants;
 import com.github.nikit.cpp.player.PlayListFabrics;
 import com.github.nikit.cpp.player.adapters.PlaylistAdapter;
 import com.github.nikit.cpp.player.model.PlayList;
+import com.github.nikit.cpp.player.model.PlayList$Table;
 import com.raizlabs.android.dbflow.runtime.TransactionManager;
 import com.raizlabs.android.dbflow.runtime.transaction.SelectListTransaction;
 import com.raizlabs.android.dbflow.runtime.transaction.TransactionListenerAdapter;
 import com.raizlabs.android.dbflow.sql.builder.Condition;
+import com.raizlabs.android.dbflow.sql.builder.ConditionQueryBuilder;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.io.File;
@@ -57,5 +59,10 @@ public class PlayListDAO extends AbstractDAO {
                         }
                 )
         );
+    }
+
+    public static void remove(PlayList playList) {
+        //PlayList playList = new Select().from(PlayList.class).where(Condition.column(PlayList$Table.ID).eq(pos)).querySingle();
+        playList.delete();
     }
 }
