@@ -1,7 +1,13 @@
 package com.github.nikit.cpp.player.dao;
 
+import android.util.Log;
+import com.github.nikit.cpp.player.Constants;
 import com.github.nikit.cpp.player.PlayListFabrics;
+import com.github.nikit.cpp.player.adapters.PlaylistAdapter;
 import com.github.nikit.cpp.player.model.PlayList;
+import com.raizlabs.android.dbflow.runtime.TransactionManager;
+import com.raizlabs.android.dbflow.runtime.transaction.SelectListTransaction;
+import com.raizlabs.android.dbflow.runtime.transaction.TransactionListenerAdapter;
 import com.raizlabs.android.dbflow.sql.builder.Condition;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
@@ -15,7 +21,7 @@ import java.util.List;
  * 1 из папки и 1 из вконтача
  * Created by nik on 14.07.15.
  */
-public class PlayListDao {
+public class PlayListDao extends AbstractDAO {
     //static List<PlayList> output;
     static {
         //output = new ArrayList<>();
@@ -36,5 +42,20 @@ public class PlayListDao {
         playList.setName(name);
         playList.setSource(source);
         playList.insert();
+    }
+
+    public static void updatePlaylists(final PlaylistAdapter playlistAdapter) {
+        TransactionManager.getInstance().addTransaction(
+                new SelectListTransaction<>(
+                        new Select().from(PlayList.class),
+                        new TransactionListenerAdapter<List<PlayList>>( ) {
+                            @Override
+                            public void onResultReceived(List<PlayList> playLists) {
+                                Log.d(Constants.LOG_TAG, "getted " + playLists.size() + " playlists");
+                                playlistAdapter.updateList(playLists);
+                            }
+                        }
+                )
+        );
     }
 }

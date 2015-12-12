@@ -12,24 +12,19 @@ import android.view.*;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 import com.github.nikit.cpp.player.Constants;
 import com.github.nikit.cpp.player.adapters.PlaylistAdapter;
 import com.github.nikit.cpp.player.R;
+import com.github.nikit.cpp.player.dao.AbstractDAO;
+import com.github.nikit.cpp.player.dao.PlayListDao;
 import com.github.nikit.cpp.player.model.PlayList;
-import com.raizlabs.android.dbflow.config.FlowManager;
-import com.raizlabs.android.dbflow.runtime.TransactionManager;
-import com.raizlabs.android.dbflow.runtime.transaction.SelectListTransaction;
-import com.raizlabs.android.dbflow.runtime.transaction.TransactionListenerAdapter;
-import com.raizlabs.android.dbflow.sql.language.Select;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by nik on 07.02.15.
  */
-public class PlaylistFragment extends ListFragment {
+public class PlaylistsFragment extends ListFragment {
 
     private List<PlayList> mPlaylists = new ArrayList<>();
     private PlaylistAdapter adapter;
@@ -45,14 +40,14 @@ public class PlaylistFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(Constants.LOG_TAG, "PlaylistFragment.onCreate()");
+        Log.d(Constants.LOG_TAG, "PlaylistsFragment.onCreate()");
 
         setHasOptionsMenu(true);
 
         Activity activity = getActivity();
         activity.setTitle("playlists");
 
-        FlowManager.init(getContext());
+        AbstractDAO.init(getContext());
 
         adapter = new PlaylistAdapter(activity, mPlaylists);
         setListAdapter(adapter);
@@ -61,25 +56,13 @@ public class PlaylistFragment extends ListFragment {
     }
 
 
-
     private void updatePlaylists() {
-        TransactionManager.getInstance().addTransaction(
-                new SelectListTransaction<>(
-                        new Select().from(PlayList.class),
-                        new TransactionListenerAdapter<List<PlayList>>( ) {
-                            @Override
-                            public void onResultReceived(List<PlayList> playLists) {
-                                Log.d(Constants.LOG_TAG, "getted " + playLists.size() + " playlists");
-                                adapter.updateList(playLists);
-                            }
-                        }
-                )
-        );
+        PlayListDao.updatePlaylists(adapter);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        Log.d(Constants.LOG_TAG, "PlaylistFragment.onCreateView()");
+        Log.d(Constants.LOG_TAG, "PlaylistsFragment.onCreateView()");
         View v = inflater.inflate(R.layout.fragment_list, null);
 
         incrementalSearch = (EditText) v.findViewById(R.id.editText);
@@ -89,7 +72,7 @@ public class PlaylistFragment extends ListFragment {
             public void beforeTextChanged(CharSequence cs, int start, int count, int after) {
             }
             public void onTextChanged(CharSequence cs, int start, int before, int count) {
-                PlaylistFragment.this.adapter
+                PlaylistsFragment.this.adapter
                         .getFilter().filter(cs);
             }
         });
@@ -141,7 +124,7 @@ public class PlaylistFragment extends ListFragment {
             Log.d(Constants.LOG_TAG, "Add pressed");
             FragmentManager fm = getActivity().getSupportFragmentManager();
             AddPlaylistDialogFragment dialog = new AddPlaylistDialogFragment();
-            dialog.setTargetFragment(PlaylistFragment.this, Constants.ADDING_PLAYLIST_CODE);
+            dialog.setTargetFragment(PlaylistsFragment.this, Constants.ADDING_PLAYLIST_CODE);
 
             dialog.show(fm, Constants.ADDING_PLAYLIST_TAG);
 

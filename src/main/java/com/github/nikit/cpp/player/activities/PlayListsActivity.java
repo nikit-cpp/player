@@ -37,7 +37,7 @@ public class PlayListsActivity extends FragmentActivity {
             Log.d(Constants.LOG_TAG, "Add pressed");
             FragmentManager fm = getSupportFragmentManager();
             AddPlaylistDialogFragment dialog = new AddPlaylistDialogFragment();
-            dialog.setTargetFragment(PlaylistFragment.class.cast(Fragment.class), Constants.ADDING_PLAYLIST_CODE);
+            dialog.setTargetFragment(PlaylistsFragment.class.cast(Fragment.class), Constants.ADDING_PLAYLIST_CODE);
 
             dialog.show(fm, Constants.ADDING_PLAYLIST_TAG);
 
