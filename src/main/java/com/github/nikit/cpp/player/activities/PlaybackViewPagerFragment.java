@@ -9,7 +9,7 @@ import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.github.nikit.cpp.player.Constants;
-import com.github.nikit.cpp.player.dao.PlayListDao;
+import com.github.nikit.cpp.player.dao.PlayListDAO;
 import com.github.nikit.cpp.player.R;
 import com.github.nikit.cpp.player.model.Song;
 
@@ -45,7 +45,7 @@ public class PlaybackViewPagerFragment extends Fragment {
         UUID songId = (UUID) getArguments().getSerializable(Constants.SONG_ID);
         int playListId = getArguments().getInt(Constants.PLAYLIST_ID);
         Log.d(Constants.LOG_TAG, "In PlaybackViewPagerFragment: songUuid=" + songId);
-        mSong = PlayListDao.getPlaylists().get(playListId).getSong(songId);
+        mSong = PlayListDAO.getPlaylists().get(playListId).getSong(songId);
         /* Вызов setRetainInstance(true) сохраняет фрагмент,
         который не уничтожается вместе с активностью, а передается новой активности
         в неизменном виде.

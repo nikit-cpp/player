@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
@@ -13,11 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import com.github.nikit.cpp.player.Constants;
 import com.github.nikit.cpp.player.R;
-import com.github.nikit.cpp.player.dao.PlayListDao;
-import com.github.nikit.cpp.player.model.PlayList;
-import com.raizlabs.android.dbflow.sql.language.Insert;
-
-import java.io.File;
+import com.github.nikit.cpp.player.dao.PlayListDAO;
 
 /**
  * Created by nik on 17.10.15.
@@ -66,7 +61,7 @@ public class AddPlaylistDialogFragment extends DialogFragment {
                 .setView(v)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        PlayListDao.createNewPlaylist(playlistName, playlistSource);
+                        PlayListDAO.createNewPlaylist(playlistName, playlistSource);
                         sendResult(Activity.RESULT_OK);
                     }
                 })

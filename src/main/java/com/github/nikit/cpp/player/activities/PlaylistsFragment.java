@@ -16,7 +16,7 @@ import com.github.nikit.cpp.player.Constants;
 import com.github.nikit.cpp.player.adapters.PlaylistAdapter;
 import com.github.nikit.cpp.player.R;
 import com.github.nikit.cpp.player.dao.AbstractDAO;
-import com.github.nikit.cpp.player.dao.PlayListDao;
+import com.github.nikit.cpp.player.dao.PlayListDAO;
 import com.github.nikit.cpp.player.model.PlayList;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,7 @@ public class PlaylistsFragment extends ListFragment {
 
 
     private void updatePlaylists() {
-        PlayListDao.updatePlaylists(adapter);
+        PlayListDAO.updatePlaylists(adapter);
     }
 
     @Override

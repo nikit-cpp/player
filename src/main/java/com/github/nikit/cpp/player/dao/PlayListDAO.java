@@ -21,7 +21,7 @@ import java.util.List;
  * 1 из папки и 1 из вконтача
  * Created by nik on 14.07.15.
  */
-public class PlayListDao extends AbstractDAO {
+public class PlayListDAO extends AbstractDAO {
     //static List<PlayList> output;
     static {
         //output = new ArrayList<>();

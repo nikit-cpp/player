@@ -21,6 +21,8 @@ public class PlayList extends BaseModel {
 
     @Column
     private String name;
+
+    @Column
     private String source;
 
     private List<Song> songs;
