@@ -24,17 +24,7 @@ import java.util.List;
  * Created by nik on 14.07.15.
  */
 public class PlayListDAO extends AbstractDAO {
-    //static List<PlayList> output;
-    static {
-        //output = new ArrayList<>();
-        //output.add(PlayListFabrics.getPlaylistFromDirectory(new File("/sdcard/Sounds/Digital2")));
-
-        PlayList pl = new PlayList();
-        pl.setName("Supername");
-        pl.save();
-    }
-
-    public static List<PlayList> getPlaylists() {
+    public static List<PlayList> getPlayLists() {
         List<PlayList> playlists = new Select().from(PlayList.class).queryList();
         return playlists;
     }
@@ -62,7 +52,6 @@ public class PlayListDAO extends AbstractDAO {
     }
 
     public static void remove(PlayList playList) {
-        //PlayList playList = new Select().from(PlayList.class).where(Condition.column(PlayList$Table.ID).eq(pos)).querySingle();
         playList.delete();
     }
 }

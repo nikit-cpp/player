@@ -63,7 +63,7 @@ public class PlayerService extends IntentService {
                 stop();
                 int playlistId = intent.getIntExtra(Constants.PLAYLIST_ID, Constants.PLAY_LIST_NOT_EXIST);
                 if (playlistId != Constants.PLAY_LIST_NOT_EXIST) {
-                    currentPlaylist = PlayListDAO.getPlaylists().get(playlistId).getSongs();
+                    currentPlaylist = PlayListDAO.getPlayLists().get(playlistId).getSongs();
                 }
                 break;
             case SET_SONG: // пока не нужно ибо есть play(UUID songUuid)

@@ -53,7 +53,7 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
 
         final int playlistId = start.getIntExtra(Constants.PLAYLIST_ID, Constants.PLAY_LIST_NOT_EXIST);
         if(playlistId != Constants.PLAY_LIST_NOT_EXIST) {
-            mSongs = PlayListDAO.getPlaylists().get(playlistId).getSongs();
+            mSongs = PlayListDAO.getPlayLists().get(playlistId).getSongs();
         }
 
         FragmentManager fm = getSupportFragmentManager();
@@ -86,7 +86,7 @@ public class PlaybackActivity extends FragmentActivity implements SeekReceiver.R
 
                 Intent i = new Intent(playbackActivity, PlayerService.class);
                 i.putExtra(Constants.PLAYER_SERVICE_ACTION, PlayerService.Action.PLAY);
-                i.putExtra(Constants.SONG_ID, PlayListDAO.getPlaylists().get(playlistId).getSongs().get(pos).getId());
+                i.putExtra(Constants.SONG_ID, PlayListDAO.getPlayLists().get(playlistId).getSongs().get(pos).getId());
                 playbackActivity.startService(i);
 
             }

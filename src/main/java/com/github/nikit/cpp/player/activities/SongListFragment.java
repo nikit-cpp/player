@@ -31,7 +31,7 @@ public class SongListFragment extends ListFragment {
 
     private EditText incrementalSearch;
 
-    int plailistId = Constants.PLAY_LIST_NOT_EXIST;
+    int playListId = Constants.PLAY_LIST_NOT_EXIST;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,10 +40,10 @@ public class SongListFragment extends ListFragment {
 
         Activity activity = getActivity();
         activity.setTitle(R.string.app_name);
-        plailistId = getActivity().getIntent().getIntExtra(Constants.PLAYLIST_ID, Constants.PLAY_LIST_NOT_EXIST);
+        playListId = getActivity().getIntent().getIntExtra(Constants.PLAYLIST_ID, Constants.PLAY_LIST_NOT_EXIST);
 
-        if(plailistId != Constants.PLAY_LIST_NOT_EXIST) {
-            mPlayList = PlayListDAO.getPlaylists().get(plailistId);
+        if(playListId != Constants.PLAY_LIST_NOT_EXIST) {
+            mPlayList = PlayListDAO.getPlayLists().get(playListId);
             mSongs = mPlayList.getSongs();
             adapter = new SongAdapter(activity, mSongs);
             setListAdapter(adapter);
@@ -76,18 +76,18 @@ public class SongListFragment extends ListFragment {
 
         Intent intent = new Intent(getActivity(), PlayerService.class);
         intent.putExtra(Constants.PLAYER_SERVICE_ACTION, PlayerService.Action.SET_PLAYLIST);
-        intent.putExtra(Constants.PLAYLIST_ID, plailistId);
+        intent.putExtra(Constants.PLAYLIST_ID, playListId);
         getActivity().startService(intent);
 
         Intent i2 = new Intent(getActivity(), PlayerService.class);
         i2.putExtra(Constants.PLAYER_SERVICE_ACTION, PlayerService.Action.PLAY);
-        i2.putExtra(Constants.SONG_ID, PlayListDAO.getPlaylists().get(plailistId).getSongs().get(position).getId());
+        i2.putExtra(Constants.SONG_ID, PlayListDAO.getPlayLists().get(playListId).getSongs().get(position).getId());
         getActivity().startService(i2);
 
         // Запуск Activity
         Intent i = new Intent(getActivity(), PlaybackActivity.class);
         i.putExtra(Constants.SONG_ID, c.getId());
-        i.putExtra(Constants.PLAYLIST_ID, plailistId);
+        i.putExtra(Constants.PLAYLIST_ID, playListId);
         startActivity(i);
     }
 
