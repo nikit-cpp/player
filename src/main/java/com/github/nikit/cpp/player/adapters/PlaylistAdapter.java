@@ -79,7 +79,7 @@ public class PlaylistAdapter extends ArrayAdapter<PlayList> {
     private class PlaylistFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            Log.d(Constants.LOG_TAG, "PlaylistsFragment...performFiltering(" + constraint + ")");
+            Log.d(Constants.LOG_TAG, "PlayListsFragment...performFiltering(" + constraint + ")");
             constraint = constraint.toString().toLowerCase();
             FilterResults result = new FilterResults();
             if(constraint != null && constraint.toString().length() > 0) {

@@ -24,9 +24,9 @@ import java.util.List;
 /**
  * Created by nik on 07.02.15.
  */
-public class PlaylistsFragment extends ListFragment {
+public class PlayListsFragment extends ListFragment {
 
-    private List<PlayList> mPlaylists = new ArrayList<>();
+    private List<PlayList> mPlayLists = new ArrayList<>();
     private PlaylistAdapter adapter;
 
     private EditText incrementalSearch;
@@ -40,7 +40,7 @@ public class PlaylistsFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(Constants.LOG_TAG, "PlaylistsFragment.onCreate()");
+        Log.d(Constants.LOG_TAG, "PlayListsFragment.onCreate()");
 
         setHasOptionsMenu(true);
 
@@ -49,20 +49,20 @@ public class PlaylistsFragment extends ListFragment {
 
         AbstractDAO.init(getContext());
 
-        adapter = new PlaylistAdapter(activity, mPlaylists);
+        adapter = new PlaylistAdapter(activity, mPlayLists);
         setListAdapter(adapter);
 
-        updatePlaylists();
+        updatePlayLists();
     }
 
 
-    private void updatePlaylists() {
+    private void updatePlayLists() {
         PlayListDAO.updatePlaylists(adapter);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        Log.d(Constants.LOG_TAG, "PlaylistsFragment.onCreateView()");
+        Log.d(Constants.LOG_TAG, "PlayListsFragment.onCreateView()");
         View v = inflater.inflate(R.layout.fragment_list, null);
 
         incrementalSearch = (EditText) v.findViewById(R.id.editText);
@@ -72,7 +72,7 @@ public class PlaylistsFragment extends ListFragment {
             public void beforeTextChanged(CharSequence cs, int start, int count, int after) {
             }
             public void onTextChanged(CharSequence cs, int start, int before, int count) {
-                PlaylistsFragment.this.adapter
+                PlayListsFragment.this.adapter
                         .getFilter().filter(cs);
             }
         });
@@ -106,7 +106,7 @@ public class PlaylistsFragment extends ListFragment {
         if (requestCode == Constants.REQUEST_PLAY_LIST) {
             // Обновить список плейлистов
             Log.d(Constants.LOG_TAG, "Refreshing list of playlists");
-            updatePlaylists();
+            updatePlayLists();
         }
     }
 
@@ -124,7 +124,7 @@ public class PlaylistsFragment extends ListFragment {
             Log.d(Constants.LOG_TAG, "Add pressed");
             FragmentManager fm = getActivity().getSupportFragmentManager();
             AddPlaylistDialogFragment dialog = new AddPlaylistDialogFragment();
-            dialog.setTargetFragment(PlaylistsFragment.this, Constants.ADDING_PLAYLIST_CODE);
+            dialog.setTargetFragment(PlayListsFragment.this, Constants.ADDING_PLAYLIST_CODE);
 
             dialog.show(fm, Constants.ADDING_PLAYLIST_TAG);
 
@@ -149,7 +149,7 @@ public class PlaylistsFragment extends ListFragment {
         Log.d(Constants.LOG_TAG, item.getTitle() + " for " + playlist);
 
         PlayListDAO.remove(playlist);
-        updatePlaylists();
+        updatePlayLists();
 
         return super.onContextItemSelected(item);
     }

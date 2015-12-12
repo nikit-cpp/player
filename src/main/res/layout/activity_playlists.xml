@@ -7,7 +7,7 @@
               android:id="@+id/activityPlaylists"
         >
     <fragment
-            android:name="com.github.nikit.cpp.player.activities.PlaylistsFragment"
+            android:name="com.github.nikit.cpp.player.activities.PlayListsFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
     </fragment>
