@@ -13,12 +13,20 @@ import java.util.ArrayList;
  * Created by nik on 13.02.15.
  */
 public class PlayListFabrics {
+
+    public static void initPlayList(PlayList playList) {
+        switch (playList.getType()) {
+            case DIR:
+                getPlaylistFromDirectory(new File(playList.getSource()), playList);
+        }
+    }
+
     /**
      * Генерирует плейлист из папки.
      * Будет вызываться менеджером плейлистов
      * @return
      */
-    public static PlayList getPlaylistFromDirectory(File dir){
+    public static void getPlaylistFromDirectory(File dir, PlayList playList){
         ArrayList<Song> mSongs = new ArrayList<Song>();
 
         for (File f : dir.listFiles()) {
@@ -48,8 +56,7 @@ public class PlayListFabrics {
             c.setImage(image);
             mSongs.add(c);
         }
-        PlayList playList = new PlayList(mSongs);
-        playList.setName(dir.getAbsolutePath());
-        return playList;
+
+        playList.setSongs(mSongs);
     }
 }

@@ -24,7 +24,7 @@ import java.util.List;
  * Created by nik on 14.07.15.
  */
 public class PlayListDAO extends AbstractDAO {
-    public static List<PlayList> getPlayLists() {
+    public static List<PlayList> getPlayLists2() {
         List<PlayList> playlists = new Select().from(PlayList.class).queryList();
         return playlists;
     }

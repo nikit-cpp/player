@@ -25,6 +25,9 @@ public class PlayList extends BaseModel {
     @Column
     private String source;
 
+    @Column
+    private Type type;
+
     private List<Song> songs;
 
     public PlayList() {
@@ -66,5 +69,29 @@ public class PlayList extends BaseModel {
     @Override
     public String toString() {
         return source + " " + name;
+    }
+
+    public void setSongs(ArrayList<Song> songs) {
+        this.songs = songs;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public static enum Type {
+        DIR
     }
 }
